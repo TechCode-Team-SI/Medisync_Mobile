@@ -12,7 +12,8 @@
     "lint": "expo lint",
     "validate": "lint-staged",
     "postinstall": "husky install",
-    "check-types": "tsc --project tsconfig.json --pretty --noEmit"
+    "check-types": "tsc --project tsconfig.json --pretty --noEmit",
+    "prepare": "husky"
   },
   "jest": {
     "preset": "jest-expo"
@@ -63,7 +64,7 @@
   "license": "MIT",
   "lint-staged": {
     "*.+(ts|tsx)": [
-      "npm run lint",
+      "bash -c 'eslint --fix --ext .js,.ts,.tsx ./src --ignore-path .gitignore'",
       "bash -c 'npm run check-types'"
     ]
   },
