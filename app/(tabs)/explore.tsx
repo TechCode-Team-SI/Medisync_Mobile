@@ -14,7 +14,7 @@ export default function TabTwoScreen() {
       }
     >
       <View style={styles.titleContainer}>
-        <Heading>Explore</Heading>
+        <Heading>Explore!</Heading>
       </View>
       <Text className="pb-4">
         This app includes example code to help you get started.
