@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Image } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from '@/src/components/LoginComponents/stylesLogin';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -20,7 +20,6 @@ const RegisterPage: React.FC = () => {
   };
 
   const pickImage = async () => {
-    // Solicita permiso para acceder a la galería
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (permissionResult.granted === false) {
@@ -28,7 +27,6 @@ const RegisterPage: React.FC = () => {
       return;
     }
 
-    // Abre la galería para seleccionar una imagen
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -42,95 +40,99 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <View className={styles.container}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+    <ScrollView contentContainerStyle={{ flexGrow: 1}}>
+      <View className={styles.container}>
 
-      <Text className={styles.title1}>¡Regístrate!</Text>
+        <Text className={styles.title1}>¡Regístrate!</Text>
+        
+        <View className={styles.containerRegister}>
 
-      <View className={styles.containerRegister}>
+          <Text className={styles.title3}>Por favor, ingrese la información</Text>
 
-        <Text className={styles.title3}>Por favor, ingrese la información</Text>
+          <TouchableOpacity onPress={pickImage} className={styles.containerImage}>
+            {selectedImage ? (
+              <Image source={{ uri: selectedImage }} className={styles.image} />
+            ) : (
+              <View className={styles.iconImage}>
+                <Entypo name="camera" size={24} color="#539091" />
+              </View>
+            )}
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={pickImage} className={styles.containerImage}>
-          {selectedImage ? (
-            <Image source={{ uri: selectedImage }} className={styles.image} />
-          ) : (
-            <View className={styles.iconImage}>
-              <Entypo name="camera" size={24} color="#539091" />
-            </View>
-          )}
-        </TouchableOpacity>
-
-        <View className={styles.inputContainer}>
-          <Entypo name="mail" size={24} color="#539091"/>
-          <TextInput
-          className={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#539091"
-          value={inputEmail}
-          onChangeText={setInputEmail}
-          />
-        </View>
-
-        <View className={styles.inputContainer}>
-          <Entypo name="phone" size={24} color="#539091"/>
-          <TextInput
-          className={styles.input}
-          placeholder="Teléfono"
-          placeholderTextColor="#539091"
-          value={inputPhone}
-          onChangeText={setInputPhone}
-          />
-        </View>
-
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091" />
-          <TextInput
+          <View className={styles.inputContainer}>
+            <Entypo name="mail" size={24} color="#539091"/>
+            <TextInput
             className={styles.input}
-            placeholder="Contraseña"
+            placeholder="Email"
             placeholderTextColor="#539091"
-            value={inputPassword}
-            onChangeText={setInputPassword}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Entypo name={showPassword ? "eye-with-line" : "eye"} size={24} color="#539091" />
-          </TouchableOpacity>
-        </View>   
+            value={inputEmail}
+            onChangeText={setInputEmail}
+            />
+          </View>
 
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091" />
-          <TextInput
+          <View className={styles.inputContainer}>
+            <Entypo name="phone" size={24} color="#539091"/>
+            <TextInput
             className={styles.input}
-            placeholder="Confirmar Contraseña"
+            placeholder="Teléfono"
             placeholderTextColor="#539091"
-            value={inputPassword2}
-            onChangeText={setInputPassword2}
-            secureTextEntry={!showPassword2}
-          />
-          <TouchableOpacity onPress={() => setShowPassword2(!showPassword2)}>
-            <Entypo name={showPassword2 ? "eye-with-line" : "eye"} size={24} color="#539091" />
-          </TouchableOpacity>
-        </View> 
+            value={inputPhone}
+            onChangeText={setInputPhone}
+            />
+          </View>
 
-        <View className={styles.container4}>
-          <TouchableOpacity
-            className={styles.button}
-            onPress={handleRegister}
-          >
-            <Text className={styles.buttonText}>Crear Cuenta</Text>
-          </TouchableOpacity>
-        </View>
+          <View className={styles.inputContainer}>
+            <Entypo name="lock" size={24} color="#539091" />
+            <TextInput
+              className={styles.input}
+              placeholder="Contraseña"
+              placeholderTextColor="#539091"
+              value={inputPassword}
+              onChangeText={setInputPassword}
+              secureTextEntry={!showPassword}
+            />
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <Entypo name={showPassword ? "eye-with-line" : "eye"} size={24} color="#539091" />
+            </TouchableOpacity>
+          </View>   
 
-        <View className={styles.container5}>
-          <Text>¿Ya tienes cuenta?</Text>
-          <TouchableOpacity onPress={handleRegister}>
-            <Text className={styles.textButton2}>Inicia Sesión</Text>
-          </TouchableOpacity>
+          <View className={styles.inputContainer}>
+            <Entypo name="lock" size={24} color="#539091" />
+            <TextInput
+              className={styles.input}
+              placeholder="Confirmar Contraseña"
+              placeholderTextColor="#539091"
+              value={inputPassword2}
+              onChangeText={setInputPassword2}
+              secureTextEntry={!showPassword2}
+            />
+            <TouchableOpacity onPress={() => setShowPassword2(!showPassword2)}>
+              <Entypo name={showPassword2 ? "eye-with-line" : "eye"} size={24} color="#539091" />
+            </TouchableOpacity>
+          </View> 
+
+          <View className={styles.container4}>
+            <TouchableOpacity
+              className={styles.button}
+              onPress={handleRegister}
+            >
+              <Text className={styles.buttonText}>Crear Cuenta</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View className={styles.container5}>
+            <Text>¿Ya tienes cuenta?</Text>
+            <TouchableOpacity onPress={handleRegister}>
+              <Text className={styles.textButton2}>Inicia Sesión</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
 
       </View>
-
-    </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

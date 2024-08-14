@@ -42,14 +42,20 @@ const SideMenu: React.FC = () => {
         <Text className="text-sm text-primary mx-3">Cartelera</Text>
       </TouchableOpacity>
 
-      <View className="my-2">
-        <View className="h-[1px] bg-primary mx-4"></View>
-      </View>
-      
       <TouchableOpacity className="p-4 flex-row ">
         <MaterialCommunityIcons name="headset" size={20} color="#539091" />
         <Text className="text-sm text-primary mx-3">Asistencia</Text>
       </TouchableOpacity>
+
+      <View className="my-2">
+        <View className="h-[1px] bg-primary mx-4"></View>
+      </View>
+
+      <TouchableOpacity className="p-4 flex-row ">
+        <MaterialCommunityIcons name="logout" size={20} color="#539091" />
+        <Text className="text-sm text-primary mx-3">Cerrar sesión</Text>
+      </TouchableOpacity>
+
     </View>
   );
 };
