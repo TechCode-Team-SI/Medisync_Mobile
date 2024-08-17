@@ -115,8 +115,7 @@ const RegisterPage: React.FC = () => {
           <View className={styles.container4}>
             <TouchableOpacity
               className={styles.button}
-              onPress={handleRegister}
-            >
+              onPress={handleRegister} >
               <Text className={styles.buttonText}>Crear Cuenta</Text>
             </TouchableOpacity>
           </View>
