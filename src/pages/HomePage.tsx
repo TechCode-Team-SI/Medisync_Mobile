@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
-import styles from "@/src/components/styled-components/stylesHome"
+import { View, Text, TouchableOpacity } from 'react-native';
+import styles from "@/src/components/HomeComponents/stylesHome"
 import TopBar from '../components/TopBar';
+import ButtonsHome from '../components/HomeComponents/ButtonsHome';
+import InfoHome from '../components/HomeComponents/InfoHome';
 
 
 const HomePage: React.FC = () => {
@@ -22,6 +24,8 @@ const HomePage: React.FC = () => {
         </View>
 
         <View className={styles.container3}>
+            <ButtonsHome /> 
+            <InfoHome/>
         </View>
 
     </View>

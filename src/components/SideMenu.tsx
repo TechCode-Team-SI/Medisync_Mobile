@@ -12,7 +12,7 @@ const SideMenu: React.FC = () => {
 
         </View>
 
-      <TouchableOpacity className="p-4 flex-row  ">
+      <TouchableOpacity className="p-5 flex-row  ">
         <Foundation name="home" size={20} color="#539091" />
         <Text className="text-sm text-primary mx-3">Inicio</Text>
       </TouchableOpacity>

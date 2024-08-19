@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
           <Entypo name="lock" size={24} color="#539091" />
           <TextInput
             className={styles.input}
-            placeholder="Password"
+            placeholder="Contraseña"
             placeholderTextColor="#539091"
             value={inputPassword}
             onChangeText={setInputPassword}
