@@ -9,9 +9,9 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    Montserrat: require("../assets/fonts/Montserrat-Bold.ttf"),
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
+    Montserrat: require("../../assets/fonts/Montserrat-Bold.ttf"),
+    SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
+    Roboto: require("../../assets/fonts/Roboto-Regular.ttf"),
   });
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function RootLayout() {
 
   return (
     <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
     </Stack>
   );
 }
