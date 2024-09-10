@@ -39,4 +39,4 @@ const stylesLogin = {
     buttonText: 'text-white text-lg font-montserrat',
     };
     
-export default stylesLogin;
+    export default stylesLogin;
