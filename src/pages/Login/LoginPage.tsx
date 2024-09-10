@@ -18,7 +18,7 @@ const LoginPage: React.FC = () => {
     <View className={styles.container}>
       <Text className={styles.title1}>¡Bienvenido de vuelta!</Text>
 
-      <View className={styles.containerLogin}>
+      <View className={styles.containerBelow}>
         <Text className={styles.title2}> Inicia sesión para continuar</Text>
 
         <View className={styles.inputContainer}>
@@ -51,9 +51,9 @@ const LoginPage: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity>
-          <Text className={styles.textButton}>¿Ha olvidado su contraseña?</Text>
-        </TouchableOpacity>
+        <Link href="/forgot" className={styles.textButton}>
+            ¿Ha olvidado su contraseña?
+        </Link>
 
         <View className={styles.container4}>
           <TouchableOpacity className={styles.button} onPress={handleLogin}>

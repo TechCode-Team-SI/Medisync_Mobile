@@ -3,6 +3,7 @@ import { View, TextInput, Text, TouchableOpacity, Image, ScrollView, KeyboardAvo
 import * as ImagePicker from 'expo-image-picker';
 import styles from '@/src/components/LoginComponents/stylesLogin';
 import Entypo from '@expo/vector-icons/Entypo';
+import { Link, router } from "expo-router";
 
 
 const RegisterPage: React.FC = () => {
@@ -123,9 +124,7 @@ const RegisterPage: React.FC = () => {
 
           <View className={styles.container5}>
             <Text>¿Ya tienes cuenta?</Text>
-            <TouchableOpacity onPress={handleRegister}>
-              <Text className={styles.textButton2}>Inicia Sesión</Text>
-            </TouchableOpacity>
+            <Link href="/login" className={styles.textButton2}>Inicia Sesión</Link>
           </View>
 
         </View>

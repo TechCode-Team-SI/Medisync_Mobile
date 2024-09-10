@@ -1,11 +1,11 @@
 import { View } from "react-native";
-import RegisterPage from "@/src/pages/Login/RegisterPage";
+import LoginPage from "@/src/pages/Login/LoginPage";
 import styles from "@/src/components/styles/styles";
 
-export default function RegisterScreen() {
+export default function LoginScreen() {
   return (
     <View className={styles.container}>
-      <RegisterPage />
+      <LoginPage />
     </View>
   );
 }
