@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import styles from './stylesProfile';
 import Entypo from '@expo/vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 
 interface Props extends React.ComponentPropsWithoutRef<"button"> {
   color?: string;
@@ -9,7 +10,12 @@ interface Props extends React.ComponentPropsWithoutRef<"button"> {
 }
 
 const ButtonsHome: React.FC = ( ) => {
-    const handleBack = () => {};
+
+    const navigation = useNavigation(); 
+
+    const handleBack = () => {
+      navigation.goBack();  
+    };
 
     return (
     <View className={styles.containerBack}>

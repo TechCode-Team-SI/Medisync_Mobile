@@ -10,6 +10,9 @@ const ButtonsHome: React.FC = () => {
   const handleUs = () => {
     router.push("/aboutus");
   };
+  const handleProfile = () => {
+    router.push("/profile");
+  };
 
   return (
     <View className={styles.containerButtons}>
@@ -25,6 +28,7 @@ const ButtonsHome: React.FC = () => {
 
         <TouchableOpacity
             className={styles.button2}
+            onPress={handleProfile}
         >
             <Text className={styles.text2}>Perfil</Text>
         </TouchableOpacity>

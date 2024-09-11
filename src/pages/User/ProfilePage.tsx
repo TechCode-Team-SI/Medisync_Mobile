@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile"
 import Entypo from '@expo/vector-icons/Entypo';
+import { Link, router } from "expo-router";
 
 const ProfilePage: React.FC = () => {
 
@@ -10,11 +11,19 @@ const ProfilePage: React.FC = () => {
     const inputGender = useState('');
     const inputBlood = useState('');
 
-
     const handleBack = () => {};
-    const handleUpdate = () => {};
-    const handleSecurity = () => {};
-    const handleLogOut = () => {};
+
+    const handleEdit = () => {
+      router.push("/configprofile");
+    };
+
+    const handleSecurity = () => {
+      router.push("/updatepassword");
+    };
+
+    const handleLogOut = () => {
+      router.push("/login");
+    };
 
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -38,15 +47,16 @@ const ProfilePage: React.FC = () => {
             <Text className={styles.title1}> Usuario</Text>
 
             <View className={styles.containerRow}>
-            <Text className={styles.title3}> Edad</Text>
-            <Text className={styles.title3}> Genero</Text>
-            <Text className={styles.title3}> Sangre</Text>
-              </View>
+              <Text className={styles.title3}> Edad</Text>
+              <Text className={styles.title3}> Genero</Text>
+              <Text className={styles.title3}> Sangre</Text>
+            </View>
 
-            <View className={styles.container3}>
+          <View className={styles.container3}>
+
           <TouchableOpacity
             className={styles.button}
-            onPress={handleUpdate}>
+            onPress={handleEdit}>
               <Entypo name='edit' size={24} color="#539091" ></Entypo>
             <Text className={styles.buttonText}>Editar Perfil</Text>
           </TouchableOpacity>

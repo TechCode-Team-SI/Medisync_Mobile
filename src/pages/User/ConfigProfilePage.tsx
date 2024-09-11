@@ -37,66 +37,75 @@ const ConfigProfilePage: React.FC = () => {
     return (
         <View className={styles.container}>
 
-         <ButtonBack/>
+          <ButtonBack/>
 
           <View className={styles.containerBg1}>
 
-          <TouchableOpacity onPress={pickImage} className={styles.containerImage}>
-            {selectedImage ? (
-              <Image source={{ uri: selectedImage }} className={styles.image} />
-            ) : (
-              <View className={styles.iconImage}>
-                <Entypo name="camera" size={24} color="#539091" />
+            <TouchableOpacity onPress={pickImage} className={styles.containerImage}>
+              {selectedImage ? (
+                <Image source={{ uri: selectedImage }} className={styles.image} />
+              ) : (
+                <View className={styles.iconImage}>
+                  <Entypo name="camera" size={24} color="#539091" />
+                </View>
+              )}
+            </TouchableOpacity>
+
+            <View className={styles.containerData}>
+                       
+              <Text className={styles.title3}> Nombre </Text>
+
+              <View className={styles.inputContainer}>
+                <Entypo name="lock" size={24} color="#539091"/>
+                <TextInput
+                className={styles.input}
+                placeholder="Usuario"
+                placeholderTextColor="#539091"
+                value={inputName}
+                onChangeText={setInputName}
+                />
               </View>
-            )}
-          </TouchableOpacity>
-        
-         
-            <Text className={styles.title3}> Nombre</Text>
 
-            <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091"/>
-          <TextInput
-          className={styles.input}
-          placeholder="Usuario"
-          placeholderTextColor="#539091"
-          value={inputName}
-          onChangeText={setInputName}
-          />
-        </View>
-        <Text className={styles.title3}> Correo</Text>
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091"/>
-          <TextInput
-          className={styles.input}
-          placeholder="usuario@gmail.com"
-          placeholderTextColor="#539091"
-          value={inputEmail}
-          onChangeText={setInputEmail}
-          />
-        </View>
-        <Text className={styles.title3}> Teléfono</Text>
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091"/>
-          <TextInput
-          className={styles.input}
-          placeholder="0412-XXXXXXX"
-          placeholderTextColor="#539091"
-          value={inputPhone}
-          onChangeText={setInputPhone}
-          />
-        </View>
+              <Text className={styles.title3}> Correo</Text>
 
-        <View className={styles.container4}>
-          <TouchableOpacity
-            className={styles.button1}
-            onPress={handleSave}>
-            <Text className={styles.buttonText1}>Guardar cambios</Text>
-          </TouchableOpacity>
-        </View>
+              <View className={styles.inputContainer}>
+                <Entypo name="lock" size={24} color="#539091"/>
+                <TextInput
+                className={styles.input}
+                placeholder="usuario@gmail.com"
+                placeholderTextColor="#539091"
+                value={inputEmail}
+                onChangeText={setInputEmail}
+                />
+              </View>
+
+              <Text className={styles.title3}> Teléfono</Text>
+
+              <View className={styles.inputContainer}>
+                <Entypo name="lock" size={24} color="#539091"/>
+                <TextInput
+                className={styles.input}
+                placeholder="0412-XXXXXXX"
+                placeholderTextColor="#539091"
+                value={inputPhone}
+                onChangeText={setInputPhone}
+                />
+              </View>
+
+              <View className={styles.container4}>
+                <TouchableOpacity
+                  className={styles.button1}
+                  onPress={handleSave}>
+                  <Text className={styles.buttonText1}>Guardar cambios</Text>
+                </TouchableOpacity>
+              </View>
+
             </View>
-    
+        
+
           </View>
+    
+        </View>
       );
 };
 
