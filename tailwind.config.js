@@ -15,6 +15,7 @@ module.exports = {
         cancel: "#818F8F",
         bgMenu: "#E9F6F5",
         bgInput:"#CCEAE8",
+        statusColor:"#68C3B7",
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
