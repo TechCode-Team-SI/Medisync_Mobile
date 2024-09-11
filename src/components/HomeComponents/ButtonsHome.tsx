@@ -3,8 +3,14 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import styles from './stylesHome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Link, router } from "expo-router";
 
 const ButtonsHome: React.FC = () => {
+
+  const handleUs = () => {
+    router.push("/aboutus");
+  };
+
   return (
     <View className={styles.containerButtons}>
 
@@ -16,6 +22,7 @@ const ButtonsHome: React.FC = () => {
             <Ionicons name="calendar" size={48} color="white" />
             <Text className={styles.text}>Agenda tu cita</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
             className={styles.button2}
         >
@@ -26,11 +33,13 @@ const ButtonsHome: React.FC = () => {
 
       <View className={styles.containerGrid}>
 
-      <TouchableOpacity
+        <TouchableOpacity
             className={styles.button3}
+            onPress={handleUs}
         >
-            <Text className={styles.text2}>Valores</Text>
+            <Text className={styles.text2}>Nosotros</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
             className={styles.button4}
         >            

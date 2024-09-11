@@ -33,6 +33,7 @@ export default function RootLayout() {
       <Stack.Screen name="forgot/index" options={{ headerShown: false }} />
       <Stack.Screen name="changepassword/index" options={{ headerShown: false }} />
       <Stack.Screen name="codepassword/index" options={{ headerShown: false }} />
+      <Stack.Screen name="aboutus/index" options={{ headerShown: false }} />
     </Stack>
   );
 }
