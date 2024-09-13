@@ -1,14 +1,31 @@
 import styles from "@/src/components/HomeComponents/stylesHome";
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, View, Modal, TouchableWithoutFeedback, Animated } from "react-native";
 import ButtonsHome from "../components/HomeComponents/ButtonsHome";
 import InfoHome from "../components/HomeComponents/InfoHome";
-import TopBar from "../components/TopBar";
+import TopBar from "../components/navigation/TopBar";
+import SideMenuModal from "../components/navigation/SideMenuModal";
+import { useFocusEffect } from '@react-navigation/native'
 
 const HomePage: React.FC = () => {
+
+  const [isMenuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuVisible(prev => !prev);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setMenuVisible(false); // Asegúrate de que esté cerrado al entrar en la página
+    }, [])
+  );
+
   return (
     <View className={styles.container}>
-      <TopBar title="Inicio" onLeftPress={() => console.log("Left pressed")} />
+      <TopBar title="Inicio" onLeftPress={toggleMenu} />
+
+      <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
 
       <View className={styles.container2}>
         <Text className={styles.title}>Hola</Text>
