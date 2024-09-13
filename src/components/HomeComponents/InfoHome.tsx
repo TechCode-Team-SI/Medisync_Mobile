@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, TouchableOpacity, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './stylesHome';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';

@@ -3,7 +3,7 @@ import { View, TextInput, Text, TouchableOpacity, Image, ScrollView, KeyboardAvo
 import * as ImagePicker from 'expo-image-picker';
 import styles from '@/src/components/LoginComponents/stylesLogin';
 import Entypo from '@expo/vector-icons/Entypo';
-import { Link, router } from "expo-router";
+import { Link} from "expo-router";
 
 
 const RegisterPage: React.FC = () => {

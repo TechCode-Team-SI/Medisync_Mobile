@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import TopBar from '@/src/components/TopBar';
+import TopBar from '@/src/components/navigation/TopBar';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import stylesAppointments from '@/src/components/AppointmentsComponents/stylesAppointments';

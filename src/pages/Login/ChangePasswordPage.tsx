@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import styles from '@/src/components/LoginComponents/stylesLogin';
-import { Link, router } from "expo-router";
+import { Link} from "expo-router";
 
 const ChangePasswordPage: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');

@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import styles from './stylesHome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 
 const ButtonsHome: React.FC = () => {
 
