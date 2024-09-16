@@ -13,6 +13,9 @@ const ButtonsHome: React.FC = () => {
   const handleProfile = () => {
     router.push("/profile");
   };
+  const handleSearch = () => {
+    router.push("/search");
+  };
 
   return (
     <View className={styles.containerButtons}>
@@ -21,6 +24,7 @@ const ButtonsHome: React.FC = () => {
 
         <TouchableOpacity
             className={styles.button1}
+            onPress={handleSearch}
         >
             <Ionicons name="calendar" size={48} color="white" />
             <Text className={styles.text}>Agenda tu cita</Text>

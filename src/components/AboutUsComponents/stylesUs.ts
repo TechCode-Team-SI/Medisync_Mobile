@@ -5,7 +5,7 @@ const stylesUs = {
     containerNosotros: 'absolute bottom-0 w-full h-3/5 bg-principal rounded-tl-3xl px-6 py-4',
     
     //// General
-    title1: "text-white font-roboto text-center text-5xl px-5 absolute top-[163px] left-0 right-0", // Usar posición absoluta para colocar en 163px del top
+    title1: "text-white font-roboto text-center text-4xl px-5 absolute top-[163px] left-0 right-0", // Usar posición absoluta para colocar en 163px del top
     title2: "font-montserrat text-justify my-4 text-[20px] font-bold text-primary pl-5",
     
     // Descripción

@@ -19,7 +19,7 @@ const UsPage: React.FC = () => {
         <Entypo name="chevron-left" size={24} color="white" />
       </TouchableOpacity>
 
-      <Text className={styles.title1}>MediSync</Text>
+      <Text className={styles.title1}>Centro Médico</Text>
 
       <View className={styles.containerNosotros}>
 

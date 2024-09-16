@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import TopBar from '@/src/components/navigation/TopBar';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import stylesAppointments from '@/src/components/AppointmentsComponents/stylesAppointments';
+import { router } from "expo-router";
+import { useFocusEffect } from '@react-navigation/native'
+import SideMenuModal from "@/src/components/navigation/SideMenuModal";
 
 interface Appointment {
   id: number;
@@ -24,25 +27,38 @@ const appointments: Appointment[] = [
 ];
 
 const AppointmentPage: React.FC = () => {
+
+  const [isMenuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuVisible(prev => !prev);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setMenuVisible(false); 
+    }, [])
+  );
+
   const handleDelete = (id: number) => {
     console.log(`Eliminar cita con id: ${id}`);
   };
 
   const handleAppointmentPress = (id: number) => {
-    console.log(`Abrir detalles de cita con id: ${id}`);
-    
+    router.push("/appointmentdetails");
   };
 
   const handleAddAppointment = () => {
-    console.log('Agregar nueva cita');
+    router.push("/search");
   };
 
   return (
     <View className={stylesAppointments.container}>
-      <TopBar
-        title="Citas"
-        onLeftPress={() => console.log('Left pressed')}
-      />
+      <TopBar title="Citas" onLeftPress={toggleMenu} />
+
+      <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+
+
       <View className={stylesAppointments.card}>
         <View className={stylesAppointments.button1}>
           <Text className={stylesAppointments.title}>Tus citas</Text>

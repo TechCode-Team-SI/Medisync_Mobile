@@ -8,10 +8,10 @@ const stylesAppointments = {
     card: 'flex-1 px-1 mt-4', 
   
     //// color de la tarjeta en las Citas 
-    cardcolor:'w-10/12 bg-terciary p-4 mb-4 rounded-lg relative shadow-md mx-auto',
+    cardcolor:' bg-terciary p-4 mb-4 rounded-lg relative shadow-md mx-5',
   
     //// Tarjetas de informacion en la Pantalla Historial 
-    cardHistory:'bg-terciary rounded-lg py-4 px-6 mx-8 my-2 shadow-md flex-row items-center',
+    cardHistory:'bg-terciary rounded-lg py-4 px-6 mx-5 my-2 shadow-md flex-row items-center',
    
    //// Barra de Busqueda en la pantalla Historial 
     searchBar: 'flex-row items-center bg-[#e6f7f9] rounded-lg mx-4 my-4 px-4 py-2',

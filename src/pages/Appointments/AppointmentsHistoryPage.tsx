@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from "react";
 import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import TopBar from '@/src/components/navigation/TopBar';
 import stylesAppointments from '@/src/components/AppointmentsComponents/stylesAppointments';
+import SideMenuModal from '@/src/components/navigation/SideMenuModal';
+import { useFocusEffect } from '@react-navigation/native'
 
 interface Appointment {
   id: number;
@@ -22,13 +24,25 @@ const appointments: Appointment[] = [
 ];
 
 const AppointmentsHistoryPage: React.FC = () => {
+
+  const [isMenuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuVisible(prev => !prev);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setMenuVisible(false); 
+    }, [])
+  );
+
   return (
     <View className={stylesAppointments.container}>
     
-      <TopBar
-        title="Historial de Citas"
-        onLeftPress={() => console.log('Left pressed')}
-      />
+    <TopBar title="Historial de citas" onLeftPress={toggleMenu} />
+
+    <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
 
       {/* Search Bar */}
       <View className={stylesAppointments.searchBar}>

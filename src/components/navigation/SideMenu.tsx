@@ -11,8 +11,10 @@ const SideMenu: React.FC = () => {
     router.push("/home");
   };
   const handleAppointments = () => {
+    router.push("/appointment");
   };
   const handleSearch = () => {
+    router.push("/search");
   };
   const handleNotifications = () => {
   };
@@ -37,12 +39,12 @@ const SideMenu: React.FC = () => {
         <Text className="text-sm text-primary mx-3">Inicio</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="p-4 flex-row ">
+      <TouchableOpacity className="p-4 flex-row " onPress={handleAppointments}>
         <Ionicons name="calendar" size={20} color="#539091" />
         <Text className="text-sm text-primary mx-3">Citas</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="p-4 flex-row ">
+      <TouchableOpacity className="p-4 flex-row " onPress={handleSearch}>
         <Ionicons name="search-sharp" size={22} color="#539091" />
         <Text className="text-sm text-primary mx-3">Buscar</Text>
       </TouchableOpacity>

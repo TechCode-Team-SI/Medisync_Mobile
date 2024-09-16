@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      setMenuVisible(false); // Asegúrate de que esté cerrado al entrar en la página
+      setMenuVisible(false); 
     }, [])
   );
 

@@ -37,6 +37,11 @@ export default function RootLayout() {
       <Stack.Screen name="profile/index" options={{ headerShown: false }} />
       <Stack.Screen name="configprofile/index" options={{ headerShown: false }} />
       <Stack.Screen name="updatepassword/index" options={{ headerShown: false }} />
+      <Stack.Screen name="search/index" options={{ headerShown: false }} />
+      <Stack.Screen name="searchdr/index" options={{ headerShown: false }} />
+      <Stack.Screen name="appointment/index" options={{ headerShown: false }} />
+      <Stack.Screen name="appointmentdetails/index" options={{ headerShown: false }} />
+      <Stack.Screen name="history/index" options={{ headerShown: false }} />
     </Stack>
   );
 }
