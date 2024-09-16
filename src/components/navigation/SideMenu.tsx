@@ -22,6 +22,7 @@ const SideMenu: React.FC = () => {
     router.push("/profile");
   };
   const handleBoard = () => {
+    router.push("/board");
   };
   const handleLogout = () => {
     router.push("/login");
@@ -59,7 +60,7 @@ const SideMenu: React.FC = () => {
         <Text className="text-sm text-primary mx-3">Perfil</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="p-4 flex-row">
+      <TouchableOpacity className="p-4 flex-row" onPress={handleBoard}>
         <MaterialCommunityIcons name="view-dashboard" size={20} color="#539091" />
         <Text className="text-sm text-primary mx-3">Cartelera</Text>
       </TouchableOpacity>
