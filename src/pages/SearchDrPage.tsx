@@ -3,9 +3,20 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '@/src/components/styles/styleSearch';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { Link, router } from "expo-router";
+import AskModal from '../components/AppointmentsComponents/AskModal';
 
 const SearchDrPage: React.FC = () => {
-    const handleSelect = () => {};
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleSelect = () => {
+    setModalVisible(true); 
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false); 
+  };
 
     return (
         <View className={styles.container1}>
@@ -33,13 +44,10 @@ const SearchDrPage: React.FC = () => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-              className={styles.button1}>
-              <Text className={styles.buttonText1}>Seleccionar</Text>
-            </TouchableOpacity>
-
-
           </View>
+
+          <AskModal visible={modalVisible} onClose={handleCloseModal} />
+
         </View>
       );
 };
