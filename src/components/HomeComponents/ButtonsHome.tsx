@@ -16,6 +16,9 @@ const ButtonsHome: React.FC = () => {
   const handleSearch = () => {
     router.push("/search");
   };
+  const handleSupport = () => {
+    router.push("/listsuggestions"); //CAMBIAR
+  };
 
   return (
     <View className={styles.containerButtons}>
@@ -50,6 +53,7 @@ const ButtonsHome: React.FC = () => {
 
         <TouchableOpacity
             className={styles.button4}
+            onPress={handleSupport}
         >            
             <Text className={styles.text}>Soporte</Text>
             <MaterialCommunityIcons name="headset" size={48} color="white" />
