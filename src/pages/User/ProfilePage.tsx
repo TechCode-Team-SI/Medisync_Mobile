@@ -10,11 +10,14 @@ const ProfilePage: React.FC = () => {
   const inputAge = useState('');
     const inputGender = useState('');
     const inputBlood = useState('');
-
     const handleBack = () => {};
 
     const handleEdit = () => {
       router.push("/configprofile");
+    };
+
+    const handleFamily = () => {
+      router.push("/family");
     };
 
     const handleSecurity = () => {
@@ -61,9 +64,27 @@ const ProfilePage: React.FC = () => {
             <TouchableOpacity
               className={styles.button}
               onPress={handleEdit}>
-                <Entypo name='edit' size={24} color="#539091" ></Entypo>
+                <Entypo name='edit' size={22} color="#539091" ></Entypo>
               <Text className={styles.buttonText}>Editar Perfil</Text>
             </TouchableOpacity>
+          </View>
+
+          <View className={styles.container3}>
+            <TouchableOpacity
+                className={styles.button}
+                onPress={handleFamily}>
+                  <Entypo name='users' size={22} color="#539091" ></Entypo>
+                <Text className={styles.buttonText}>Agenda</Text>
+              </TouchableOpacity>
+          </View>
+
+          <View className={styles.container3}>
+            <TouchableOpacity
+                className={styles.button}
+                onPress={handleHistory}>
+                  <Entypo name='list' size={24} color="#539091" ></Entypo>
+                <Text className={styles.buttonText}>Historial</Text>
+              </TouchableOpacity>
           </View>
 
           <View className={styles.container3}>
@@ -78,24 +99,15 @@ const ProfilePage: React.FC = () => {
           <View className={styles.container3}>
             <TouchableOpacity
                 className={styles.button}
-                onPress={handleHistory}>
-                  <Entypo name='list' size={24} color="#539091" ></Entypo>
-                <Text className={styles.buttonText}>Historial</Text>
-              </TouchableOpacity>
+                onPress={handleLogOut}>
+                  <Entypo name='log-out' size={22} color="#539091" ></Entypo>
+                <Text className={styles.buttonText}>Cerrar Sesión</Text>
+            </TouchableOpacity>
           </View>
-
-        <View className={styles.container3}>
-          <TouchableOpacity
-              className={styles.button}
-              onPress={handleLogOut}>
-                <Entypo name='log-out' size={24} color="#539091" ></Entypo>
-              <Text className={styles.buttonText}>Cerrar Sesión</Text>
-          </TouchableOpacity>
-        </View>
           
-            </View>
-    
           </View>
+    
+        </View>
       );
 };
 

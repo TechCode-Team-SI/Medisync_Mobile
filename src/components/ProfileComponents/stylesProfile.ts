@@ -3,7 +3,7 @@ const stylesProfile = {
     container1: 'flex-1 bg-primary relative', //ProfileUpdate
 
     //// Background 
-    containerBg1: 'absolute bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-12 px-6',
+    containerBg1: 'absolute bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-9 px-6',
    
     //// Image
     containerImage:"w-full justify-center absolute items-center h-1/6 pb-20 ml-6",
@@ -36,6 +36,11 @@ const stylesProfile = {
     //Button back
     buttonBack1: 'absolute top-8 left-4 z-10 w-[32px] h-[46px] bg-[#5DA9A3] items-center justify-center rounded',
     containerBack: "flex justify-start w-3/12 p-7 mt-4",
+
+    //Family
+    text: "text-base text-primary py-4",
+    button2: 'shadow flex-row w-full space-x-4 h-16 items-center bg-terciary rounded-xl p-5 my-2', 
+    buttonText2: 'basis-3/4 mt-1 h-7 text-primary text-base font-montserrat',
     };
     
     export default stylesProfile;
