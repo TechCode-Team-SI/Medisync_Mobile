@@ -6,6 +6,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import styles from "@/src/components/SupportComponents/stylesSupport";
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { router } from "expo-router";
 
 const CustomerSupportPage: React.FC = () => {
 
@@ -21,13 +22,17 @@ const CustomerSupportPage: React.FC = () => {
     }, [])
   );
 
-  const handle1 = () => {
+  const handleSuggestion = () => {
+    router.push("/suggestions"); 
   };
-  const handle2 = () => {
+  const handleClaims = () => {
+    router.push("/claims"); 
   };
-  const handle3 = () => {
+  const handleRequests = () => {
+    router.push("/requests"); 
   };
-  const handle4 = () => {
+  const handleHistory = () => {
+    router.push("/listsuggestions"); 
   };
 
   return (
@@ -48,7 +53,7 @@ const CustomerSupportPage: React.FC = () => {
 
           <TouchableOpacity
               className={styles.button}
-              onPress={handle1}>
+              onPress={handleSuggestion}>
                     <View className={styles.icon}>
                     <Entypo name='pencil' size={24} color="#539091" ></Entypo>
                     </View>
@@ -59,7 +64,7 @@ const CustomerSupportPage: React.FC = () => {
           <View className={styles.container2}>
             <TouchableOpacity
                 className={styles.button}
-                onPress={handle2}>
+                onPress={handleClaims}>
                     <View className={styles.icon}>
                     <Entypo name='megaphone' size={24} color="#539091" ></Entypo>
                     </View>
@@ -70,7 +75,7 @@ const CustomerSupportPage: React.FC = () => {
           <View className={styles.container2}>
             <TouchableOpacity
                 className={styles.button}
-                onPress={handle3}>
+                onPress={handleRequests}>
                     <View className={styles.icon}>
                     <Entypo name='cog' size={24} color="#539091" ></Entypo>
                     </View>
@@ -81,7 +86,7 @@ const CustomerSupportPage: React.FC = () => {
           <View className={styles.container2}>
             <TouchableOpacity
                 className={styles.button}
-                onPress={handle4}>
+                onPress={handleHistory}>
                   <View className={styles.icon}>
                     <Entypo name='list' size={24} color="#539091" ></Entypo>
                   </View>

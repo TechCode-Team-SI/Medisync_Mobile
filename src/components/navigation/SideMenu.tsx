@@ -70,7 +70,7 @@ const SideMenu: React.FC = () => {
 
       <TouchableOpacity className="p-4 flex-row " onPress={handleSupport}>
         <MaterialCommunityIcons name="headset" size={20} color="#539091" />
-        <Text className="text-sm text-primary mx-3">Asistencia</Text>
+        <Text className="text-sm text-primary mx-3">Soporte</Text>
       </TouchableOpacity>
 
       <View className="my-2">
