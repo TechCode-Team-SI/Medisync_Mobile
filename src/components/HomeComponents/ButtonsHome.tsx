@@ -17,7 +17,7 @@ const ButtonsHome: React.FC = () => {
     router.push("/search");
   };
   const handleSupport = () => {
-    router.push("/listsuggestions"); //CAMBIAR
+    router.push("/support"); 
   };
 
   return (

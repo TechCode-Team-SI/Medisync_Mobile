@@ -49,6 +49,7 @@ export default function RootLayout() {
       <Stack.Screen name="chat/index" options={{ headerShown: false }} />
       <Stack.Screen name="createappointment/index" options={{ headerShown: false }} />
       <Stack.Screen name="createappointmenttwo/index" options={{ headerShown: false }} />
+      <Stack.Screen name="support/index" options={{ headerShown: false }} />
     </Stack>
   );
 }

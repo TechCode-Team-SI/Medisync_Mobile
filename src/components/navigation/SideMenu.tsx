@@ -27,6 +27,9 @@ const SideMenu: React.FC = () => {
   const handleLogout = () => {
     router.push("/login");
   };
+  const handleSupport = () => {
+    router.push("/support");
+  };
 
   return (
     <View className="absolute top-0 left-0 h-full bg-bgMenu w-full font-roboto  ">
@@ -65,7 +68,7 @@ const SideMenu: React.FC = () => {
         <Text className="text-sm text-primary mx-3">Cartelera</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="p-4 flex-row ">
+      <TouchableOpacity className="p-4 flex-row " onPress={handleSupport}>
         <MaterialCommunityIcons name="headset" size={20} color="#539091" />
         <Text className="text-sm text-primary mx-3">Asistencia</Text>
       </TouchableOpacity>
