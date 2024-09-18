@@ -24,7 +24,7 @@ const RequestsPage: React.FC = () => {
 
   return (
     <View className={styles.container}>
-      <TopBar title="Sugerencias" onLeftPress={toggleMenu} />
+      <TopBar title="Ajuste de cita" onLeftPress={toggleMenu} />
 
       <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
 

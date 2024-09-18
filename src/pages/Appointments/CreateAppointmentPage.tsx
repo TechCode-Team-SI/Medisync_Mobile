@@ -1,10 +1,11 @@
 /// ARREGLAR/////
 
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, TextInput} from "react-native";
+import { Text, View, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import styles from "@/src/components/AppointmentsComponents/stylesCreate";
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
-
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 const CreateAppointmentPage: React.FC = () => {
 
@@ -14,8 +15,9 @@ const CreateAppointmentPage: React.FC = () => {
         <ButtonBack/>
 
         <Text className={styles.title1}> Agenda tu cita </Text>
+        
 
-        <View className={styles.containerBg1}>
+        <ScrollView className={styles.containerBg1} >  
 
             <Text className={styles.title2}>Paciente registrado</Text>
 
@@ -50,13 +52,29 @@ const CreateAppointmentPage: React.FC = () => {
 
             <View className={styles.container2}>
                 <TouchableOpacity
+                className={styles.buttonDate}>
+                <View className={styles.icon}><Ionicons name="calendar" size={24} color="white" /></View>
+                <Text className={styles.textDate}>Seleccione la fecha</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View className={styles.container2}>
+                <TouchableOpacity
+                className={styles.buttonDate}>
+                <View className={styles.icon}><MaterialIcons name="keyboard-arrow-down" size={24} color="white" /></View>
+                <Text className={styles.textDate}>Horarios</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View className={styles.container2}>
+                <TouchableOpacity
                 className={styles.button1}>
                 <Text className={styles.buttonText1}>Agendar</Text>
                 </TouchableOpacity>
             </View>
 
-        </View>
-
+        </ScrollView> 
+        
     </View>
   );
 };

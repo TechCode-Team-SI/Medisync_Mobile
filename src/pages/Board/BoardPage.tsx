@@ -27,13 +27,6 @@ const BoardPage: React.FC = () => {
 
   const images = [  
     {  
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRraTBZdLdK539TF22atkmqeWjXBnfyEK6f3f_CVA3DQbheMqAVrHoMXqo7vyBYAtHm__Q&usqp=CAU', 
-        title: 'medicine',
-        date: '22-02-2024', 
-        description: 'Descripción de imagen 1',    
-       
-    },  
-    {  
         url: 'https://cdn.euroinnova.edu.es/euroinnova_es/next-gen-formats-img/m/Maestria-Medicina-Interna.webp',
         title: 'medicine',  
         date:"11-02-2023",
@@ -54,6 +47,13 @@ const BoardPage: React.FC = () => {
     description: 'Descripción de imagen 4',   
    
 }, 
+{  
+  url: 'https://www.doctorponce.com/wp-content/uploads/2024/04/medicina-pasada-de-moda-actual-pendiente-doctor-ponce.png', 
+  title: 'medicine', 
+  date:"15-08-2023",
+  description: 'Descripción de imagen 3',   
+ 
+},
     
 ];  
     return (

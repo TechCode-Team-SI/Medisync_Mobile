@@ -15,8 +15,12 @@ const stylesCreate = {
 
      text:"font-montserrat text-primary",
  
-    button1: 'w-44 h-12 items-center justify-center bg-primary rounded-xl mt-8', //Config
+    button1: 'w-44 h-12 items-center justify-center bg-primary rounded-xl mt-6', 
     buttonText1: 'text-principal text-lg font-montserrat',
+
+    buttonDate: 'w-full h-12 items-center  bg-primary rounded-xl mt-4 flex-row', 
+    textDate: 'text-principal text-base font-bold ml-2',
+    icon:"ml-2",
 
 
     

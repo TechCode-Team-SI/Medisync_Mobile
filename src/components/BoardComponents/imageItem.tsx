@@ -14,7 +14,7 @@ interface ImageItemProps {
 const ImageItem: React.FC<ImageItemProps> = ({ imageUrl, description,date,title}) => { 
     const navigation = useNavigation();  
     const handlePublication = () => {
-        router.push("/publication");
+        
       };
     return (  
         <View className={styles.container6}> 
