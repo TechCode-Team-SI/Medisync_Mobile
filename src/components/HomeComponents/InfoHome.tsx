@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './stylesHome';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,26 +12,32 @@ const InfoHome: React.FC = () => {
         <Text className={styles.titleInfo}>Conéctate con nosotros</Text>
 
         <View className={styles.containerInfo2}>
-            
-            <View className={styles.containerInfo3}>
+    
+            <TouchableOpacity className={styles.containerInfo3}>
                 <AntDesign name="mail" size={22} color="#539091" />
-            </View>
+                <Text className={styles.textInfo}> email@gmail.com</Text>
 
-            <View className={styles.containerInfo3}>
+            </TouchableOpacity>
+
+            <TouchableOpacity className={styles.containerInfo3}>
                 <AntDesign name="phone" size={22} color="#539091" />
-            </View>
+                <Text className={styles.textInfo}>xxxx-xxxxxxx</Text>
+            </TouchableOpacity>
 
-            <View className={styles.containerInfo3}>
+            <TouchableOpacity className={styles.containerInfo3}>
                 <MaterialCommunityIcons name="deskphone" size={24} color="#539091" />
-            </View>
+                <Text className={styles.textInfo}>xxxx-xxxxxxx</Text>
+            </TouchableOpacity>
 
-            <View className={styles.containerInfo3}>
+            <TouchableOpacity className={styles.containerInfo3}>
                 <Ionicons name="location-outline" size={24} color="#539091" />
-            </View>
+                <Text className={styles.textInfo}>Av. Florencio Jiménez</Text>
+            </TouchableOpacity>
 
-            <View className={styles.containerInfo3}>
+            <TouchableOpacity className={styles.containerInfo3}>
                 <AntDesign name="instagram" size={22} color="#539091" />
-            </View>
+                <Text className={styles.textInfo}>@tucentromedico</Text>
+            </TouchableOpacity>
 
         </View>
 

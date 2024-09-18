@@ -24,6 +24,7 @@ const stylesHome = {
     containerInfo2:"items-start w-full space-y-1.5 mt-4",
     containerInfo3:"flex-row",
     titleInfo:"text-primary font-montserrat text-lg",
+    textInfo:"text-primary ml-3",
 
     };
     
