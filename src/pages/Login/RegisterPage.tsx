@@ -11,7 +11,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const RegisterPage: React.FC = () => {
 
   const [inputEmail, setInputEmail] = useState('');
-  const [inputPhone, setInputPhone] = useState('');
+  const [inputName, setInputName] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [inputPassword2, setInputPassword2] = useState('');
 
@@ -46,14 +46,14 @@ const RegisterPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const allFieldsFilled = inputEmail !== '' && inputPhone !== '' && inputPassword !== '' && inputPassword2 !== '';
+    const allFieldsFilled = inputEmail !== '' && inputName !== '' && inputPassword !== '' && inputPassword2 !== '';
     setIsButtonDisabled(!allFieldsFilled); 
-  }, [inputEmail, inputPhone, inputPassword, inputPassword2]);
+  }, [inputEmail, inputName, inputPassword, inputPassword2]);
 
   useFocusEffect(
     React.useCallback(() => {
       setInputEmail('');
-      setInputPhone('');
+      setInputName('');
       setInputPassword('');
       setInputPassword2('');
       setSelectedImage(null);
@@ -115,15 +115,14 @@ const RegisterPage: React.FC = () => {
             </View>
 
             <View className={styles.inputContainer}>
-              <Entypo name="phone" size={24} color="#539091" />
+              <Entypo name="user" size={24} color="#539091" />
               <TextInput
                 className={styles.input}
-                placeholder="Teléfono"
+                placeholder="Nombre completo"
                 placeholderTextColor="#539091"
-                keyboardType="numeric"
-                value={inputPhone}
-                onChangeText={setInputPhone}
-                maxLength={30}
+                value={inputName}
+                onChangeText={setInputName}
+                maxLength={40}
               />
             </View>
 
