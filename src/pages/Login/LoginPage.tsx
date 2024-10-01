@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TextInput, Text, TouchableOpacity } from "react-native";
 import styles from "@/src/components/LoginComponents/stylesLogin";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Link, router } from "expo-router";
+import { useFocusEffect } from '@react-navigation/native';
 
 const LoginPage: React.FC = () => {
   const [inputEmail, setInputEmail] = useState(""); 
   const [inputPassword, setInputPassword] = useState(""); 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const allFieldsFilled = inputEmail !== '' && inputPassword !== '';
+    setIsButtonDisabled(!allFieldsFilled); 
+  }, [inputEmail, inputPassword]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setInputEmail('');
+      setInputPassword('');
+    }, [])
+  );
+
   const handleLogin = () => {
     router.push("/home");
   };
-
-  const isButtonDisabled = inputEmail === "" || inputPassword === "";
 
   return (
     <View className={styles.container}>
@@ -60,10 +73,8 @@ const LoginPage: React.FC = () => {
           <TouchableOpacity
             className={styles.button}
             onPress={handleLogin}
-            disabled={isButtonDisabled} 
-            style={{ 
-              backgroundColor: isButtonDisabled ? "#cccccc" : "#539091" 
-            }}
+            disabled={isButtonDisabled}
+            style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
           >
             <Text className={styles.buttonText}>Iniciar Sesión</Text>
           </TouchableOpacity>

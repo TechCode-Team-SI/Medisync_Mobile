@@ -17,6 +17,7 @@ const SideMenu: React.FC = () => {
     router.push("/search");
   };
   const handleNotifications = () => {
+    router.push("/notifications");
   };
   const handleProfile = () => {
     router.push("/profile");
@@ -43,17 +44,17 @@ const SideMenu: React.FC = () => {
         <Text className="text-sm text-primary mx-3">Inicio</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="p-4 flex-row " onPress={handleAppointments}>
-        <Ionicons name="calendar" size={20} color="#539091" />
-        <Text className="text-sm text-primary mx-3">Citas</Text>
+      <TouchableOpacity className="p-4 flex-row " onPress={handleSearch}>
+        <Ionicons name="add-circle" size={22} color="#539091" />
+        <Text className="text-sm text-primary mx-3">Agenda una cita</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="p-4 flex-row " onPress={handleSearch}>
-        <Ionicons name="search-sharp" size={22} color="#539091" />
-        <Text className="text-sm text-primary mx-3">Buscar</Text>
+      <TouchableOpacity className="p-4 flex-row " onPress={handleAppointments}>
+        <Ionicons name="calendar" size={20} color="#539091" />
+        <Text className="text-sm text-primary mx-3">Tus citas</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity className="p-4 flex-row ">
+      <TouchableOpacity className="p-4 flex-row " onPress={handleNotifications}>
         <Ionicons name="notifications" size={20} color="#539091" />
         <Text className="text-sm text-primary mx-3">Notificaciones</Text>
       </TouchableOpacity>

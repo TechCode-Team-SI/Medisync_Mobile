@@ -53,6 +53,7 @@ export default function RootLayout() {
       <Stack.Screen name="suggestions/index" options={{ headerShown: false }} />
       <Stack.Screen name="claims/index" options={{ headerShown: false }} />
       <Stack.Screen name="requests/index" options={{ headerShown: false }} />
+      <Stack.Screen name="notifications/index" options={{ headerShown: false }} />
     </Stack>
   );
 }

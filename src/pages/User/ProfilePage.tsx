@@ -74,7 +74,7 @@ const ProfilePage: React.FC = () => {
                 className={styles.button}
                 onPress={handleFamily}>
                   <Entypo name='users' size={22} color="#539091" ></Entypo>
-                <Text className={styles.buttonText}>Agenda</Text>
+                <Text className={styles.buttonText}>Grupo familiar</Text>
               </TouchableOpacity>
           </View>
 
