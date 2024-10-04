@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import TopBar from '@/src/components/navigation/TopBar';
+import TopBar from '@/src/components/Navigation/TopBar';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import stylesAppointments from '@/src/components/AppointmentsComponents/stylesAppointments';
 import { router } from "expo-router";
 import { useFocusEffect } from '@react-navigation/native'
-import SideMenuModal from "@/src/components/navigation/SideMenuModal";
+import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 
 interface Appointment {
   id: number;

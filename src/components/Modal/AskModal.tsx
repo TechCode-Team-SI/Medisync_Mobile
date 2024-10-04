@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import { useRouter } from 'expo-router';
+import styles from './stylesModal';
 
 interface AskModalProps {
   visible: boolean;
   onClose: () => void;
+  title: string; 
+  message: string; 
 }
 
-const AskModal: React.FC<AskModalProps> = ({ visible, onClose }) => {
+const AskModal: React.FC<AskModalProps> = ({ visible, onClose, title, message  }) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -24,29 +27,35 @@ const AskModal: React.FC<AskModalProps> = ({ visible, onClose }) => {
       onRequestClose={onClose} 
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
-        <View className="bg-white p-8 rounded-lg w-3/4">
-          <Text className="text-xl mb-4 text-center font-montserrat text-primary">Agenda tu cita</Text>
-          <Text className="text-base mb-6 text-center">¿El paciente está registrado?</Text>
-          <View className="flex-row justify-around">
+        
+        <View className={styles.container}>
+          <Text className={styles.title}>{title}</Text>
+          <Text className={styles.message}>{message}</Text>
+
+          <View className={styles.containerButton}>
+
             <TouchableOpacity
-              className="bg-primary px-6 py-2 rounded-lg"
+              className={styles.acceptButton}
               onPress={() => {
-                router.push('/createappointment');
+                router.push('/createappointment'); ///cambiar esto
                 onClose(); 
               }}
             >
-              <Text className="text-white">Si</Text>
+              <Text className={styles.textButton}>Si</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
-              className="bg-cancel px-6 py-2 rounded-lg"
+              className={styles.cancelButton}
               onPress={() => {
-                router.push('/createappointmenttwo');
+                router.push('/createappointmenttwo'); ///cambiar esto
                 onClose(); 
               }}
             >
-              <Text className="text-white">No</Text>
+              <Text className={styles.textButton}>No</Text>
             </TouchableOpacity>
+
           </View>
+
         </View>
       </View>
     </Modal>

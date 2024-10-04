@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Text, TouchableOpacity } from "react-native";
+import { View, TextInput, Text, TouchableOpacity} from "react-native";
 import styles from "@/src/components/LoginComponents/stylesLogin";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Link, router } from "expo-router";
 import { useFocusEffect } from '@react-navigation/native';
+import AlertModal from '@/src/components/Modal/AlertModal';
+import InfoModal from '@/src/components/Modal/InfoModal';
+
+import { login } from "@/src/services/auth/authServices"
 
 const LoginPage: React.FC = () => {
+
   const [inputEmail, setInputEmail] = useState(""); 
   const [inputPassword, setInputPassword] = useState(""); 
   const [showPassword, setShowPassword] = useState(false);
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false); 
+  const [showErrorModal, setShowErrorModal] = useState(false); 
+  const [modalMessage, setModalMessage] = useState(''); 
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -24,8 +33,17 @@ const LoginPage: React.FC = () => {
     }, [])
   );
 
-  const handleLogin = () => {
-    router.push("/home");
+  const handleLogin = async () => {
+    const result = await login(inputEmail, inputPassword);
+
+    if (result.success) {
+      setShowSuccessModal(true);
+      
+      router.push('/home'); 
+    } else {
+      setModalMessage(result.message);
+      setShowErrorModal(true);
+    }
   };
 
   return (
@@ -86,6 +104,20 @@ const LoginPage: React.FC = () => {
             Registrate
           </Link>
         </View>
+
+        <InfoModal
+          visible={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          title="¡Bienvenido!"
+        />
+
+        <AlertModal
+          visible={showErrorModal}
+          onClose={() => setShowErrorModal(false)}
+          title="ATENCIÓN"
+          message={modalMessage}
+        />
+
       </View>
     </View>
   );

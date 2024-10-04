@@ -5,9 +5,11 @@ import styles from "@/src/components/ProfileComponents/stylesProfile"
 import Entypo from '@expo/vector-icons/Entypo';
 import { Link, router } from "expo-router";
 
+import { handleLogout } from '@/src/services/auth/authUtils';
+
 const ProfilePage: React.FC = () => {
 
-  const inputAge = useState('');
+    const inputAge = useState('');
     const inputGender = useState('');
     const inputBlood = useState('');
     const handleBack = () => {};
@@ -27,11 +29,7 @@ const ProfilePage: React.FC = () => {
     const handleHistory = () => {
       router.push("/history");
     };
-
-    const handleLogOut = () => {
-      router.push("/login");
-    };
-
+    
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     return (
@@ -99,7 +97,7 @@ const ProfilePage: React.FC = () => {
           <View className={styles.container3}>
             <TouchableOpacity
                 className={styles.button}
-                onPress={handleLogOut}>
+                onPress={handleLogout}>
                   <Entypo name='log-out' size={22} color="#539091" ></Entypo>
                 <Text className={styles.buttonText}>Cerrar Sesión</Text>
             </TouchableOpacity>

@@ -10,9 +10,6 @@ const ChangePasswordPage: React.FC = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleLoginNavigation = () => {
-  };
-
   const handleChangePassword = () => {
   };
 

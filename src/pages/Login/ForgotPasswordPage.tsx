@@ -2,17 +2,34 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Link, router } from "expo-router";
-
-import styles from "@/src/components/LoginComponents/stylesLogin"
+import styles from "@/src/components/LoginComponents/stylesLogin";
+import { forgotPassword } from "@/src/services/auth/authServices";
+import AlertModal from '@/src/components/Modal/AlertModal';
 
 const ForgotPasswordPage: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(''); 
+  const [showModal, setShowModal] = useState(false); 
+  const [modalMessage, setModalMessage] = useState(''); 
 
-  const handleForgotPassword = () => {
-    router.push("/codepassword");
+  const handleForgotPassword = async () => {
+    const result = await forgotPassword(email);
+    
+    if (result.success) {
+      console.log('Correo enviado correctamente');
+      setModalMessage("Se ha enviado a tu dirección de correo electrónico un mensaje con instrucciones para restablecer la contraseña.");
+      setShowModal(true);
+    } else {
+      console.log('Error:', result.message);
+      setModalMessage(result.message);
+      setShowModal(true);
+    }
   };
 
-  const handleLoginNavigation = () => {
+  const handleModalClose = () => {
+    setShowModal(false);
+    if (modalMessage.includes("instrucciones para restablecer la contraseña")) {
+      router.push("/codepassword"); 
+    }
   };
 
   return (
@@ -48,9 +65,13 @@ const ForgotPasswordPage: React.FC = () => {
           </Link>
         </View>
 
-
+        <AlertModal
+          visible={showModal}
+          onClose={handleModalClose}
+          title="ATENCIÓN"
+          message={modalMessage}
+        />
       </View>
-
     </View>
   );
 };

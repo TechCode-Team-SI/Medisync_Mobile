@@ -6,8 +6,8 @@ import styles from '@/src/components/BoardComponents/stylesBoard';
 
 import ImageItem from '@/src/components/BoardComponents/imageItem';
 
-import SideMenuModal from '@/src/components/navigation/SideMenuModal';
-import TopBar from '@/src/components/navigation/TopBar';
+import SideMenuModal from '@/src/components/Navigation/SideMenuModal';
+import TopBar from '@/src/components/Navigation/TopBar';
 import { useFocusEffect } from '@react-navigation/native'
 
 

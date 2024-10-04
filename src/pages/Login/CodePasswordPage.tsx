@@ -8,10 +8,7 @@ const CodePasswordPage: React.FC = () => {
   const [password, setPassword] = useState('');
 
   const handleForgotPassword = () => {
-    router.push("/changepassword");
-  };
 
-  const handleLoginNavigation = () => {
   };
 
   return (

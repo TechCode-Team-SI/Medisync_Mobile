@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
+import styles from './stylesModal';
 
-interface InfoModalProps {
+
+interface AlertModalProps {
   visible: boolean;
   onClose: () => void;
   title: string; 
   message: string; 
 }
 
-const InfoModal: React.FC<InfoModalProps> = ({ visible, onClose, title, message }) => {
+const AlertModal: React.FC<AlertModalProps> = ({ visible, onClose, title, message }) => {
 
   useEffect(() => {
     if (!visible) {
@@ -24,33 +26,34 @@ const InfoModal: React.FC<InfoModalProps> = ({ visible, onClose, title, message 
       onRequestClose={onClose} 
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
-        <View className="bg-white p-8 rounded-lg w-3/4">
-          <Text className="text-xl mb-4 text-center font-montserrat text-primary">{title}</Text>
+        
+        <View className={styles.container}>
+          <Text className={styles.title}>{title}</Text>
           
-          <Text className="text-base mb-6 text-center">{message}</Text>
+          <Text className={styles.message}>{message}</Text>
           
-          <View className="flex-row justify-around">
+          <View className={styles.containerButton}>
             <TouchableOpacity
-              className="bg-primary px-6 py-2 rounded-lg"
+              className={styles.acceptButton}
               onPress={onClose} 
             >
-              <Text className="text-white">Aceptar</Text>
+              <Text className={styles.textButton}>Aceptar</Text>
             </TouchableOpacity>
 
           </View>
         </View>
+
       </View>
     </Modal>
   );
 };
 
-export default InfoModal;
+export default AlertModal;
 
 //USO
-//<InfoModal
+//<AlertModal
   //visible={modalVisible}
   //onClose={handleCloseModal}
   //title="TITULO"
   //message="MENSAJE"
 ///>
-

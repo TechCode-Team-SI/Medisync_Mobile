@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import styles from '@/src/components/styles/styleSearch';
+import styles from '@/src/components/Styles/styleSearch';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { Link, router } from "expo-router";
-import AskModal from '../components/AppointmentsComponents/AskModal';
+import AskModal from '../components/Modal/AskModal';
 
 const SearchDrPage: React.FC = () => {
 
@@ -46,7 +46,12 @@ const SearchDrPage: React.FC = () => {
 
           </View>
 
-          <AskModal visible={modalVisible} onClose={handleCloseModal} />
+          <AskModal 
+          visible={modalVisible} 
+          onClose={handleCloseModal}
+          title="Agenda tu cita"
+          message="¿El paciente está registrado?"
+           />
 
         </View>
       );

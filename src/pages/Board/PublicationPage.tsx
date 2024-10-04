@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity ,ScrollView,Image} from 'react-native';
 import styles from '@/src/components/BoardComponents/stylesBoard';
 import Entypo from '@expo/vector-icons/Entypo';
-import TopBar from '@/src/components/navigation/TopBar';
-import SideMenuModal from '@/src/components/navigation/SideMenuModal';
+import TopBar from '@/src/components/Navigation/TopBar';
+import SideMenuModal from '@/src/components/Navigation/SideMenuModal';
 import { useFocusEffect } from '@react-navigation/native'
 
 ////const  medicina2 = require('@/assets/images/medicina2.jpeg')

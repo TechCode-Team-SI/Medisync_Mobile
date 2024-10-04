@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Modal, TouchableOpacity } from "react-native";
-import SideMenuModal from "@/src/components/navigation/SideMenuModal";
-import TopBar from "@/src/components/navigation/TopBar";
+import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
+import TopBar from "@/src/components/Navigation/TopBar";
 import { useFocusEffect } from '@react-navigation/native'
 import styles from "@/src/components/SupportComponents/stylesSupport";
 import Entypo from '@expo/vector-icons/Entypo';

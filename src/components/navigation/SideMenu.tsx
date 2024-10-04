@@ -4,6 +4,7 @@ import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router } from "expo-router";
+import { handleLogout } from '@/src/services/auth/authUtils';
 
 const SideMenu: React.FC = () => {
 
@@ -25,9 +26,7 @@ const SideMenu: React.FC = () => {
   const handleBoard = () => {
     router.push("/board");
   };
-  const handleLogout = () => {
-    router.push("/login");
-  };
+
   const handleSupport = () => {
     router.push("/support");
   };

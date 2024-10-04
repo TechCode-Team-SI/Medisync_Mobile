@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
 import styles from '@/src/components/LoginComponents/stylesLogin';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Link } from "expo-router";
-import InfoModal from '@/src/components/InfoModal';
-import { validateEmail, validatePasswordLength, validatePasswordsMatch } from "@/src/utils/validators";
+import AlertModal from '@/src/components/Modal/AlertModal';
 import { useFocusEffect } from '@react-navigation/native';
+import { pickImage } from '@/src/utils/imagePicker';
+import { handleRegister } from '@/src/services/auth/authUtils';
 
 const RegisterPage: React.FC = () => {
 
@@ -20,28 +20,14 @@ const RegisterPage: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
+  
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-  const pickImage = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert('Permission to access gallery is required!');
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+    
+  const handlePickImage = async () => {
+    const imageUri = await pickImage();
+    if (imageUri) {
+      setSelectedImage(imageUri);
     }
   };
 
@@ -60,27 +46,16 @@ const RegisterPage: React.FC = () => {
     }, [])
   );
 
-  const handleRegister = () => {
-    if (!validateEmail(inputEmail)) {
-      setModalMessage('El email no es válido.');
-      setModalVisible(true);
-      return;
-    }
-
-    if (!validatePasswordLength(inputPassword)) {
-      setModalMessage('La contraseña debe tener al menos 8 caracteres.');
-      setModalVisible(true);
-      return;
-    }
-
-    if (!validatePasswordsMatch(inputPassword, inputPassword2)) {
-      setModalMessage('Las contraseñas no coinciden.');
-      setModalVisible(true);
-      return;
-    }
-
-    // LOGICA
-    alert('Registro exitoso');
+  const onRegister = async () => {
+    await handleRegister({
+      inputEmail,
+      inputPassword,
+      inputPassword2,
+      inputName,
+      selectedImage,
+      setModalMessage,
+      setModalVisible,
+    });
   };
 
   return (
@@ -92,7 +67,7 @@ const RegisterPage: React.FC = () => {
           <View className={styles.containerRegister}>
             <Text className={styles.title3}>Por favor, ingrese la información</Text>
 
-            <TouchableOpacity onPress={pickImage} className={styles.containerImage}>
+            <TouchableOpacity onPress={handlePickImage} className={styles.containerImage}>
               {selectedImage ? (
                 <Image source={{ uri: selectedImage }} className={styles.image} />
               ) : (
@@ -161,7 +136,7 @@ const RegisterPage: React.FC = () => {
             <View className={styles.container4}>
               <TouchableOpacity
                 className={styles.button}
-                onPress={handleRegister}
+                onPress={onRegister}
                 disabled={isButtonDisabled}
                 style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
               >
@@ -176,7 +151,7 @@ const RegisterPage: React.FC = () => {
           </View>
         </View>
 
-        <InfoModal
+        <AlertModal
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
           title="ATENCIÓN"

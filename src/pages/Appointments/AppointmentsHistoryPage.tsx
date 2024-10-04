@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import TopBar from '@/src/components/navigation/TopBar';
+import TopBar from '@/src/components/Navigation/TopBar';
 import stylesAppointments from '@/src/components/AppointmentsComponents/stylesAppointments';
-import SideMenuModal from '@/src/components/navigation/SideMenuModal';
+import SideMenuModal from '@/src/components/Navigation/SideMenuModal';
 import { useFocusEffect } from '@react-navigation/native'
 
 interface Appointment {
