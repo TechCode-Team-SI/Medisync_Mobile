@@ -1,3 +1,5 @@
+///ARREGLAR DETALLES 
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import { useRouter } from 'expo-router';
