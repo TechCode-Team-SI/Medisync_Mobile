@@ -1,8 +1,5 @@
-///ARREGLAR DETALLES 
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
-import { useRouter } from 'expo-router';
 import styles from './stylesModal';
 
 interface AskModalProps {
@@ -10,10 +7,11 @@ interface AskModalProps {
   onClose: () => void;
   title: string; 
   message: string; 
+  onAccept: () => void; 
+  onCancel: () => void; 
 }
 
-const AskModal: React.FC<AskModalProps> = ({ visible, onClose, title, message  }) => {
-  const router = useRouter();
+const AskModal: React.FC<AskModalProps> = ({ visible, onClose, title, message, onAccept, onCancel }) => {
 
   useEffect(() => {
     if (!visible) {
@@ -38,20 +36,14 @@ const AskModal: React.FC<AskModalProps> = ({ visible, onClose, title, message  }
 
             <TouchableOpacity
               className={styles.acceptButton}
-              onPress={() => {
-                router.push('/createappointment'); ///cambiar esto
-                onClose(); 
-              }}
+              onPress={onAccept} 
             >
-              <Text className={styles.textButton}>Si</Text>
+              <Text className={styles.textButton}>Sí</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               className={styles.cancelButton}
-              onPress={() => {
-                router.push('/createappointmenttwo'); ///cambiar esto
-                onClose(); 
-              }}
+              onPress={onCancel} 
             >
               <Text className={styles.textButton}>No</Text>
             </TouchableOpacity>
