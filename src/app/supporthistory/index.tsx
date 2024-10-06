@@ -1,11 +1,11 @@
 import { View } from "react-native";
-import ListSuggestionsPage from "@/src/pages/Support/ListSuggestionsPage";
+import SupportHistoryPage from "@/src/pages/Support/SupportHistoryPage";
 import styles from "@/src/components/Styles/styles";
 
-export default function ListSuggestionsScreen() {
+export default function SupportHistoryScreen() {
   return (
     <View className={styles.container}>
-      <ListSuggestionsPage />
+      <SupportHistoryPage />
     </View>
   );
 }

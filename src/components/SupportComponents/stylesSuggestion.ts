@@ -11,12 +11,13 @@ const stylesSuggestion = {
     title3: "font-montserrat text-center my-4 text-base", 
 
     ////ItemList//////
-    container5:"m-3 border border-[#f0f0f0] rounded-2xl p-1 bg-[#CCEAE8] flex-row-reverse justify-start items-center",
-    container6:"m-4 border-4 border-[#68C3B7] rounded-2xl p-1 bg-[#CCEAE8] flex-row-revers justify-start items-center left-20",
-    hora:"text-[#68C3B7] my-1.26 text-base font-bold left-10",
-    date:"text-[#68C3B7] font-bold text-base left-20",
-    title:"text-[#68C3B7] font-bold text-base -left-20",
-    overlay:"text-[#68C3B7] p-15",
+    container5:"m-3 rounded-2xl p-1 bg-terciary flex-row-reverse justify-start items-center mx-5",
+    containerIcon:"m-4 rounded-full p-2 bg-primary items-center justify-center left-20",
+    title:"text-primary font-bold text-base -left-20",
+    text:"text-primary text-base -left-20",
+    hora:"text-primary my-1.26 text-sm left-10",
+    date:"text-primary text-sm left-20",
+    overlay:" p-15",
     overlay2:"flex-row-reverse justify-start items-center",
     };
     

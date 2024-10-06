@@ -32,7 +32,7 @@ const CustomerSupportPage: React.FC = () => {
     router.push("/requests"); 
   };
   const handleHistory = () => {
-    router.push("/listsuggestions"); 
+    router.push("/supporthistory"); 
   };
 
   return (

@@ -8,7 +8,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { useFocusEffect } from '@react-navigation/native'
 
 
-const ListSuggestionsPage: React.FC = () => {
+const SupportHistoryPage: React.FC = () => {
 
     const [isMenuVisible, setMenuVisible] = useState(false);
 
@@ -24,42 +24,42 @@ const ListSuggestionsPage: React.FC = () => {
 
     const images = [  
         {   
-          codigo: 'AA544',
+          codigo: '#0005',
           fecha: '22-02-2024', 
           hora: '11:04 am', 
-          tipoTike:'Tipo de Ticket',
-          estatus:'En Process',  
+          tipoTicket:'Tipo de Ticket',
+          estatus:'Pendiente',  
            
         },  
         {  
-          codigo: 'AA534',
+          codigo: '#0004',
           fecha: '22-02-2024', 
           hora: '11:04 am', 
-          tipoTike:'Tipo de Ticket',
-          estatus:'Inactive',  
+          tipoTicket:'Tipo de Ticket',
+          estatus:'Cerrado',  
            
         },  
         {  
-          codigo: 'AA554',
+          codigo: '#0003',
           fecha: '22-02-2024', 
           hora: '11:04 am', 
-          tipoTike:'Tipo de Ticket',
-          estatus:'In Process',  
+          tipoTicket:'Tipo de Ticket',
+          estatus:'En proceso',  
          
       }, 
       {   
-        codigo: 'AA548',
+        codigo: '#0002',
         fecha: '22-02-2024', 
         hora: '11:04 am', 
-        tipoTike:'Tipo de Ticket',
-        estatus:'Inactive',  
+        tipoTicket:'Tipo de Ticket',
+        estatus:'Cerrado',  
     }, 
     {   
-      codigo: 'AA534',
+      codigo: '#0001',
       fecha: '22-02-2024', 
       hora: '11:04 am', 
-      tipoTike:'Tipo de Ticket',
-      estatus:'Inactive',  
+      tipoTicket:'Tipo de Ticket',
+      estatus:'Pendiente',  
   }, 
 
 
@@ -69,7 +69,7 @@ const ListSuggestionsPage: React.FC = () => {
   return (
     <View className={styles.container}>
 
-        <TopBar title="Historial de sugerencias" onLeftPress={toggleMenu} />
+        <TopBar title="Historial" onLeftPress={toggleMenu} />
 
         <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
         
@@ -81,7 +81,7 @@ const ListSuggestionsPage: React.FC = () => {
                       codigo={item.codigo}
                       fecha={item.fecha}
                       hora={item.hora}  
-                      tipoTike={item.tipoTike}  
+                      tipoTicket={item.tipoTicket}  
                       estatus={item.estatus}  />  
                       ))}  
                 </ScrollView>  
@@ -90,4 +90,4 @@ const ListSuggestionsPage: React.FC = () => {
   );
 };
 
-export default ListSuggestionsPage;
+export default SupportHistoryPage;
