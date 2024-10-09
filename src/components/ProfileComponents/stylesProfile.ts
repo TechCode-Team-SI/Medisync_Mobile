@@ -16,7 +16,7 @@ const stylesProfile = {
     containerRow: "flex-row items-center justify-center w-full space-x-1 pt-1",
     titleFlex: "mx-1 w-1/5 font-montserrat text-center text-l my-3 text-primary", 
 
-    container3: "items-center justify-center pt-4 mb-5 h-12", //Profile
+    container3: "items-center justify-center pt-9 mb-5 h-12", //Profile
     container4: "justify-center items-center", //Config
 
     title: "text-primary font-montserrat text-center pt-12 text-3xl px-22 m-4" , //Update

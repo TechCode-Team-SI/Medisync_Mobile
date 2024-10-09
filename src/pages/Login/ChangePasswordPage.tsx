@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import styles from '@/src/components/LoginComponents/stylesLogin';
@@ -14,6 +14,13 @@ const ChangePasswordPage: React.FC = () => {
 
   const [showModal, setShowModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const allFieldsFilled = newPassword!== '' && confirmPassword!== '';
+    setIsButtonDisabled(!allFieldsFilled); 
+  }, [newPassword, confirmPassword]);
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -83,6 +90,8 @@ const ChangePasswordPage: React.FC = () => {
         <TouchableOpacity
           className={styles.button}
           onPress={handleChangePassword}
+          disabled={isButtonDisabled}
+          style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
         >
           <Text className={styles.buttonText}>Cambiar</Text>
         </TouchableOpacity>

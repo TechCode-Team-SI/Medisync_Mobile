@@ -8,7 +8,7 @@ const stylesHome = {
     title2:"text-principal text-3xl ml-6 font-bold mt-1",
 
     ///////// ButtonsHome
-    containerButtons: "flex-1 space-y-3 items-center my-10",
+    containerButtons: "flex-1 space-y-3 items-center mt-10 pb-6",
     containerGrid:"flex-row space-x-4",
     button2:"bg-primary h-24 w-28 items-center justify-center  rounded-tr-2xl rounded-bl-2xl rounded-br-2xl",
     button3:"bg-primary h-24 w-28 items-center justify-center rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl ",
@@ -19,12 +19,15 @@ const stylesHome = {
 
     ///////// CarouselHome
 
+    containerBoard:" mx-4",
+
     ///////// InfoHome
-    containerInfo:"flex-1 my-10 mx-7 items-center",
+    containerInfo:"flex-1 my-2 mx-7 items-center",
     containerInfo2:"items-start w-full space-y-1.5 mt-4",
     containerInfo3:"flex-row",
     titleInfo:"text-primary font-montserrat text-lg",
     textInfo:"text-primary ml-3",
+    errorText:"text-red",
 
     };
     

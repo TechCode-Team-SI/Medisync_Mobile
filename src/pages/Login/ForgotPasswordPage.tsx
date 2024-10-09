@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Link, router } from "expo-router";
@@ -10,6 +10,12 @@ const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState(''); 
   const [showModal, setShowModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const allFieldsFilled = email !== '' ;
+    setIsButtonDisabled(!allFieldsFilled); 
+  }, [email]);
 
   const handleForgotPassword = async () => {
     const result = await forgotPassword(email);
@@ -54,7 +60,11 @@ const ForgotPasswordPage: React.FC = () => {
         </View>
 
         <View className={styles.container4}>
-          <TouchableOpacity onPress={handleForgotPassword} className={styles.button}>
+          <TouchableOpacity 
+          onPress={handleForgotPassword} 
+          className={styles.button}
+          disabled={isButtonDisabled}
+          style={{ opacity: isButtonDisabled ? 0.5 : 1 }}>
             <Text className={styles.buttonText}>Enviar</Text>
           </TouchableOpacity>
         </View>

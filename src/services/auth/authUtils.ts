@@ -68,6 +68,7 @@ export const handleRegister = async ({
     console.log('Registro exitoso:', response);
     setModalMessage('Registro exitoso');
     setModalVisible(true);
+    router.push("/login")                                            //ARREGLAR
   } catch (error) {
     console.error('Error al registrar usuario:', error);
     setModalMessage('Error al registrar usuario. Intenta de nuevo.');

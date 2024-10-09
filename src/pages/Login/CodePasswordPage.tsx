@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import styles from '@/src/components/LoginComponents/stylesLogin';
@@ -14,6 +14,13 @@ const CodePasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const allFieldsFilled = code !== '';
+    setIsButtonDisabled(!allFieldsFilled); 
+  }, [code]);
 
   const handleconfirmCode = async () => {
     const result = await confirmCode(code);  
@@ -56,7 +63,11 @@ const CodePasswordPage: React.FC = () => {
         </View>
 
         <View className={styles.container4}>
-          <TouchableOpacity onPress={handleconfirmCode} className={styles.button}>
+          <TouchableOpacity 
+          onPress={handleconfirmCode} 
+          className={styles.button}
+          disabled={isButtonDisabled}
+          style={{ opacity: isButtonDisabled ? 0.5 : 1 }}>
             <Text className={styles.buttonText}>Verificar</Text>
           </TouchableOpacity>
         </View>

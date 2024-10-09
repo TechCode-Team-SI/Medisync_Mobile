@@ -27,6 +27,13 @@ const BoardPage: React.FC = () => {
 
   const images = [  
     {  
+      url: 'https://concienciasaludable.uchile.cl/wp-content/uploads/2023/10/pexels-vanessa-loring-5966434-scaled-1.jpg',
+      title: 'Alimentación saludable',  
+      date:"08-10-2024",
+      description: 'Para lograrlo, es necesario el...',   
+     
+  },
+    {  
         url: 'https://cdn.euroinnova.edu.es/euroinnova_es/next-gen-formats-img/m/Maestria-Medicina-Interna.webp',
         title: 'medicine',  
         date:"11-02-2023",
