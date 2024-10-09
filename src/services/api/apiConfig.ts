@@ -12,12 +12,18 @@ export const api = {
       codePassword: API_URL + "/auth/forgot/password-code",
       resetPassword: API_URL + "/auth/reset/password",
 
-      expiredCode: API_URL + "/auth/confirm/email", ///////
+      expiredCode: API_URL + "/auth/confirm/email", /////// PENDIENTE
 
     //// FILES
 
-      upload: API_URL + "/files/upload"
+      upload: API_URL + "/files/upload",
 
     //// USER
+
+      infoUser: API_URL + "/auth/me",
+
+    //// INFO MEDICAL CENTERS
+
+      infoCompany: API_URL + "/medical-centers",
 
 };
