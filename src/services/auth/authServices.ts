@@ -25,21 +25,6 @@ export const login = async (email: string, password: string): Promise<ApiResult>
   }
 };
 
-export const forgotPassword = async (email: string): Promise<ApiResult> => {
-  try {
-    const response = await axios.post(api.forgot, { email });
-    console.log('Respuesta de la API:', response.data);
-
-    if (response.data.success) {
-      return { success: true, data: response.data };
-    } else {
-      return { success: false, message: response.data.message || 'Ocurrió un error. Inténtalo de nuevo.' };
-    }
-  } catch (error: any) {
-    return handleError(error);
-  }
-};
-
 export const logout = async (token: string): Promise<ApiResult> => {
   try {
     const response = await axios.post(
@@ -72,6 +57,68 @@ export const register = async (registerData: any) => {
   }
 };
 
+
+export const forgotPassword = async (email: string): Promise<ApiResult> => {
+  try {
+    const response = await axios.post(api.forgotPassword, { email });
+    console.log('Respuesta de la API:', response.data);
+
+    if (response.data.success) {
+      await AsyncStorage.setItem('forgotPasswordEmail', email);
+      
+      return { success: true, data: response.data };
+    } else {
+      return { success: false, message: response.data.message || 'Ocurrió un error. Inténtalo de nuevo.' };
+    }
+  } catch (error: any) {
+    return handleError(error);
+  }
+};
+
+export const confirmCode = async (code: string): Promise<ApiResult> => {
+  try {
+    const email = await AsyncStorage.getItem('forgotPasswordEmail');
+
+    if (!email) {
+      return { success: false, message: 'No se encontró el correo. Intenta solicitar el código nuevamente.' };
+    }
+
+    const response = await axios.post(api.codePassword, { email, code });
+    console.log('Respuesta de la API:', response.data);
+
+    if (response.data.success) {
+      await AsyncStorage.setItem('resetPasswordCode', code);
+      return { success: true, data: response.data };
+    } else {
+      return { success: false, message: response.data.message || 'Código inválido. Inténtalo de nuevo.' };
+    }
+  } catch (error: any) {
+    return handleError(error);
+  }
+};
+
+
+export const resetPassword = async (newPassword: string): Promise<ApiResult> => {
+  try {
+    const email = await AsyncStorage.getItem('forgotPasswordEmail');
+    const code = await AsyncStorage.getItem('resetPasswordCode'); 
+
+    if (!email || !code) {
+      return { success: false, message: 'No se encontró el correo o el código. Intenta solicitar el código nuevamente.' };
+    }
+    const response = await axios.post(api.resetPassword, { password: newPassword, email, code });
+    console.log('Respuesta de la API:', response.data);
+
+    if (response.data.success) {
+      return { success: true, data: response.data };
+    } else {
+      return { success: false, message: response.data.message || 'Ocurrió un error al restablecer la contraseña.' };
+    }
+  } catch (error: any) {
+    return handleError(error);
+  }
+};
+
 const handleError = (error: any): ApiResult => {
   if (axios.isAxiosError(error)) {
     if (error.response) {
@@ -84,3 +131,23 @@ const handleError = (error: any): ApiResult => {
   console.log('Error inesperado:', error);
   return { success: false, message: 'Ocurrió un error inesperado.' };
 };
+
+
+////////////////
+
+export const generateNewCode = async (email: string): Promise<ApiResult> => {
+  try {
+    const response = await axios.post(api.expiredCode, { email });
+    console.log('Respuesta de la API:', response.data);
+
+    if (response.data.success) {
+      return { success: true, data: response.data };
+    } else {
+      return { success: false, message: response.data.message || 'Ocurrió un error. Inténtalo de nuevo.' };
+    }
+  } catch (error: any) {
+    return handleError(error);
+  }
+};
+
+/////////////////////

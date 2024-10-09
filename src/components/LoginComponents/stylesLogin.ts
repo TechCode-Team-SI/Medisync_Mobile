@@ -5,7 +5,7 @@ const stylesLogin = {
     containerBelow: 'absolute bottom-0 w-full h-3/5 bg-principal rounded-tl-3xl px-6',
   
     //// Background Register
-    containerRegister: 'flex-1 w-full h-3/4 bg-principal rounded-tl-3xl px-6 mt-5',
+    containerRegister: 'flex-1 w-full h-3/4 bg-principal rounded-tl-3xl px-6 ',
     containerImage:"justify-center items-center mb-3",
     image:"w-24 h-24 rounded-full",
     iconImage: "w-24 h-24 rounded-full border-2 border-primary justify-center items-center",
@@ -13,15 +13,16 @@ const stylesLogin = {
     //// General
     container4: "justify-center items-center", //Container del boton
     container3: "flex-row items-center justify-center space-x-2 pt-20", //Login Container inferior para Iniciar sesión
-    container5: "flex-row items-center justify-center space-x-2 pt-6", //Register Container inferior para Iniciar sesión
+    container5: "flex-row items-center justify-center space-x-2 pt-6 pb-6", //Register Container inferior para Iniciar sesión
     container6: "flex-row items-center justify-center space-x-2 pt-32", //Forgot - Code Container inferior para Iniciar sesión
     container7: "flex-row items-center justify-center space-x-2 pt-24", //Change Container inferior para Iniciar sesión
 
     /// Titulos
-  
+    containerTitle:"pb-4",
     title1: "text-principal font-montserrat text-center pt-32 text-3xl px-5", // Titulo principal
     title2: "font-montserrat text-center my-8 text-base",   //Login - Forgot - Descripción
     title3: "font-montserrat text-center my-4 text-base",   //Register - Descripción
+    title4: "text-principal font-montserrat text-center pt-24 text-3xl px-5", // Titulo Registro
 
     /// Input
     

@@ -7,10 +7,17 @@ export const api = {
       register: API_URL + "/auth/register",
       login: API_URL + "/auth/login",
       logout: API_URL + "/auth/logout",
-      forgot: API_URL + "/auth/forgot/password",
+
+      forgotPassword: API_URL + "/auth/forgot/password",
+      codePassword: API_URL + "/auth/forgot/password-code",
+      resetPassword: API_URL + "/auth/reset/password",
+
+      expiredCode: API_URL + "/auth/confirm/email", ///////
 
     //// FILES
 
       upload: API_URL + "/files/upload"
+
+    //// USER
 
 };

@@ -12,6 +12,7 @@ const RegisterPage: React.FC = () => {
 
   const [inputEmail, setInputEmail] = useState('');
   const [inputName, setInputName] = useState('');
+  const [inputPhone, setInputPhone] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [inputPassword2, setInputPassword2] = useState('');
 
@@ -28,6 +29,7 @@ const RegisterPage: React.FC = () => {
     const imageUri = await pickImage();
     if (imageUri) {
       setSelectedImage(imageUri);
+      console.log("Selected Image URI:", imageUri);
     }
   };
 
@@ -40,6 +42,7 @@ const RegisterPage: React.FC = () => {
     React.useCallback(() => {
       setInputEmail('');
       setInputName('');
+      setInputPhone('');
       setInputPassword('');
       setInputPassword2('');
       setSelectedImage(null);
@@ -52,6 +55,7 @@ const RegisterPage: React.FC = () => {
       inputPassword,
       inputPassword2,
       inputName,
+      inputPhone,
       selectedImage,
       setModalMessage,
       setModalVisible,
@@ -62,7 +66,10 @@ const RegisterPage: React.FC = () => {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className={styles.container}>
-          <Text className={styles.title1}>¡Regístrate!</Text>
+
+          <View className={styles.containerTitle}>
+            <Text className={styles.title4}>¡Regístrate!</Text>
+          </View>
 
           <View className={styles.containerRegister}>
             <Text className={styles.title3}>Por favor, ingrese la información</Text>
@@ -98,6 +105,19 @@ const RegisterPage: React.FC = () => {
                 value={inputName}
                 onChangeText={setInputName}
                 maxLength={40}
+              />
+            </View>
+
+            <View className={styles.inputContainer}>
+              <Entypo name="phone" size={24} color="#539091" />
+              <TextInput
+                className={styles.input}
+                placeholder="Teléfono (opcional)"
+                placeholderTextColor="#539091"
+                keyboardType="numeric"
+                value={inputPhone}
+                onChangeText={setInputPhone}
+                maxLength={30}
               />
             </View>
 

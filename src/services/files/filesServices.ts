@@ -3,10 +3,14 @@ import { api } from '@/src/services/api/apiConfig';
 
 export const uploadImage = async (imageUri: string) => {
   const formData = new FormData();
+
+  const uriParts = imageUri.split('.');
+  const fileType = uriParts[uriParts.length - 1];
+
   const response = await fetch(imageUri);
   const blob = await response.blob();
 
-  formData.append('file', blob, 'profile.jpg');
+  formData.append('file', blob, `image.${fileType}`);
 
   try {
     const uploadResponse = await axios.post(api.upload, formData, {
@@ -14,6 +18,7 @@ export const uploadImage = async (imageUri: string) => {
         'Content-Type': 'multipart/form-data',
       },
     });
+    
     console.log('Respuesta de la subida de imagen:', uploadResponse.data);
     return uploadResponse.data.file.id; 
   } catch (error) {

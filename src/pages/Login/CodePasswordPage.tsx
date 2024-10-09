@@ -4,12 +4,35 @@ import Entypo from '@expo/vector-icons/Entypo';
 import styles from '@/src/components/LoginComponents/stylesLogin';
 import { Link, router } from "expo-router";
 
+import { confirmCode } from "@/src/services/auth/authServices";
+import AlertModal from '@/src/components/Modal/AlertModal';
+
+
 const CodePasswordPage: React.FC = () => {
-  const [password, setPassword] = useState('');
 
-  const handleForgotPassword = () => {
+  const [code, setCode] = useState('');
+  const [email, setEmail] = useState('');
+  const [showModal, setShowModal] = useState(false); 
+  const [modalMessage, setModalMessage] = useState(''); 
 
+  const handleconfirmCode = async () => {
+    const result = await confirmCode(code);  
+  
+    if (result.success) {
+      console.log('Código válido');
+      router.push("/changepassword"); 
+    } else {
+      console.log('Error:', result.message);
+      setModalMessage(result.message);
+      setShowModal(true);
+    }
   };
+  
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+  
 
   return (
     <View className={styles.container}>
@@ -26,14 +49,14 @@ const CodePasswordPage: React.FC = () => {
             className={styles.input}
             placeholder="Código"
             placeholderTextColor="#539091"
-            value={password}
-            onChangeText={setPassword}
+            value={code}
+            onChangeText={setCode}
             secureTextEntry={true} 
           />
         </View>
 
         <View className={styles.container4}>
-          <TouchableOpacity onPress={handleForgotPassword} className={styles.button}>
+          <TouchableOpacity onPress={handleconfirmCode} className={styles.button}>
             <Text className={styles.buttonText}>Verificar</Text>
           </TouchableOpacity>
         </View>
@@ -43,6 +66,13 @@ const CodePasswordPage: React.FC = () => {
             Iniciar Sesión
           </Link>
         </View>
+
+        <AlertModal
+          visible={showModal}
+          onClose={handleModalClose}
+          title="ATENCIÓN"
+          message={modalMessage}
+        />
 
       </View>
 

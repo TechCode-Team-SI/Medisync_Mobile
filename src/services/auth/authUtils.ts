@@ -11,9 +11,14 @@ interface HandleRegisterParams {
   inputPassword: string;
   inputPassword2: string;
   inputName: string;
+  inputPhone: string;
   selectedImage: string | null; 
   setModalMessage: (message: string) => void;
   setModalVisible: (visible: boolean) => void;
+}
+
+interface UploadImageResponse {
+  id: string; 
 }
 
 export const handleRegister = async ({
@@ -21,10 +26,12 @@ export const handleRegister = async ({
   inputPassword,
   inputPassword2,
   inputName,
+  inputPhone,
   selectedImage,
   setModalMessage,
   setModalVisible,
 }: HandleRegisterParams) => {
+
   if (!validateEmail(inputEmail)) {
     setModalMessage('El email no es válido.');
     setModalVisible(true);
@@ -42,22 +49,22 @@ export const handleRegister = async ({
   }
 
   try {
-    let imageId = null;
+    let imageId: string | null = null;
 
     if (selectedImage) {
-      const file = await uploadImage(selectedImage);
-      imageId = file.id; 
+      const fileResponse: UploadImageResponse = await uploadImage(selectedImage);
+      imageId = fileResponse.id;
     }
 
     const registerData = {
       email: inputEmail,
       password: inputPassword,
       fullName: inputName,
-      ...(imageId && { file: imageId }), 
+      phone: inputPhone,
+      ...(imageId && { photo: { id: imageId } }),
     };
 
     const response = await register(registerData);
-
     console.log('Registro exitoso:', response);
     setModalMessage('Registro exitoso');
     setModalVisible(true);
@@ -67,7 +74,6 @@ export const handleRegister = async ({
     setModalVisible(true);
   }
 };
-
 
 export const handleLogout = async () => {
   try {

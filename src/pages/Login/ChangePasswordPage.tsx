@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import styles from '@/src/components/LoginComponents/stylesLogin';
-import { Link} from "expo-router";
+import AlertModal from '@/src/components/Modal/AlertModal';
+import { Link, router } from "expo-router";
+import { resetPassword } from "@/src/services/auth/authServices";
 
 const ChangePasswordPage: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -10,8 +12,34 @@ const ChangePasswordPage: React.FC = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleChangePassword = () => {
+  const [showModal, setShowModal] = useState(false); 
+  const [modalMessage, setModalMessage] = useState(''); 
+
+  const handleModalClose = () => {
+    setShowModal(false);
   };
+
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      setModalMessage("Las contraseñas no coinciden.");
+      setShowModal(true);
+      return;
+    }
+  
+    const result = await resetPassword(newPassword);
+  
+    if (result.success) {
+      console.log('Contraseña cambiada con éxito.');
+      setModalMessage("Tu contraseña ha sido cambiada con éxito.");
+      setShowModal(true);
+      router.push("/login");
+    } else {
+      console.log('Error:', result.message);
+      setModalMessage(result.message);
+      setShowModal(true);
+    }
+  };
+  
 
   return (
     <View className={styles.container}>
@@ -66,6 +94,13 @@ const ChangePasswordPage: React.FC = () => {
         </View>
 
       </View>
+
+      <AlertModal
+          visible={showModal}
+          onClose={handleModalClose}
+          title="ATENCIÓN"
+          message={modalMessage}
+      />
 
     </View>
   );
