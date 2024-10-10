@@ -5,7 +5,6 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { Link } from "expo-router";
 import AlertModal from '@/src/components/Modal/AlertModal';
 import { useFocusEffect } from '@react-navigation/native';
-import { pickImage } from '@/src/utils/imagePicker';
 import { handleRegister } from '@/src/services/auth/authUtils';
 
 const RegisterPage: React.FC = () => {
@@ -22,16 +21,6 @@ const RegisterPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    
-  const handlePickImage = async () => {
-    const imageUri = await pickImage();
-    if (imageUri) {
-      setSelectedImage(imageUri);
-      console.log("Selected Image URI:", imageUri);
-    }
-  };
 
   useEffect(() => {
     const allFieldsFilled = inputEmail !== '' && inputName !== '' && inputPassword !== '' && inputPassword2 !== '';
@@ -45,7 +34,6 @@ const RegisterPage: React.FC = () => {
       setInputPhone('');
       setInputPassword('');
       setInputPassword2('');
-      setSelectedImage(null);
     }, [])
   );
 
@@ -56,33 +44,24 @@ const RegisterPage: React.FC = () => {
       inputPassword2,
       inputName,
       inputPhone,
-      selectedImage,
       setModalMessage,
       setModalVisible,
     });
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView>
         <View className={styles.container}>
 
           <View className={styles.containerTitle}>
-            <Text className={styles.title4}>¡Regístrate!</Text>
+            <Text className={styles.title1}>¡Regístrate!</Text>
           </View>
 
-          <View className={styles.containerRegister}>
-            <Text className={styles.title3}>Por favor, ingrese la información</Text>
+          
 
-            <TouchableOpacity onPress={handlePickImage} className={styles.containerImage}>
-              {selectedImage ? (
-                <Image source={{ uri: selectedImage }} className={styles.image} />
-              ) : (
-                <View className={styles.iconImage}>
-                  <Entypo name="camera" size={24} color="#539091" />
-                </View>
-              )}
-            </TouchableOpacity>
+          <View className={styles.containerRegister}>
+
+            <Text className={styles.title3}>Por favor, ingrese la información</Text>
 
             <View className={styles.inputContainer}>
               <Entypo name="mail" size={24} color="#539091" />
@@ -169,16 +148,15 @@ const RegisterPage: React.FC = () => {
               <Link href="/login" className={styles.textButton2}>Inicia Sesión</Link>
             </View>
           </View>
-        </View>
-
-        <AlertModal
+          <AlertModal
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
           title="ATENCIÓN"
           message={modalMessage}
         />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </View>
+        </ScrollView>
+
   );
 };
 

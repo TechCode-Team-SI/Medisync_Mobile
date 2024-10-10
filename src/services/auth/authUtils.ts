@@ -1,8 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logout } from './authServices'; 
 import { router } from 'expo-router';
-
-import { uploadImage } from '@/src/services/files/filesServices';
 import { register } from '@/src/services/auth/authServices'; 
 import { validateEmail, validatePasswordLength, validatePasswordsMatch } from '@/src/utils/validators'; 
 
@@ -12,13 +10,8 @@ interface HandleRegisterParams {
   inputPassword2: string;
   inputName: string;
   inputPhone: string;
-  selectedImage: string | null; 
   setModalMessage: (message: string) => void;
   setModalVisible: (visible: boolean) => void;
-}
-
-interface UploadImageResponse {
-  id: string; 
 }
 
 export const handleRegister = async ({
@@ -27,7 +20,6 @@ export const handleRegister = async ({
   inputPassword2,
   inputName,
   inputPhone,
-  selectedImage,
   setModalMessage,
   setModalVisible,
 }: HandleRegisterParams) => {
@@ -49,19 +41,11 @@ export const handleRegister = async ({
   }
 
   try {
-    let imageId: string | null = null;
-
-    if (selectedImage) {
-      const fileResponse: UploadImageResponse = await uploadImage(selectedImage);
-      imageId = fileResponse.id;
-    }
-
     const registerData = {
       email: inputEmail,
       password: inputPassword,
       fullName: inputName,
       phone: inputPhone,
-      ...(imageId && { photo: { id: imageId } }),
     };
 
     const response = await register(registerData);

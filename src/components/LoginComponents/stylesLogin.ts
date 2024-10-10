@@ -5,8 +5,8 @@ const stylesLogin = {
     containerBelow: 'absolute bottom-0 w-full h-3/5 bg-principal rounded-tl-3xl px-6',
   
     //// Background Register
-    containerRegister: 'flex-1 w-full h-3/4 bg-principal rounded-tl-3xl px-6 ',
-    containerImage:"justify-center items-center mb-3",
+    containerRegister: 'bg-principal w-full flex-1 rounded-t-3xl mt-14 px-6',
+    containerImage:"justify-center items-center mb-3 px-6",
     image:"w-24 h-24 rounded-full",
     iconImage: "w-24 h-24 rounded-full border-2 border-primary justify-center items-center",
   
@@ -21,8 +21,7 @@ const stylesLogin = {
     containerTitle:"pb-4",
     title1: "text-principal font-montserrat text-center pt-32 text-3xl px-5", // Titulo principal
     title2: "font-montserrat text-center my-8 text-base",   //Login - Forgot - Descripción
-    title3: "font-montserrat text-center my-4 text-base",   //Register - Descripción
-    title4: "text-principal font-montserrat text-center pt-24 text-3xl px-5", // Titulo Registro
+    title3: "font-montserrat text-center my-6 text-base",   //Register - Descripción
 
     /// Input
     
