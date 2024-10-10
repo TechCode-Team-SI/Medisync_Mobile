@@ -9,7 +9,7 @@ import { handleLogout } from '@/src/services/auth/authUtils';
 const SideMenu: React.FC = () => {
 
   const handleHome = () => {
-    router.push("/home");
+    router.push("/homeuser");
   };
   const handleAppointments = () => {
     router.push("/appointment");

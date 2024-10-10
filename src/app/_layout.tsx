@@ -28,6 +28,7 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="home/index" options={{ headerShown: false }} />
+      <Stack.Screen name="homeuser/index" options={{ headerShown: false }} />
       <Stack.Screen name="register/index" options={{ headerShown: false }} />
       <Stack.Screen name="login/index" options={{ headerShown: false }} />
       <Stack.Screen name="forgot/index" options={{ headerShown: false }} />

@@ -1,11 +1,29 @@
 const stylesHome = {
 
-    ////HomePage
+    ////HomeUserPage
     container: 'flex-1 bg-primary', 
     container2:"border-t-2 border-principal",
     container3: "bg-principal w-full flex-1 rounded-t-3xl mt-6",
     title:"text-principal text-3xl ml-6 mt-10",
     title2:"text-principal text-3xl ml-6 font-bold mt-1",
+
+    //// HomePage
+
+    containerHome: "flex-1 bg-zinc-100", 
+    mainContent: "flex-1 pt-44 items-center", 
+    containerbuttons: "justify-center items-center", 
+    titleHome: "text-primary text-3xl justify-center font-montserrat my-5",
+    button: 'w-64 h-12 items-center justify-center bg-primary rounded-xl my-2 shadow-lg',
+    buttonBorder: 'w-64 h-12 items-center justify-center bg-gray-200 border border-primary rounded-xl my-2',
+    buttonText: 'text-white text-sm font-montserrat',
+    buttonText2: 'text-primary text-sm font-montserrat',
+  
+    containerBelow: "mb-28", 
+    iconContainer: "flex-row justify-center items-center",
+    iconButtonWrapper: "justify-center items-center mx-4",
+    iconButton: "w-14 h-14 rounded-full bg-bgInput items-center justify-center",
+    iconText: "text-xs mt-2 text-primary text-center w-20",
+    logo:"w-52 h-52 mb-5",
 
     ///////// ButtonsHome
     containerButtons: "flex-1 space-y-3 items-center mt-10 pb-6",
