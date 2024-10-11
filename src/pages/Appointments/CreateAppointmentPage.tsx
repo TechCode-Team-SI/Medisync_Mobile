@@ -41,15 +41,6 @@ const CreateAppointmentPage: React.FC = () => {
                 <Text>Alguno</Text>
             </View>
 
-            <Text className={styles.text}>Patología</Text>
-            <View className={styles.containerInput}>
-                <TextInput
-                className={styles.input}
-                placeholder="Detalle su patología (s)"
-                placeholderTextColor="#539091"
-              />
-            </View>
-
             <View className={styles.container2}>
                 <TouchableOpacity
                 className={styles.buttonDate}>

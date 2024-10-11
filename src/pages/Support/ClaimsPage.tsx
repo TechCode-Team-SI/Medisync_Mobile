@@ -1,31 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Modal, TouchableOpacity, TextInput } from "react-native";
-import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
-import TopBar from "@/src/components/Navigation/TopBar";
-import { useFocusEffect } from '@react-navigation/native'
 import styles from "@/src/components/SupportComponents/stylesSupport";
-import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
 
 const ClaimsPage: React.FC = () => {
 
-  const [isMenuVisible, setMenuVisible] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuVisible(prev => !prev);
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      setMenuVisible(false); 
-    }, [])
-  );
-
   return (
     <View className={styles.container}>
-      <TopBar title="Reclamos" onLeftPress={toggleMenu} />
-
-      <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+          <TopBarSupport title="Reclamos" />
 
           <View className={styles.container3}>
             <MaterialCommunityIcons name="headset" size={100} color="#539091" />

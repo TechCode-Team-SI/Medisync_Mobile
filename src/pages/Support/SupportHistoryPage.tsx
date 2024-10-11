@@ -1,26 +1,11 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity,ScrollView  } from 'react-native';
 import styles from '@/src/components/SupportComponents/stylesSuggestion';
-import TopBar from '@/src/components/Navigation/TopBar';
-import SideMenuModal from '@/src/components/Navigation/SideMenuModal';
 import ItemList from '@/src/components/SupportComponents/ItemList';
-import Entypo from '@expo/vector-icons/Entypo';
-import { useFocusEffect } from '@react-navigation/native'
+import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
 
 
 const SupportHistoryPage: React.FC = () => {
-
-    const [isMenuVisible, setMenuVisible] = useState(false);
-
-    const toggleMenu = () => {
-      setMenuVisible(prev => !prev);
-    };
-  
-    useFocusEffect(
-      React.useCallback(() => {
-        setMenuVisible(false); 
-      }, [])
-    );
 
     const images = [  
         {   
@@ -69,9 +54,7 @@ const SupportHistoryPage: React.FC = () => {
   return (
     <View className={styles.container}>
 
-        <TopBar title="Historial" onLeftPress={toggleMenu} />
-
-        <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+        <TopBarSupport title="Historial" />
         
             <View className={styles.container2}>
                 <ScrollView className={styles.container3}>  
