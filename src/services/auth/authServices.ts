@@ -1,23 +1,23 @@
 import axios from 'axios';
 import { api } from "@/src/services/api/apiConfig";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-type ApiResult = 
-  | { success: true; data: any }  
-  | { success: false; message: string };  
+import { ApiResult, handleError } from "@/src/services/error/errorHandler"
+import { getToken, clearSession, saveSession} from "@/src/services/auth/sessionServices"
 
 export const login = async (email: string, password: string): Promise<ApiResult> => {
   try {
     const response = await axios.post(api.login, { email, password });
-    console.log('Login exitoso:', response.data);
+    
+    console.log('Inicio de sesión exitoso:', response.data);
 
-    const { token, refreshToken, tokenExpires, user } = response.data; ///GUARDAR EL TOKEN
-    await AsyncStorage.setItem('userSession', JSON.stringify({
+    const { token, refreshToken, tokenExpires, user } = response.data;
+
+    await saveSession({
       token,
       refreshToken,
       tokenExpires,
       user
-    }));
+    });
 
     return { success: true, data: response.data };
   } catch (error) {
@@ -25,19 +25,20 @@ export const login = async (email: string, password: string): Promise<ApiResult>
   }
 };
 
-export const logout = async (token: string): Promise<ApiResult> => {
+export const logout = async (): Promise<ApiResult> => {
   try {
-    const response = await axios.post(
-      api.logout, 
-      {}, 
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      }
-    );
-    
-    console.log('Logout exitoso:', response.data);
+    const token = await getToken(); 
+
+    if (!token) {
+      return { success: false, message: 'Token no disponible.' };
+    }
+
+    const response = await axios.post(api.logout, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    await clearSession(); 
+    console.log('Cierre de sesión exitoso:', response.data);
     return { success: true, data: response.data };
   } catch (error) {
     return handleError(error);
@@ -46,11 +47,7 @@ export const logout = async (token: string): Promise<ApiResult> => {
 
 export const register = async (registerData: any) => {
   try {
-    const response = await axios.post(api.register, registerData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await axios.post(api.register, registerData);
     return response.data; 
   } catch (error) {
     throw error; 
@@ -118,20 +115,6 @@ export const resetPassword = async (newPassword: string): Promise<ApiResult> => 
     return handleError(error);
   }
 };
-
-const handleError = (error: any): ApiResult => {
-  if (axios.isAxiosError(error)) {
-    if (error.response) {
-      console.log('Error en la respuesta del servidor:', error.response.data);
-      return { success: false, message: error.response.data.message || 'Error desconocido.' };
-    }
-    console.log('Error de red:', error.message);
-    return { success: false, message: 'Error de red. Inténtalo de nuevo.' };
-  }
-  console.log('Error inesperado:', error);
-  return { success: false, message: 'Ocurrió un error inesperado.' };
-};
-
 
 ////////////////
 

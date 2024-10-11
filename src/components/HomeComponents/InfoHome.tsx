@@ -64,7 +64,7 @@ const InfoHome: React.FC = () => {
 
     <TouchableOpacity className={styles.containerInfo3}>
         <Entypo name="location" size={22} color="#539091" />
-        <Text className={styles.textInfo}>{medicalCenters.state}, {medicalCenters.municipality}, {medicalCenters.parish}</Text>
+        <Text className={styles.textInfo}>{medicalCenters.parish}, {medicalCenters.municipality}, {medicalCenters.state}</Text>
     </TouchableOpacity>
 
     <TouchableOpacity className={styles.containerInfo3}>

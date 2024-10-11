@@ -28,9 +28,6 @@ const CustomerSupportPage: React.FC = () => {
   const handleClaims = () => {
     router.push("/claims"); 
   };
-  const handleRequests = () => {
-    router.push("/requests"); 
-  };
   const handleHistory = () => {
     router.push("/supporthistory"); 
   };
@@ -69,17 +66,6 @@ const CustomerSupportPage: React.FC = () => {
                     <Entypo name='megaphone' size={24} color="#539091" ></Entypo>
                     </View>
                 <Text className={styles.buttonText}>Reclamos</Text>
-              </TouchableOpacity>
-          </View>
-
-          <View className={styles.container2}>
-            <TouchableOpacity
-                className={styles.button}
-                onPress={handleRequests}>
-                    <View className={styles.icon}>
-                    <Entypo name='cog' size={24} color="#539091" ></Entypo>
-                    </View>
-                <Text className={styles.buttonText}>Ajuste de citas</Text>
               </TouchableOpacity>
           </View>
 

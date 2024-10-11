@@ -52,31 +52,28 @@ export const handleRegister = async ({
     console.log('Registro exitoso:', response);
     setModalMessage('Registro exitoso');
     setModalVisible(true);
-    router.push("/login")                                            //ARREGLAR
-  } catch (error) {
-    console.error('Error al registrar usuario:', error);
-    setModalMessage('Error al registrar usuario. Intenta de nuevo.');
+    router.push("/login");
+  } catch (error: any) {
+    if (error.response && error.response.status === 422) {
+      const message = error.response.data.message || 'Error de validación. Intenta de nuevo.';
+      console.log('Error de validación:', message);
+      setModalMessage(message); 
+    } else {
+      console.log('Error al registrar usuario:', error);
+      setModalMessage('Error al registrar usuario. Intenta de nuevo.');
+    }
     setModalVisible(true);
   }
 };
 
 export const handleLogout = async () => {
   try {
-    const userSession = await AsyncStorage.getItem('userSession');
+    const result = await logout(); 
 
-    if (userSession) {
-      const { token } = JSON.parse(userSession);
-
-      const result = await logout(token); 
-
-      if (result.success) {
-        await AsyncStorage.removeItem('userSession');
-        router.push("/login");
-      } else {
-        console.log('Error al cerrar sesión:', result.message);
-      }
+    if (result.success) {
+      router.push("/login"); 
     } else {
-      console.log('No hay sesión activa.');
+      console.log('Error al cerrar sesión:', result.message);
     }
   } catch (error) {
     console.error('Error en el handleLogout:', error);

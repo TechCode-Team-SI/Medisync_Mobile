@@ -15,6 +15,10 @@ const HomePage: React.FC = () => {
     router.push("/register");
   };
 
+  const handleUs = () => {
+    router.push("/aboutus");
+  };
+
   return (
     <View className={styles.containerHome}>
 
@@ -56,7 +60,8 @@ const HomePage: React.FC = () => {
           </View>
 
           <View className={styles.iconButtonWrapper}>
-            <TouchableOpacity className={styles.iconButton}>
+            <TouchableOpacity className={styles.iconButton}
+            onPress={handleUs}>
               <FontAwesome name="users" size={24} color="#539091" />
             </TouchableOpacity>
             <Text className={styles.iconText}>Nuestros valores</Text>
