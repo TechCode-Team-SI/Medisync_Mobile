@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Modal, TouchableWithoutFeedback, Animated, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Modal, TouchableWithoutFeedback, Animated, View, AppState } from "react-native";
 import SideMenu from "./SideMenu";
 
 interface SideMenuModalProps {
@@ -8,7 +8,21 @@ interface SideMenuModalProps {
 }
 
 const SideMenuModal: React.FC<SideMenuModalProps> = ({ isVisible, onClose }) => {
-  const [menuAnimation] = useState(new Animated.Value(-300)); 
+  const [menuAnimation] = useState(new Animated.Value(-300));
+  
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: string) => {
+      if (nextAppState === "background" && isVisible) {
+        onClose();
+      }
+    };
+
+    const subscription = AppState.addEventListener("change", handleAppStateChange);
+
+    return () => {
+      subscription.remove();
+    };
+  }, [isVisible, onClose]);
 
   const openMenu = () => {
     Animated.timing(menuAnimation, {
@@ -23,10 +37,10 @@ const SideMenuModal: React.FC<SideMenuModalProps> = ({ isVisible, onClose }) => 
       toValue: -300,
       duration: 300,
       useNativeDriver: true,
-    }).start(() => onClose()); 
+    }).start(() => onClose());
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isVisible) {
       openMenu();
     } else {
@@ -54,7 +68,7 @@ const SideMenuModal: React.FC<SideMenuModalProps> = ({ isVisible, onClose }) => 
         backgroundColor: '#fff', 
         transform: [{ translateX: menuAnimation }],
       }}>
-        <SideMenu  />
+        <SideMenu />
       </Animated.View>
     </Modal>
   );

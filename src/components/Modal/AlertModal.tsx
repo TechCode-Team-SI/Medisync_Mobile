@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, AppState } from 'react-native';
 import styles from './stylesModal';
-
 
 interface AlertModalProps {
   visible: boolean;
@@ -13,10 +12,18 @@ interface AlertModalProps {
 const AlertModal: React.FC<AlertModalProps> = ({ visible, onClose, title, message }) => {
 
   useEffect(() => {
-    if (!visible) {
-      onClose(); 
-    }
-  }, [visible]);
+    const handleAppStateChange = (nextAppState: string) => {
+      if (nextAppState === "background" && visible) {
+        onClose();
+      }
+    };
+
+    const subscription = AppState.addEventListener("change", handleAppStateChange);
+
+    return () => {
+      subscription.remove();
+    };
+  }, [visible, onClose]);
 
   return (
     <Modal
@@ -26,29 +33,25 @@ const AlertModal: React.FC<AlertModalProps> = ({ visible, onClose, title, messag
       onRequestClose={onClose} 
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
-        
         <View className={styles.container}>
           <Text className={styles.title}>{title}</Text>
-          
           <Text className={styles.message}>{message}</Text>
-          
           <View className={styles.containerButton}>
             <TouchableOpacity
               className={styles.acceptButton}
-              onPress={onClose} 
+              onPress={onClose}
             >
               <Text className={styles.textButton}>Aceptar</Text>
             </TouchableOpacity>
-
           </View>
         </View>
-
       </View>
     </Modal>
   );
 };
 
 export default AlertModal;
+
 
 //USO
 //<AlertModal
