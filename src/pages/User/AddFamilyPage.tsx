@@ -1,25 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile";
 import DatePicker from "@/src/components/DatePicker";
 import Entypo from '@expo/vector-icons/Entypo';
 import Dropdown from "@/src/components/Dropdown"; 
+import AlertModal from '@/src/components/Modal/AlertModal';
+import { createUserPatient } from "@/src/services/familyGroup/familyServices";
+import { getToken } from '@/src/services/auth/sessionServices';
 
 const genderOptions = [
     { label: "Femenino", value: "F" },
     { label: "Masculino", value: "M" },
-    { label: "Otro", value: "Otro" },
 ];
 
 const AddFamilyPage: React.FC = () => {
     const [inputName, setInputName] = useState('');
     const [inputDNI, setInputDNI] = useState('');
-    const [inputCalendar, setInputCalendar] = useState('');
+    const [inputCalendar, setInputCalendar] = useState<Date | null>(null); 
     const [selectedGender, setSelectedGender] = useState(''); 
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false);
 
-    const handleSave = () => {
+    useEffect(() => {
+        // Verifica si todos los campos están llenos
+        const valid = inputName.trim() !== '' &&
+                      inputDNI.trim() !== '' &&
+                      selectedGender !== '' &&
+                      inputCalendar !== null;
+
+        setIsFormValid(valid);
+    }, [inputName, inputDNI, selectedGender, inputCalendar]);
+
+    const resetFields = () => {
+        setInputName('');
+        setInputDNI('');
+        setInputCalendar(null); 
+        setSelectedGender('');
+    };
+
+    const handleSave = async () => {
+        const token = await getToken();
+      
+        if (!token) {
+            setModalMessage("No se encontró el token de autenticación.");
+            setModalVisible(true);
+            console.log("Error: No se encontró el token de autenticación.");
+            return;
+        }
+      
+        const patientData = {
+            fullName: inputName,
+            dni: inputDNI,
+            gender: selectedGender,
+            birthday: inputCalendar ? inputCalendar.toISOString() : '', 
+        };
+      
+        try {
+            const response = await createUserPatient(token, patientData);
+            console.log("Respuesta del servidor:", response);
+      
+            if (response.success) {
+                setModalMessage("Familiar añadido exitosamente.");
+                setModalVisible(true);
+                resetFields(); 
+            } else if ('message' in response) {
+                setModalMessage(response.message);
+                setModalVisible(true);
+            }
+        } catch (error) {
+            console.log("Error inesperado al añadir familiar:", error);
+            setModalMessage("Error inesperado al añadir familiar.");
+            setModalVisible(true);
+        }
     };
 
     return (
@@ -28,7 +83,6 @@ const AddFamilyPage: React.FC = () => {
             <Text className={styles.title4}>Añadir Familiar</Text>
 
             <View className={styles.containerBg1}>
-
                 <Text className={styles.title3}>Nombres</Text>
                 <View className={styles.inputContainer2}>
                     <Entypo name="user" size={24} color="#539091" />
@@ -63,7 +117,7 @@ const AddFamilyPage: React.FC = () => {
 
                 <Text className={styles.title3}>Fecha de Nacimiento</Text>
                 <DatePicker
-                    value={inputCalendar}
+                    value={inputCalendar} 
                     onChange={setInputCalendar}
                 />
 
@@ -71,14 +125,27 @@ const AddFamilyPage: React.FC = () => {
                     <TouchableOpacity
                         className={styles.button1}
                         onPress={handleSave}
+                        disabled={!isFormValid} 
+                        style={{
+                            opacity: isFormValid ? 1 : 0.5 
+                        }}
                     >
                         <Text className={styles.buttonText1}>Guardar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
+
+            <AlertModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                title="ATENCIÓN"
+                message={modalMessage}
+            />
         </View>
     );
 };
 
 export default AddFamilyPage;
+
+
 

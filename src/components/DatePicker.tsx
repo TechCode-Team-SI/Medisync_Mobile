@@ -1,4 +1,3 @@
-// DatePicker.tsx
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -6,21 +5,20 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from './ProfileComponents/stylesProfile';
 
 interface DatePickerProps {
-    value: string;
-    onChange: (date: string) => void;
+    value: Date | null; 
+    onChange: (date: Date | null) => void; 
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null); 
 
     const handleChange = (event: any, selectedDate?: Date) => {
         const currentDate = selectedDate || new Date();
         setShowDatePicker(false);
         setSelectedDate(currentDate);
 
-        const formattedDate = currentDate.toLocaleDateString(); // FORMATO
-        onChange(formattedDate); 
+        onChange(currentDate); 
     };
 
     return (
@@ -32,7 +30,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
                         className={styles.input}  
                         placeholder="xx/xx/xxxx"
                         placeholderTextColor="#539091"
-                        value={value}
+                        value={value ? value.toLocaleDateString() : ''} 
                         editable={false} 
                     />
                 </View>
@@ -41,7 +39,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
             {showDatePicker && (
                 <DateTimePicker
                     testID="dateTimePicker"
-                    value={selectedDate}
+                    value={selectedDate || new Date()} 
                     mode="date"
                     is24Hour={true}
                     display="default"
