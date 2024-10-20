@@ -1,37 +1,46 @@
 import React, { useState } from "react";
-import {View, Text, Image, TouchableOpacity } from "react-native";
-import Entypo from '@expo/vector-icons/Entypo';
+import {View, Text, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile"
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-
+import AddButton from "@/src/components/AddButton";
+import SearchBar from "@/src/components/SearchBar";
+import { router } from "expo-router";
 
 const FamilyPage: React.FC = () => {
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const handleSelect = () => {};
 
+  const handleAdd = () => {
+    router.push("/addfamily");
+  };
+
+  const [searchText, setSearchText] = useState('');
+
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+  };
+
   return (
+
     <View className={styles.container}>
 
           <ButtonBack/>
+          <Text className={styles.title4}> Agenda de Familiares</Text>
     
           <View className={styles.containerBg1}>
 
-            <View className={styles.containerImage}>
-            {selectedImage ? (
-                <Image source={{ uri: selectedImage }} className={styles.image} />
-                ) : (
-                <View className={styles.iconImage}>
-                    <Entypo name="camera" size={24} color="#539091" />
-                </View>
-                )}
+            <View className={styles.containerTop}>
+
+              <SearchBar
+                      value={searchText}
+                      onChangeText={handleSearch}  />
+
+              <AddButton onPress={handleAdd} />
+
             </View>
 
-            <Text className={styles.title1}> Usuario</Text>
-
-            <View className="">
-                <Text className={styles.text}> Agenda de familiares</Text>
+            <View className={styles.containerFamily}>
 
                 <TouchableOpacity
                     className={styles.button2}

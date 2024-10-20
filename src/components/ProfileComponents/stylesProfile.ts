@@ -24,6 +24,7 @@ const stylesProfile = {
     title3: " font-montserrat text-left my-3 text-primary text-l",   //Config
     
     inputContainer: "flex-row items-center bg-bgInput w-full mb-4 p-3 h-12",//Update
+    inputContainer2: "flex-row items-center bg-bgInput w-full p-3 h-12", //Family group
     input: 'mx-1 w-4/5 h-full',
   
     ///Button
@@ -38,9 +39,12 @@ const stylesProfile = {
     containerBack: "flex justify-start w-3/12 p-7 mt-4",
 
     //Family
+    title4: "text-base font-montserrat text-center text-2xl text-principal pt-7", // Profile
     text: "text-base text-primary py-4",
-    button2: 'shadow flex-row w-full space-x-4 h-16 items-center bg-terciary rounded-xl p-5 my-2', 
+    button2: 'shadow flex-row w-full space-x-4 h-16 items-center bg-gray-200 rounded-xl p-5 my-2', 
     buttonText2: 'basis-3/4 mt-1 h-7 text-primary text-base font-montserrat',
+    containerFamily:"pt-3",
+    containerTop:"flex-row items-center justify-between pb-2",
     };
     
     export default stylesProfile;
