@@ -28,4 +28,7 @@ export const api = {
 
       infoCompany: API_URL + "/medical-centers",
 
+    //// SEARCH
+      specialites: API_URL +"/specialties",
+
 };
