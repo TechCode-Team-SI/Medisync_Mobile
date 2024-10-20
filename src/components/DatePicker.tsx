@@ -28,7 +28,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
                     <Entypo name="calendar" size={24} color="#539091" />
                     <TextInput
                         className={styles.input}  
-                        placeholder="xx/xx/xxxx"
+                        placeholder="dd/mm/aaaa"
                         placeholderTextColor="#539091"
                         value={value ? value.toLocaleDateString() : ''} 
                         editable={false} 

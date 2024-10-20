@@ -4,12 +4,10 @@ import { useLocalSearchParams } from 'expo-router';
 import styles from '@/src/components/Styles/styleSearch';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import { useRouter } from 'expo-router'; // Usa el router aquí
-import AskModal from '../components/Modal/AskModal';
+import { useRouter } from 'expo-router'; 
 import { Dr } from "@/src/services/auth/authDr";
 
 const SearchDrPage: React.FC = () => {
-  const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
   const { doctors } = useLocalSearchParams();
 
@@ -23,21 +21,7 @@ const SearchDrPage: React.FC = () => {
   }, [doctors]);
 
   const handleSelect = () => {
-    setModalVisible(true); 
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false); 
-  };
-
-  const handleAccept = () => {
     router.push('/createappointment');
-    handleCloseModal();
-  };
-
-  const handleCancel = () => {
-    router.push('/createappointmenttwo');
-    handleCloseModal();
   };
 
   return (
@@ -60,14 +44,6 @@ const SearchDrPage: React.FC = () => {
         </View>
       </View>
 
-      <AskModal 
-        visible={modalVisible} 
-        onClose={handleCloseModal}
-        title="Agenda tu cita"
-        message="¿El paciente está registrado?"
-        onAccept={handleAccept} 
-        onCancel={handleCancel} 
-      />
     </View>
   );
 };

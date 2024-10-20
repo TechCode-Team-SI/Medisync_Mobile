@@ -25,7 +25,6 @@ const AddFamilyPage: React.FC = () => {
     const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
-        // Verifica si todos los campos están llenos
         const valid = inputName.trim() !== '' &&
                       inputDNI.trim() !== '' &&
                       selectedGender !== '' &&

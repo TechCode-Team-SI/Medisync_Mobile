@@ -17,13 +17,15 @@ const Dropdown: React.FC<DropdownProps> = ({ options, placeholder, selectedValue
         setIsDropdownOpen(false); 
     };
 
+    const selectedLabel = options.find(option => option.value === selectedValue)?.label || placeholder;
+
     return (
         <View>
             <TouchableOpacity onPress={() => setIsDropdownOpen(!isDropdownOpen)}>
                 <View className="flex-row items-center bg-bgInput w-full p-3 h-12">
                     <Entypo name="chevron-thin-down" size={24} color="#539091" />
                     <Text className="flex-1 ml-1 text-primary">
-                        {selectedValue || placeholder}
+                        {selectedLabel} 
                     </Text>
                 </View>
             </TouchableOpacity>
@@ -35,7 +37,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, placeholder, selectedValue
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => handleSelect(item.value)}>
                             <Text
-                                className={`p-2 text-[#539091] ${item.value === selectedValue ? 'bg-bgMenu' : ''}`}
+                                className={`p-2 text-primary ${item.value === selectedValue ? 'bg-bgMenu' : ''}`}
                             >
                                 {item.label}
                             </Text>

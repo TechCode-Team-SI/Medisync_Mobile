@@ -20,9 +20,11 @@ export const api = {
 
     //// USER
 
-      infoUser: API_URL + "/auth/me",
+      infoUser: API_URL + "/auth/me",             
 
-      userPatient: API_URL + "/users/patient/me",                // FAMILY GROUP
+    //// FAMILY GROUP
+
+      userPatient: API_URL + "/users/patient/me",  
 
     //// INFO MEDICAL CENTERS
 
