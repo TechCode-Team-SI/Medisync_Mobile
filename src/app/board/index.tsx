@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import BoardPage from "@/src/pages/Board/BoardPage";
-import styles from "@/src/components/Styles/styles";
+import styles from "@/src/components/styles/styles";
 
 export default function BoardScreen() {
   return (
