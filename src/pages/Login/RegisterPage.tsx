@@ -83,7 +83,7 @@ const RegisterPage: React.FC = () => {
                 placeholderTextColor="#539091"
                 value={inputName}
                 onChangeText={setInputName}
-                maxLength={40}
+                maxLength={60}
               />
             </View>
 

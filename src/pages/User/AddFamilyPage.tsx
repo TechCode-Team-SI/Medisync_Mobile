@@ -8,6 +8,7 @@ import Dropdown from "@/src/components/Dropdown";
 import AlertModal from '@/src/components/Modal/AlertModal';
 import { createUserPatient } from "@/src/services/familyGroup/familyServices";
 import { getToken } from '@/src/services/auth/sessionServices';
+import { isDateValid } from '@/src/utils/validators'; 
 
 const genderOptions = [
     { label: "Femenino", value: "F" },
@@ -28,7 +29,8 @@ const AddFamilyPage: React.FC = () => {
         const valid = inputName.trim() !== '' &&
                       inputDNI.trim() !== '' &&
                       selectedGender !== '' &&
-                      inputCalendar !== null;
+                      inputCalendar !== null &&
+                      isDateValid(inputCalendar); 
 
         setIsFormValid(valid);
     }, [inputName, inputDNI, selectedGender, inputCalendar]);
@@ -91,6 +93,7 @@ const AddFamilyPage: React.FC = () => {
                         placeholderTextColor="#539091"
                         value={inputName}
                         onChangeText={setInputName}
+                        maxLength={60}
                     />
                 </View>
 
@@ -103,6 +106,7 @@ const AddFamilyPage: React.FC = () => {
                         placeholderTextColor="#539091"
                         value={inputDNI}
                         onChangeText={setInputDNI}
+                        maxLength={15}
                     />
                 </View>
 
@@ -117,7 +121,14 @@ const AddFamilyPage: React.FC = () => {
                 <Text className={styles.title3}>Fecha de Nacimiento</Text>
                 <DatePicker
                     value={inputCalendar} 
-                    onChange={setInputCalendar}
+                    onChange={(date) => {
+                        if (isDateValid(date)) {
+                            setInputCalendar(date);
+                        } else {
+                            setModalMessage("La fecha de nacimiento no puede ser futura.");
+                            setModalVisible(true);
+                        }
+                    }}
                 />
 
                 <View className={styles.container4}>

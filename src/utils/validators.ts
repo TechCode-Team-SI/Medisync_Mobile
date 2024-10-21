@@ -10,4 +10,10 @@ export const validatePasswordLength = (password: string): boolean => {
 export const validatePasswordsMatch = (password: string, confirmPassword: string): boolean => {
     return password === confirmPassword;
 };
+
+export const isDateValid = (selectedDate: Date | null) => {
+    if (!selectedDate) return false; 
+    const today = new Date();
+    return selectedDate <= today; 
+  };
   
