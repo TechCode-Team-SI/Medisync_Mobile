@@ -11,7 +11,7 @@ import { Dr } from "@/src/services/auth/authDr";
 const SearchDrPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
-  const { doctors } = useLocalSearchParams();
+  const { doctors, specialtyName } = useLocalSearchParams();
 
   const [drs, setdrs]  = useState<Dr[]>([]);
 
@@ -43,7 +43,7 @@ const SearchDrPage: React.FC = () => {
   return (
     <View className={styles.container1}>
       <ButtonBack/>
-      <Text className={styles.title1}>Especialidad</Text>
+      <Text className={styles.title1}>{specialtyName}</Text>
 
       <View className={styles.containerBg2}>
         <Text className={styles.title2}>Especialistas Disponibles</Text>
