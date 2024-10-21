@@ -41,11 +41,12 @@ const stylesHome = {
 
     ///////// InfoHome
     containerInfo:"flex-1 my-2 mx-7 items-center",
-    containerInfo2:"items-start w-full space-y-1.5 mt-4",
+    containerInfo2:" w-full space-y-2 mt-4",
     containerInfo3:"flex-row",
-    titleInfo:"text-primary font-montserrat text-lg",
-    textInfo:"text-primary ml-3",
+    titleInfo:"text-primary font-montserrat text-lg pt-1",
+    textInfo:"text-primary",
     errorText:"text-red",
+    containerText:"ml-4"
 
     };
     
