@@ -142,7 +142,7 @@ const InfoHome: React.FC = () => {
                 )}
 
                 {medicalCenters.tiktokName && (
-                    <TouchableOpacity className={styles.containerInfo3} onPress={() => handleSocialPress(`https://tiktok.com/@${medicalCenters.tiktokName}`)}>
+                    <TouchableOpacity className={styles.containerInfo3} onPress={() => handleSocialPress(`https://tiktok.com/${medicalCenters.tiktokName}`)}>
                         <FontAwesome5 name="tiktok" size={23} color="#539091" />
                         <View className={styles.containerText}>
                           <Text className={styles.textInfo}>{medicalCenters.tiktokName}</Text>
