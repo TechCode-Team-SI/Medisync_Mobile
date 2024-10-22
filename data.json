@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "image": "arterial.jpeg",
+    "title": "Hipertensión Arterial",
+    "content": "La hipertensión arterial es una condición crónica en la que la presión sanguínea en las arterias se eleva de forma persistente. Esto puede llevar a complicaciones graves como enfermedades cardíacas y accidentes cerebrovasculares si no se controla adecuadamente."
+  },
+  {
+    "id": 2,
+    "image": "Artritis.jpeg",
+    "title": "Artritis Reumatoide",
+    "content": "La artritis reumatoide es una enfermedad autoinmune que provoca inflamación en las articulaciones, lo que puede llevar a dolor, rigidez y, en casos severos, deformidades. El tratamiento temprano es crucial para manejar los síntomas y mejorar la función articular."
+  },
+  {
+    "id": 3,
+    "image": "cardiaca.jpeg",
+    "title": "Insuficiencia Cardíaca",
+    "content": "La insuficiencia cardíaca es una condición en la que el corazón no puede bombear sangre de manera eficiente, lo que resulta en fatiga, dificultad para respirar y acumulación de líquidos. El manejo incluye cambios en la dieta, ejercicio y, a menudo, medicación."
+  },
+  {
+    "id": 4,
+    "image": "diabetes.jpeg",
+    "title": "Diabetes Tipo 2",
+    "content": "La diabetes tipo 2 es un trastorno metabólico caracterizado por la resistencia a la insulina y niveles elevados de glucosa en sangre. Esta condición puede ser gestionada a través de cambios en el estilo de vida, medicación y monitoreo regular de la glucosa."
+  },
+  {
+    "id": 5,
+    "image": "epoc.jpg",
+    "title": "Enfermedad Pulmonar",
+    "content": "La EPOC es un grupo de enfermedades pulmonares que causan dificultad para respirar. La principal causa es el tabaquismo, y los síntomas incluyen tos crónica y producción excesiva de moco, lo que puede afectar significativamente la calidad de vida."
+  }
+]

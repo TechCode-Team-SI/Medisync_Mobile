@@ -9,22 +9,10 @@ import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 
 import { getUser } from "@/src/services/user/userServices"
-
-
-import ImageItem from '@/src/components/BoardComponents/imageItem';
-
+import CarouselHome from "@/src/components/HomeComponents/CarouselHome";
 
 const HomeUserPage: React.FC = () => {
   
-  const images = [  
-    {  
-        url: 'https://concienciasaludable.uchile.cl/wp-content/uploads/2023/10/pexels-vanessa-loring-5966434-scaled-1.jpg',
-        title: 'Alimentación saludable',  
-        date:"08-10-2024",
-        description: 'Para lograrlo, es necesario el...',   
-       
-    },  ]
-
   const [user, setUser] = useState<{ fullName: string }>({ fullName: '' });
   const [error, setError] = useState<string | null>(null);
 
@@ -69,18 +57,7 @@ const HomeUserPage: React.FC = () => {
       <View className={styles.container3}>
 
         <ButtonsHome />
-
-        <View className={styles.containerBoard}>
-                    {images.map((item, index) => (  
-                        <ImageItem  
-                        key={index}
-                        imageUrl={item.url}
-                        title={item.title}
-                        description={item.description}
-                        date={item.date}             />  
-                    ))}  
-        </View>
-
+        <CarouselHome />
         <InfoHome />
         
       </View>
