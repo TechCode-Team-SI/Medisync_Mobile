@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Modal, TouchableWithoutFeedback, Animated, View, AppState } from "react-native";
+import {
+  Modal,
+  TouchableWithoutFeedback,
+  Animated,
+  View,
+  AppState,
+} from "react-native";
 import SideMenu from "./SideMenu";
 
 interface SideMenuModalProps {
@@ -7,9 +13,12 @@ interface SideMenuModalProps {
   onClose: () => void;
 }
 
-const SideMenuModal: React.FC<SideMenuModalProps> = ({ isVisible, onClose }) => {
+const SideMenuModal: React.FC<SideMenuModalProps> = ({
+  isVisible,
+  onClose,
+}) => {
   const [menuAnimation] = useState(new Animated.Value(-300));
-  
+
   useEffect(() => {
     const handleAppStateChange = (nextAppState: string) => {
       if (nextAppState === "background" && isVisible) {
@@ -17,7 +26,10 @@ const SideMenuModal: React.FC<SideMenuModalProps> = ({ isVisible, onClose }) => 
       }
     };
 
-    const subscription = AppState.addEventListener("change", handleAppStateChange);
+    const subscription = AppState.addEventListener(
+      "change",
+      handleAppStateChange
+    );
 
     return () => {
       subscription.remove();
@@ -56,18 +68,20 @@ const SideMenuModal: React.FC<SideMenuModalProps> = ({ isVisible, onClose }) => 
       onRequestClose={onClose}
     >
       <TouchableWithoutFeedback onPress={onClose}>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }} />
+        <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.5)" }} />
       </TouchableWithoutFeedback>
 
-      <Animated.View style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        height: '100%',
-        width: '60%', 
-        backgroundColor: '#fff', 
-        transform: [{ translateX: menuAnimation }],
-      }}>
+      <Animated.View
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          height: "100%",
+          width: "60%",
+          backgroundColor: "#fff",
+          transform: [{ translateX: menuAnimation }],
+        }}
+      >
         <SideMenu />
       </Animated.View>
     </Modal>
@@ -76,9 +90,8 @@ const SideMenuModal: React.FC<SideMenuModalProps> = ({ isVisible, onClose }) => 
 
 export default SideMenuModal;
 
-
 ///USO
 //const [isMenuVisible, setMenuVisible] = useState(false);
 //const toggleMenu = () => {
-  //setMenuVisible(prev => !prev);};
+//setMenuVisible(prev => !prev);};
 ///<SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
