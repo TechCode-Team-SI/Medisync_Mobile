@@ -23,6 +23,7 @@ const stylesProfile = {
 
     title: "text-primary font-montserrat text-center pt-12 text-3xl px-22 m-4" , //Update
     title1: "text-base font-montserrat text-center pt-12 text-xl px-22", // Profile
+    title2: "text-base font-montserrat text-center text-sm pb-7 text-primary", // Profile
     title3: " font-montserrat text-left my-3 text-primary text-l",   //Config
     
     inputContainer: "flex-row items-center bg-bgInput w-full mb-4 p-3 h-12",//Update
@@ -33,7 +34,7 @@ const stylesProfile = {
     button: ' flex-row w-full h-12 items-center justify-center bg-terciary rounded-l ', //Profile
     buttonText: ' ml-2 h-7 text-primary text-lg font-montserrat',
 
-    button1: 'w-full h-12 items-center justify-center bg-primary rounded-xl mt-8', //Config
+    button1: 'w-full h-12 items-center justify-center bg-primary rounded-xl mt-6', //Config
     buttonText1: 'text-principal text-lg font-montserrat',
 
     //Button back
