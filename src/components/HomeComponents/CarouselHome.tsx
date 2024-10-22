@@ -71,4 +71,3 @@ const CarouselHome: React.FC = () => {
 };
 
 export default CarouselHome; 
-
