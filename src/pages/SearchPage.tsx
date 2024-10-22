@@ -13,13 +13,15 @@ import { Specialties } from "@/src/services/auth/authSpecialties";
 
 const SearchPage: React.FC = () => {
 
-    const handleSelect = async(specialtyid: string[]) => {
+    const handleSelect = async(specialtyid: string[], specialtyName: string) => {
       console.log('Id Especialidad:', specialtyid);
       const result = await getDr(specialtyid); 
       if (result.success && Array.isArray(result.data)) { 
         router.push({
           pathname: '/searchdr',
-          params: { doctors: JSON.stringify(result.data) }, // Pasamos los doctores como un string JSON
+          params: { doctors: JSON.stringify(result.data),
+            specialtyName: specialtyName,
+           }, // Pasamos los doctores como un string JSON
         }); 
       } else { 
         console.log('Error inesperado:'); 
@@ -57,7 +59,7 @@ const SearchPage: React.FC = () => {
             <TouchableOpacity
             key={specialty.id}
                 className={styles.button}
-                onPress={() => handleSelect([specialty.id] )}>
+                onPress={() => handleSelect([specialty.id], specialty.name )}>
                   <Fontisto name="doctor" size={24} color="#539091" />
                 <Text className={styles.buttonText}>{specialty.name}</Text>
               </TouchableOpacity>
