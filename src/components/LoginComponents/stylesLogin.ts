@@ -1,11 +1,12 @@
 const stylesLogin = {
     container: 'flex-1 bg-primary relative', 
+    container2: 'flex-1 bg-primary relative', 
 
     //// Contenedor inferior Login y Forgot
     containerBelow: 'absolute bottom-0 w-full h-3/5 bg-principal rounded-tl-3xl px-6',
   
     //// Background Register
-    containerRegister: 'bg-principal w-full flex-1 rounded-t-3xl mt-14 px-6',
+    containerRegister: 'bg-principal w-full flex-1 rounded-t-3xl mt-6  px-6',
     containerImage:"justify-center items-center mb-3 px-6",
     image:"w-24 h-24 rounded-full",
     iconImage: "w-24 h-24 rounded-full border-2 border-primary justify-center items-center",

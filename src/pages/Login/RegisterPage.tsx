@@ -1,41 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import styles from '@/src/components/LoginComponents/stylesLogin';
-import Entypo from '@expo/vector-icons/Entypo';
-import { Link } from "expo-router";
+import FormField from "@/src/components/Forms/FormField";
+import Dropdown from "@/src/components/Forms/Dropdown"; 
+import DatePicker from "@/src/components/Forms/DatePicker";
+import PasswordField from '@/src/components/Forms/PasswordField';
 import AlertModal from '@/src/components/Modal/AlertModal';
-import { useFocusEffect } from '@react-navigation/native';
+import { Link } from "expo-router";
 import { handleRegister } from '@/src/services/auth/authUtils';
+import { isDateValid } from '@/src/utils/validators';
+import InfoModal from '@/src/components/Modal/InfoModal';
+
+const genderOptions = [
+  { label: "Femenino", value: "F" },
+  { label: "Masculino", value: "M" },
+];
 
 const RegisterPage: React.FC = () => {
-
   const [inputEmail, setInputEmail] = useState('');
   const [inputName, setInputName] = useState('');
   const [inputPhone, setInputPhone] = useState('');
+  const [inputDNI, setInputDNI] = useState('');
+  const [inputCalendar, setInputCalendar] = useState<Date | null>(null); 
+  const [selectedGender, setSelectedGender] = useState(''); 
   const [inputPassword, setInputPassword] = useState('');
   const [inputPassword2, setInputPassword2] = useState('');
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
-
+  const [showSuccessModal, setShowSuccessModal] = useState(false); 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
-    const allFieldsFilled = inputEmail !== '' && inputName !== '' && inputPassword !== '' && inputPassword2 !== '';
+    const allFieldsFilled = 
+      inputEmail !== '' && 
+      inputName !== '' && 
+      inputPassword !== '' && 
+      inputPassword2 !== '' && 
+      inputCalendar !== null && 
+      inputDNI !== '' && 
+      selectedGender !== '';
+    
     setIsButtonDisabled(!allFieldsFilled); 
-  }, [inputEmail, inputName, inputPassword, inputPassword2]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      setInputEmail('');
-      setInputName('');
-      setInputPhone('');
-      setInputPassword('');
-      setInputPassword2('');
-    }, [])
-  );
+  }, [inputEmail, inputName, inputPassword, inputPassword2, inputCalendar, inputDNI, selectedGender]);
 
   const onRegister = async () => {
     await handleRegister({
@@ -44,120 +51,116 @@ const RegisterPage: React.FC = () => {
       inputPassword2,
       inputName,
       inputPhone,
+      inputDNI, 
+      inputCalendar, 
+      selectedGender,
       setModalMessage,
       setModalVisible,
+      setShowSuccessModal
     });
   };
 
-  return (
-    <ScrollView>
-        <View className={styles.container}>
+  const renderItem = ({ item }: any) => (
+    <View className={styles.containerRegister}>
+      <Text className={styles.title3}>Por favor, ingrese la información</Text>
 
-          <View className={styles.containerTitle}>
-            <Text className={styles.title1}>¡Regístrate!</Text>
-          </View>
+      <FormField
+        icon="mail"
+        placeholder="Email"
+        value={inputEmail}
+        onChangeText={setInputEmail}
+        keyboardType="email-address"
+      />
+      <FormField
+        icon="user"
+        placeholder="Nombre completo"
+        value={inputName}
+        onChangeText={setInputName}
+      />
+      <FormField
+        icon="phone"
+        placeholder="Teléfono (opcional)"
+        value={inputPhone}
+        onChangeText={setInputPhone}
+        keyboardType="phone-pad" 
+      />
+      <FormField
+        icon="v-card"
+        placeholder="Cédula"
+        value={inputDNI}
+        onChangeText={setInputDNI}
+      />
+      <Dropdown
+        options={genderOptions}
+        placeholder="Género"
+        selectedValue={selectedGender}
+        onSelect={setSelectedGender}
+      />
+      <DatePicker
+        value={inputCalendar} 
+        onChange={(date) => {
+          if (isDateValid(date)) {
+            setInputCalendar(date);
+          } else {
+            setModalMessage("La fecha de nacimiento no puede ser futura.");
+            setModalVisible(true);
+          }
+        }}
+      />
+      <PasswordField
+        placeholder="Contraseña"
+        value={inputPassword}
+        onChangeText={setInputPassword}
+      />
+      <PasswordField
+        placeholder="Confirmar Contraseña"
+        value={inputPassword2}
+        onChangeText={setInputPassword2}
+      />
+      <TouchableOpacity
+        className={styles.button}
+        onPress={onRegister}
+        disabled={isButtonDisabled}
+        style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
+      >
+        <Text className={styles.buttonText}>Crear Cuenta</Text>
+      </TouchableOpacity>
+      <View className={styles.container5}>
+        <Text>¿Ya tienes cuenta?</Text>
+        <Link href="/login" className={styles.textButton2}>Inicia Sesión</Link>
+      </View>
 
-          
+      <InfoModal
+          visible={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          title="¡Bienvenido!"
+        />
 
-          <View className={styles.containerRegister}>
-
-            <Text className={styles.title3}>Por favor, ingrese la información</Text>
-
-            <View className={styles.inputContainer}>
-              <Entypo name="mail" size={24} color="#539091" />
-              <TextInput
-                className={styles.input}
-                placeholder="Email"
-                placeholderTextColor="#539091"
-                value={inputEmail}
-                onChangeText={setInputEmail}
-                maxLength={30}
-              />
-            </View>
-
-            <View className={styles.inputContainer}>
-              <Entypo name="user" size={24} color="#539091" />
-              <TextInput
-                className={styles.input}
-                placeholder="Nombre completo"
-                placeholderTextColor="#539091"
-                value={inputName}
-                onChangeText={setInputName}
-                maxLength={60}
-              />
-            </View>
-
-            <View className={styles.inputContainer}>
-              <Entypo name="phone" size={24} color="#539091" />
-              <TextInput
-                className={styles.input}
-                placeholder="Teléfono (opcional)"
-                placeholderTextColor="#539091"
-                keyboardType="numeric"
-                value={inputPhone}
-                onChangeText={setInputPhone}
-                maxLength={30}
-              />
-            </View>
-
-            <View className={styles.inputContainer}>
-              <Entypo name="lock" size={24} color="#539091" />
-              <TextInput
-                className={styles.input}
-                placeholder="Contraseña"
-                placeholderTextColor="#539091"
-                value={inputPassword}
-                onChangeText={setInputPassword}
-                secureTextEntry={!showPassword}
-                maxLength={30}
-              />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Entypo name={showPassword ? "eye-with-line" : "eye"} size={24} color="#539091" />
-              </TouchableOpacity>
-            </View>
-
-            <View className={styles.inputContainer}>
-              <Entypo name="lock" size={24} color="#539091" />
-              <TextInput
-                className={styles.input}
-                placeholder="Confirmar Contraseña"
-                placeholderTextColor="#539091"
-                value={inputPassword2}
-                onChangeText={setInputPassword2}
-                secureTextEntry={!showPassword2}
-                maxLength={30}
-              />
-              <TouchableOpacity onPress={() => setShowPassword2(!showPassword2)}>
-                <Entypo name={showPassword2 ? "eye-with-line" : "eye"} size={24} color="#539091" />
-              </TouchableOpacity>
-            </View>
-
-            <View className={styles.container4}>
-              <TouchableOpacity
-                className={styles.button}
-                onPress={onRegister}
-                disabled={isButtonDisabled}
-                style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
-              >
-                <Text className={styles.buttonText}>Crear Cuenta</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className={styles.container5}>
-              <Text>¿Ya tienes cuenta?</Text>
-              <Link href="/login" className={styles.textButton2}>Inicia Sesión</Link>
-            </View>
-          </View>
-          <AlertModal
+      <AlertModal
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
           title="ATENCIÓN"
           message={modalMessage}
         />
-        </View>
-        </ScrollView>
+    </View>
+  );
 
+  return (
+    <View className={styles.container2}>
+    <FlatList
+      data={[{}]} 
+      renderItem={renderItem}
+      keyExtractor={(item, index) => index.toString()}
+      ListHeaderComponent={
+        <View className={styles.containerTitle}>
+          <Text className={styles.title1}>¡Regístrate!</Text>
+        </View>
+      }
+    />
+    </View>
   );
 };
 
 export default RegisterPage;
+
+
