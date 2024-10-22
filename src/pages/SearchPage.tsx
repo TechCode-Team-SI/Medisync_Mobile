@@ -1,45 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '@/src/components/Styles/styleSearch';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
-import Fontisto from '@expo/vector-icons/Fontisto';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Foundation from '@expo/vector-icons/Foundation';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router } from "expo-router";
 
-import { getspecialites } from "@/src/services/auth/authSpecialties";
-import { getDr } from "@/src/services/auth/authDr";
-import { Specialties } from "@/src/services/auth/authSpecialties";
-
-
-
 const SearchPage: React.FC = () => {
-
-    const handleSelect = async(specialtyid: string[]) => {
-      console.log('Id Especialidad:', specialtyid);
-      const result = await getDr(specialtyid); 
-      if (result.success && Array.isArray(result.data)) { 
-        router.push({
-          pathname: '/searchdr',
-          params: { doctors: JSON.stringify(result.data) }, // Pasamos los doctores como un string JSON
-        }); 
-      } else { 
-        console.log('Error inesperado:'); 
-      } 
-     
+    const handleSelect = () => {
+      router.push("/searchdr");
     };
-
-    const [specialties, setSpecialties]  = useState<Specialties[]>([]);
-
-    useEffect(() => {
-      const fetchUser= async () => {
-        const result = await getspecialites();
-        if (result.success && Array.isArray(result.data)) {
-          setSpecialties(result.data);
-        } else {
-          console.log('Error al obtener especialidades o la data no es un array');
-        }
-      };
-      fetchUser();
-    }, []);
 
     return (
         <View className={styles.container1}>
@@ -52,17 +25,68 @@ const SearchPage: React.FC = () => {
             <Text className={styles.title2}> Especialidad</Text>
               
             <View className={styles.containerGrid}>
-            {specialties.map((specialty) => (
-
-            <TouchableOpacity
-            key={specialty.id}
+              <TouchableOpacity
                 className={styles.button}
-                onPress={() => handleSelect([specialty.id] )}>
-                  <Fontisto name="doctor" size={24} color="#539091" />
-                <Text className={styles.buttonText}>{specialty.name}</Text>
+                onPress={handleSelect}>
+                <MaterialIcons name="route" size={24} color="#539091"/>
+                <Text className={styles.buttonText}>Angiologia</Text>
               </TouchableOpacity>
-))}
 
+              <TouchableOpacity
+                className={styles.button}
+                onPress={handleSelect}>
+                <FontAwesome5 name="heartbeat" size={24} color="#539091"  />
+                <Text className={styles.buttonText}>Cardiologia</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className={styles.button}
+                onPress={handleSelect}>
+                <FontAwesome5 name="notes-medical" size={24} color="#539091" />
+                <Text className={styles.buttonText}>Cirugía</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className={styles.button}
+                onPress={handleSelect}>
+                  <MaterialCommunityIcons name="head" size={24} color="#539091"/>
+                <Text className={styles.buttonText}>Dermatología</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className={styles.button}
+                onPress={handleSelect}>
+                  <Foundation name="female-symbol" size={24} color="#539091" />
+                <Text className={styles.buttonText}>Ginecología</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className={styles.button}
+                onPress={handleSelect}>
+                  <FontAwesome5 name="brain" size={24} color="#539091" />
+                <Text className={styles.buttonText}>Neurología</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className={styles.button}
+                onPress={handleSelect}>
+                  <SimpleLineIcons name="eyeglass" size={24} color="#539091" />
+                <Text className={styles.buttonText}>Oftalmología</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className={styles.button}
+                onPress={handleSelect}>
+                  <FontAwesome5 name="baby" size={24} color="#539091"/>
+                <Text className={styles.buttonText}>Pediatria</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className={styles.button}
+                onPress={handleSelect}>
+                  <Foundation name="male-symbol" size={24} color="#539091" />
+                <Text className={styles.buttonText}>Urología</Text>
+              </TouchableOpacity>
             </View>
 
           </View>

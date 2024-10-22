@@ -1,11 +1,7 @@
 import axios from 'axios';
-
-export type ApiResult = 
-  | { success: true; data: any }  
-  | { success: false; message: string };
-
+import { ApiResult } from '../api/apiConfig';
   
-export const handleError = (error: any): ApiResult => {
+export const handleError = (error: any): ApiResult<any> => {
     if (axios.isAxiosError(error)) {
       if (error.response) {
         console.log('Error en la respuesta del servidor:', error.response.data);

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { api } from "@/src/services/api/apiConfig";
+import { api, ApiResult } from "@/src/services/api/apiConfig";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ApiResult, handleError } from "@/src/services/error/errorHandler"
+import { handleError } from "@/src/services/error/errorHandler"
 import { getToken, clearSession, saveSession} from "@/src/services/auth/sessionServices"
 
-export const login = async (email: string, password: string): Promise<ApiResult> => {
+export const login = async (email: string, password: string): Promise<ApiResult<any>> => {
   try {
     const response = await axios.post(api.login, { email, password });
     
@@ -25,7 +25,7 @@ export const login = async (email: string, password: string): Promise<ApiResult>
   }
 };
 
-export const logout = async (): Promise<ApiResult> => {
+export const logout = async (): Promise<ApiResult<any>> => {
   try {
     const token = await getToken(); 
 
@@ -55,7 +55,7 @@ export const register = async (registerData: any) => {
 };
 
 
-export const forgotPassword = async (email: string): Promise<ApiResult> => {
+export const forgotPassword = async (email: string): Promise<ApiResult<any>> => {
   try {
     const response = await axios.post(api.forgotPassword, { email });
     console.log('Respuesta de la API:', response.data);
@@ -72,7 +72,7 @@ export const forgotPassword = async (email: string): Promise<ApiResult> => {
   }
 };
 
-export const confirmCode = async (code: string): Promise<ApiResult> => {
+export const confirmCode = async (code: string): Promise<ApiResult<any>> => {
   try {
     const email = await AsyncStorage.getItem('forgotPasswordEmail');
 
@@ -95,7 +95,7 @@ export const confirmCode = async (code: string): Promise<ApiResult> => {
 };
 
 
-export const resetPassword = async (newPassword: string): Promise<ApiResult> => {
+export const resetPassword = async (newPassword: string): Promise<ApiResult<any>> => {
   try {
     const email = await AsyncStorage.getItem('forgotPasswordEmail');
     const code = await AsyncStorage.getItem('resetPasswordCode'); 
@@ -118,7 +118,7 @@ export const resetPassword = async (newPassword: string): Promise<ApiResult> => 
 
 ////////////////
 
-export const generateNewCode = async (email: string): Promise<ApiResult> => {
+export const generateNewCode = async (email: string): Promise<ApiResult<any>> => {
   try {
     const response = await axios.post(api.expiredCode, { email });
     console.log('Respuesta de la API:', response.data);
