@@ -1,29 +1,36 @@
-const API_URL = "https://chengkev.online/api/v1";
-
-export type ApiResult<T> = { success: boolean; data?: T; message?: string };
+const API_URL = "https://chengkev.online/api/v1"
 
 export const api = {
-  ////AUTH
 
-  register: API_URL + "/auth/register",
-  login: API_URL + "/auth/login",
-  logout: API_URL + "/auth/logout",
+    ////AUTH
 
-  forgotPassword: API_URL + "/auth/forgot/password",
-  codePassword: API_URL + "/auth/forgot/password-code",
-  resetPassword: API_URL + "/auth/reset/password",
+      register: API_URL + "/auth/register",
+      login: API_URL + "/auth/login",
+      logout: API_URL + "/auth/logout",
 
-  expiredCode: API_URL + "/auth/confirm/email",
+      forgotPassword: API_URL + "/auth/forgot/password",
+      codePassword: API_URL + "/auth/forgot/password-code",
+      resetPassword: API_URL + "/auth/reset/password",
 
-  //// FILES
+      expiredCode: API_URL + "/auth/confirm/email",             // PENDIENTE
 
-  upload: API_URL + "/files/upload",
+    //// FILES
 
-  //// USER
+      upload: API_URL + "/files/upload",
 
-  infoUser: API_URL + "/auth/me",
+    //// USER
 
-  //// INFO MEDICAL CENTERS
+      infoUser: API_URL + "/auth/me",             
 
-  infoCompany: API_URL + "/medical-centers",
+    //// FAMILY GROUP
+
+      userPatient: API_URL + "/users/patient/me",  
+
+    //// INFO MEDICAL CENTERS
+
+      infoCompany: API_URL + "/medical-centers",
+
+    //// SEARCH
+      specialites: API_URL +"/specialties",
+
 };

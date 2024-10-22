@@ -19,6 +19,10 @@ const HomePage: React.FC = () => {
     router.push("/aboutus");
   };
 
+  const handleContact = () => {
+    router.push("/contact");
+  };
+
   return (
     <View className={styles.containerHome}>
 
@@ -53,7 +57,8 @@ const HomePage: React.FC = () => {
       <View className={styles.containerBelow}>
         <View className={styles.iconContainer}>
           <View className={styles.iconButtonWrapper}>
-            <TouchableOpacity className={styles.iconButton}>
+            <TouchableOpacity className={styles.iconButton}
+            >
               <Entypo name="images" size={26} color="#539091" />
             </TouchableOpacity>
             <Text className={styles.iconText}>Cartelera Informativa</Text>
@@ -68,7 +73,8 @@ const HomePage: React.FC = () => {
           </View>
 
           <View className={styles.iconButtonWrapper}>
-            <TouchableOpacity className={styles.iconButton}>
+            <TouchableOpacity className={styles.iconButton}
+            onPress={handleContact}>
               <Entypo name="info" size={26} color="#539091" />
             </TouchableOpacity>
             <Text className={styles.iconText}>Información de contacto</Text>

@@ -4,7 +4,7 @@ export const getToken = async (): Promise<string | null> => {
   try {
     const session = await AsyncStorage.getItem('userSession');
     const userSession = session ? JSON.parse(session) : null;
-    return userSession?.token ?? null;
+    return userSession?.token || null;
   } catch (error) {
     console.error('Error al obtener el token:', error);
     return null;

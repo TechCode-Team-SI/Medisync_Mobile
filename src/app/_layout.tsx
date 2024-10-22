@@ -46,14 +46,16 @@ export default function RootLayout() {
       <Stack.Screen name="board/index" options={{ headerShown: false }} />
       <Stack.Screen name="publication/index" options={{ headerShown: false }} />
       <Stack.Screen name="family/index" options={{ headerShown: false }} />
+      <Stack.Screen name="userfamily/index" options={{ headerShown: false }} />
+      <Stack.Screen name="addfamily/index" options={{ headerShown: false }} />
       <Stack.Screen name="supporthistory/index" options={{ headerShown: false }} />
       <Stack.Screen name="chat/index" options={{ headerShown: false }} />
       <Stack.Screen name="createappointment/index" options={{ headerShown: false }} />
-      <Stack.Screen name="createappointmenttwo/index" options={{ headerShown: false }} />
       <Stack.Screen name="support/index" options={{ headerShown: false }} />
       <Stack.Screen name="suggestions/index" options={{ headerShown: false }} />
       <Stack.Screen name="claims/index" options={{ headerShown: false }} />
       <Stack.Screen name="notifications/index" options={{ headerShown: false }} />
+      <Stack.Screen name="contact/index" options={{ headerShown: false }} />
     </Stack>
   );
 }

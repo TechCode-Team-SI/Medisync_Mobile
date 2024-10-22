@@ -45,7 +45,7 @@ fetchMedicalCenters();
 
       <Text className={styles.title1}>{medicalCenters.name}</Text>
 
-      <View className={styles.containerNosotros}>
+      <View className={styles.containerBg}>
 
         <Text className={styles.title2}>MISIÓN</Text>
         <Text className={styles.description}>
