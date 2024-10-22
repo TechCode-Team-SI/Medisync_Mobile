@@ -1,5 +1,9 @@
 const API_URL = "https://chengkev.online/api/v1"
 
+/////ARREGLAR REDUNDANCIA 
+export type ApiResult<T> = { success: boolean; data?: T; message?: string };
+
+
 export const api = {
 
     ////AUTH

@@ -15,5 +15,5 @@ export const pickImage = async () => {
     quality: 1,
   });
 
-  return result.canceled ? null : result.assets[0].uri; 
+  return result.canceled ? null : result.assets[0]; 
 };
