@@ -18,6 +18,8 @@ export const login = async (email: string, password: string): Promise<ApiResult>
       tokenExpires,
       user
     });
+        // Guardar la contraseña en AsyncStorage
+        await AsyncStorage.setItem('userPassword', password);
 
     return { success: true, data: response.data };
   } catch (error) {
