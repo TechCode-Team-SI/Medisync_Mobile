@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import styles from "@/src/components/AppointmentsComponents/stylesCreate";
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
-import Dropdown from "@/src/components/Dropdown"; 
-import DatePicker from "@/src/components/DatePicker";
+import Dropdown from "@/src/components/Forms/Dropdown"; 
+import DatePicker from "@/src/components/Forms/DatePicker";
 import { getUserPatients } from '@/src/services/familyGroup/familyServices';
+
 
 const CreateAppointmentPage: React.FC = () => {
     const [selectedPatient, setSelectedPatient] = useState(''); 

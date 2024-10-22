@@ -1,5 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logout } from './authServices'; 
+import { logout,login } from './authServices'; 
 import { router } from 'expo-router';
 import { register } from '@/src/services/auth/authServices'; 
 import { validateEmail, validatePasswordLength, validatePasswordsMatch } from '@/src/utils/validators'; 
@@ -10,8 +9,12 @@ interface HandleRegisterParams {
   inputPassword2: string;
   inputName: string;
   inputPhone: string;
+  inputDNI: string;
+  selectedGender: string;
+  inputCalendar: Date | null;
   setModalMessage: (message: string) => void;
   setModalVisible: (visible: boolean) => void;
+  setShowSuccessModal: (visible: boolean) => void;
 }
 
 export const handleRegister = async ({
@@ -20,6 +23,10 @@ export const handleRegister = async ({
   inputPassword2,
   inputName,
   inputPhone,
+  inputDNI,
+  selectedGender,
+  inputCalendar,
+  setShowSuccessModal,
   setModalMessage,
   setModalVisible,
 }: HandleRegisterParams) => {
@@ -46,13 +53,32 @@ export const handleRegister = async ({
       password: inputPassword,
       fullName: inputName,
       phone: inputPhone,
+      userPatient: {
+        dni: inputDNI,
+        fullName: inputName,
+        gender: selectedGender,
+        birthday: inputCalendar?.toISOString(),
+      },
     };
 
-    const response = await register(registerData);
-    console.log('Registro exitoso:', response);
-    setModalMessage('Registro exitoso');
-    setModalVisible(true);
-    router.push("/login");
+    const registerResponse = await register(registerData);
+    console.log('Registro exitoso:', registerResponse);
+
+    const loginResponse = await login(inputEmail, inputPassword);
+
+    if (loginResponse.success) {
+      setShowSuccessModal(true);
+
+      setTimeout(() => {
+        router.replace("/homeuser");
+      }, 150);
+
+
+    } else {
+      setModalMessage('Error al iniciar sesión después del registro.');
+      setModalVisible(true);
+    }
+    
   } catch (error: any) {
     if (error.response && error.response.status === 422) {
       const message = error.response.data.message || 'Error de validación. Intenta de nuevo.';

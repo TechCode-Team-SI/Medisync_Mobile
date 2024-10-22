@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import styles from './ProfileComponents/stylesProfile';
+import styles from '../Styles/styles';
 
 interface DatePickerProps {
     value: Date | null; 
@@ -24,7 +24,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
     return (
         <View>
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                <View className={styles.inputContainer2}>
+                <View className={styles.inputContainer}>
                     <Entypo name="calendar" size={24} color="#539091" />
                     <TextInput
                         className={styles.input}  

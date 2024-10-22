@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile";
-import DatePicker from "@/src/components/DatePicker";
-import Entypo from '@expo/vector-icons/Entypo';
-import Dropdown from "@/src/components/Dropdown"; 
-import AlertModal from '@/src/components/Modal/AlertModal';
+
 import { createUserPatient } from "@/src/services/familyGroup/familyServices";
 import { getToken } from '@/src/services/auth/sessionServices';
 import { isDateValid } from '@/src/utils/validators'; 
+
+import FormField from "@/src/components/Forms/FormField";
+import Dropdown from "@/src/components/Forms/Dropdown"; 
+import AlertModal from '@/src/components/Modal/AlertModal';
+import DatePicker from "@/src/components/Forms/DatePicker";
 
 const genderOptions = [
     { label: "Femenino", value: "F" },
@@ -85,30 +87,21 @@ const AddFamilyPage: React.FC = () => {
 
             <View className={styles.containerBg1}>
                 <Text className={styles.title3}>Nombres</Text>
-                <View className={styles.inputContainer2}>
-                    <Entypo name="user" size={24} color="#539091" />
-                    <TextInput
-                        className={styles.input}
-                        placeholder="Nombre completo"
-                        placeholderTextColor="#539091"
-                        value={inputName}
-                        onChangeText={setInputName}
-                        maxLength={60}
-                    />
-                </View>
+                <FormField
+                    icon="user"
+                    placeholder="Nombre completo"
+                    value={inputName}
+                    onChangeText={setInputName}
+                />
 
                 <Text className={styles.title3}>Cédula</Text>
-                <View className={styles.inputContainer2}>
-                    <Entypo name="v-card" size={24} color="#539091" />
-                    <TextInput
-                        className={styles.input}
-                        placeholder="Cédula"
-                        placeholderTextColor="#539091"
-                        value={inputDNI}
-                        onChangeText={setInputDNI}
-                        maxLength={15}
-                    />
-                </View>
+                <FormField
+                    icon="v-card"
+                    placeholder="Cédula"
+                    value={inputDNI}
+                    onChangeText={setInputDNI}
+                />
+                
 
                 <Text className={styles.title3}>Sexo</Text>
                 <Dropdown

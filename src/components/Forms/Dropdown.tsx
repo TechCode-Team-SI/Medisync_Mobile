@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import Entypo from '@expo/vector-icons/Entypo';
+import styles from '../Styles/styles';
 
 interface DropdownProps {
     options: { label: string, value: string }[];
@@ -22,7 +23,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, placeholder, selectedValue
     return (
         <View>
             <TouchableOpacity onPress={() => setIsDropdownOpen(!isDropdownOpen)}>
-                <View className="flex-row items-center bg-bgInput w-full p-3 h-12">
+                <View className={styles.inputContainer}>
                     <Entypo name="chevron-thin-down" size={24} color="#539091" />
                     <Text className="flex-1 ml-1 text-primary">
                         {selectedLabel} 
