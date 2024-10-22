@@ -1,36 +1,45 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { api } from '@/src/services/api/apiConfig';
+import { getToken } from '@/src/services/auth/sessionServices';
+import { Platform } from 'react-native';
+import { ImagePickerAsset } from 'expo-image-picker';
+import mime from 'mime'; 
 
-export const uploadImage = async (imageUri: string) => {
+export const uploadImage = async (image: ImagePickerAsset): Promise<string> => {
+  const token = await getToken();
+
+  const uri = Platform.OS === 'ios' ? 'file:///' + image.uri.split('file:/').join('') : image.uri; 
+  const type = mime.getType(uri) ?? 'image/jpeg'; 
+  const fileName = image?.fileName ?? `image_${Date.now()}.${type.split('/')[1]}`;
+
   const formData = new FormData();
-
-  const uriParts = imageUri.split('.');
-  const fileType = uriParts[uriParts.length - 1];
-
-  const response = await fetch(imageUri);
-  const blob = await response.blob();
-
-  formData.append('file', blob, `image.${fileType}`);
+  formData.append('file', {
+    uri,
+    type,
+    name: fileName
+  } as any);
 
   try {
     const uploadResponse = await axios.post(api.upload, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
       },
     });
-    
-    console.log('Respuesta de la subida de imagen:', uploadResponse.data);
     return uploadResponse.data.file.id; 
   } catch (error) {
-    const axiosError = error as AxiosError;
-
-    if (axiosError.response) {
-      console.error('Error de respuesta del servidor:', axiosError.response.data);
-      console.error('Código de estado:', axiosError.response.status);
-    } else if (axiosError.request) {
-      console.error('Sin respuesta del servidor:', axiosError.request);
+    if (axios.isAxiosError(error)) {
+      console.error('Error en la subida de la imagen:', error);
+      if (error.response) {
+        console.error('Detalles de la respuesta del servidor:', error.response.data);
+        console.error('Código de estado:', error.response.status);
+      } else if (error.request) {
+        console.error('No se recibió respuesta:', error.request);
+      } else {
+        console.error('Error al configurar la solicitud:', error.message);
+      }
     } else {
-      console.error('Error al configurar la solicitud:', axiosError.message);
+      console.error('Error desconocido:', error);
     }
     throw error; 
   }

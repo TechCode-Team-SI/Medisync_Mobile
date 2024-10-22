@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
     if (result.success) {
       setShowSuccessModal(true);
       
-      router.replace('/homeuser'); 
+      router.push('/homeuser'); 
     } else {
       setModalMessage(result.message);
       setShowErrorModal(true);

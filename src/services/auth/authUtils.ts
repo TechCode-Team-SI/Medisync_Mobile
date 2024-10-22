@@ -71,7 +71,7 @@ export const handleLogout = async () => {
     const result = await logout(); 
 
     if (result.success) {
-      router.replace("/login"); 
+      router.push("/login"); 
     } else {
       console.log('Error al cerrar sesión:', result.message);
     }

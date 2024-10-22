@@ -1,13 +1,13 @@
-/// ARREGLAR/////
-
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { Text, View, TouchableOpacity, TextInput, ScrollView} from "react-native";
 import styles from "@/src/components/AppointmentsComponents/stylesCreate";
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-const CreateAppointmentPage: React.FC = () => {
+
+
+const CreateAppointmentPage2: React.FC = () => {
 
   return (
     <View className={styles.container} >
@@ -15,30 +15,45 @@ const CreateAppointmentPage: React.FC = () => {
         <ButtonBack/>
 
         <Text className={styles.title1}> Agenda tu cita </Text>
-        
 
-        <ScrollView className={styles.containerBg1} >  
+        <ScrollView className={styles.containerBg1}>
 
-            <Text className={styles.title2}>Paciente registrado</Text>
+            <Text className={styles.title2}>Paciente nuevo</Text>
 
             <Text className={styles.text}>Nombres</Text>
-            <View className={styles.containerData}>
-                <Text>Nombre y Apellido</Text>
+            <View className={styles.containerInput2}>
+                <TextInput
+                        className={styles.input}
+                        placeholder="Ingrese..."
+                        placeholderTextColor="#539091"
+                    />
             </View>
 
             <Text className={styles.text}>Cédula</Text>
-            <View className={styles.containerData}>
-                <Text>11.111.111</Text>
+            <View className={styles.containerInput2}>
+                <TextInput
+                        className={styles.input}
+                        placeholder="Ingrese..."
+                        placeholderTextColor="#539091"
+                    />
             </View>
 
             <Text className={styles.text}>Edad</Text>
-            <View className={styles.containerData}>
-                <Text>Años</Text>
+            <View className={styles.containerInput2}>
+                <TextInput
+                        className={styles.input}
+                        placeholder="Ingrese..."
+                        placeholderTextColor="#539091"
+                    />
             </View>
 
             <Text className={styles.text}>Tipo de sangre</Text>
-            <View className={styles.containerData}>
-                <Text>Alguno</Text>
+            <View className={styles.containerInput2}>
+                <TextInput
+                    className={styles.input}
+                    placeholder="Ingrese..."
+                    placeholderTextColor="#539091"
+                />
             </View>
 
             <View className={styles.container2}>
@@ -64,10 +79,10 @@ const CreateAppointmentPage: React.FC = () => {
                 </TouchableOpacity>
             </View>
 
-        </ScrollView> 
-        
+        </ScrollView>
+
     </View>
   );
 };
 
-export default CreateAppointmentPage;
+export default CreateAppointmentPage2;

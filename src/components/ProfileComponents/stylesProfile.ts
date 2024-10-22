@@ -19,14 +19,11 @@ const stylesProfile = {
     container3: "items-center justify-center pt-9 mb-5 h-12", //Profile
     container4: "justify-center items-center", //Config
 
-    containerData2: "flex-row items-center bg-bgData w-full mb-4 p-3 h-12",//FAMILY USER
-
     title: "text-primary font-montserrat text-center pt-12 text-3xl px-22 m-4" , //Update
     title1: "text-base font-montserrat text-center pt-12 text-xl px-22", // Profile
     title3: " font-montserrat text-left my-3 text-primary text-l",   //Config
     
     inputContainer: "flex-row items-center bg-bgInput w-full mb-4 p-3 h-12",//Update
-    inputContainer2: "flex-row items-center bg-bgInput w-full p-3 h-12", //Family group
     input: 'mx-1 w-4/5 h-full',
   
     ///Button
@@ -41,12 +38,9 @@ const stylesProfile = {
     containerBack: "flex justify-start w-3/12 p-7 mt-4",
 
     //Family
-    title4: "text-base font-montserrat text-center text-2xl text-principal pt-7", // Profile
     text: "text-base text-primary py-4",
-    button2: 'shadow flex-row w-full space-x-4 h-16 items-center bg-bgData rounded-xl p-5 my-2', 
+    button2: 'shadow flex-row w-full space-x-4 h-16 items-center bg-terciary rounded-xl p-5 my-2', 
     buttonText2: 'basis-3/4 mt-1 h-7 text-primary text-base font-montserrat',
-    containerFamily:"",
-    containerTop:"flex-row items-center justify-between pb-2",
     };
     
     export default stylesProfile;
