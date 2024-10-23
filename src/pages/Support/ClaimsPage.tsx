@@ -1,53 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, Modal, TouchableOpacity, TextInput } from "react-native";
-import styles from "@/src/components/SupportComponents/stylesSupport";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
+import TicketPage from "@/src/components/SupportComponents/TicketPage";
 
 const ClaimsPage: React.FC = () => {
-
   return (
-    <View className={styles.container}>
-          <TopBarSupport title="Reclamos" />
-
-          <View className={styles.container3}>
-            <MaterialCommunityIcons name="headset" size={100} color="#539091" />
-
-            <Text className={styles.title1}>¿Algo no está bien? Escribe tu reclamo.</Text>
-
-          </View>
-
-          <View className={styles.container4}>
-
-            <Text className={styles.text2}>Título</Text>
-                <View className={styles.containerInput}>
-                    <TextInput
-                    className={styles.input}
-                    placeholder=""
-                    placeholderTextColor="#539091"
-                />
-                </View>
-
-            <Text className={styles.text3}>Descripción</Text>
-                <View className={styles.containerInput2}>
-                    <TextInput
-                    className={styles.input}
-                    placeholder=""
-                    placeholderTextColor="#539091"
-                />
-                </View>
-                
-                <TouchableOpacity
-                  className={styles.button1}
-                  >
-                  <Text className={styles.buttonText1}>Crear</Text>
-                </TouchableOpacity>
-          </View>
-
-
-
-
-    </View>
+    <TicketPage
+      title="Reclamos"
+      icon="alert"
+      descriptionText="¿Algo no está bien? Escribe tu reclamo."
+      type="complaint"
+    />
   );
 };
 
