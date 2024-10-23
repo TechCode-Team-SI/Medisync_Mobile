@@ -4,8 +4,7 @@ import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
 import { getTickets } from '@/src/services/tickets/ticketsServices';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import styles from '@/src/components/SupportComponents/stylesSuggestion';
-
-///ARREGLAR LOS ESTILOS
+import { router } from "expo-router";
 
 const SupportHistoryPage: React.FC = () => {
   const [tickets, setTickets] = useState<{ id: string; title: string; type: string; status: string; createdAt: string; }[]>([]);
@@ -53,6 +52,10 @@ const SupportHistoryPage: React.FC = () => {
     };
   };
 
+  const handlePress = (ticketId: string) => {
+    router.push("/chat");
+  };
+
   return (
     <View className="flex-1 bg-white">
       <TopBarSupport title="Historial" />
@@ -62,7 +65,11 @@ const SupportHistoryPage: React.FC = () => {
           {tickets.map(ticket => {
             const { date, time } = formatDate(ticket.createdAt); 
             return (
-              <TouchableOpacity key={ticket.id} className="bg-terciary p-4 mb-4 rounded-xl mx-1 shadow flex-row items-start">
+              <TouchableOpacity 
+                key={ticket.id} 
+                className="bg-terciary p-4 mb-4 rounded-xl mx-1 shadow flex-row items-start"
+                onPress={() => handlePress(ticket.id)} // Maneja el clic
+              >
                 <View className="bg-primary rounded-full p-2 mr-2 mt-4">
                   <MaterialCommunityIcons name="headset" size={36} color="white" />
                 </View>
@@ -70,8 +77,7 @@ const SupportHistoryPage: React.FC = () => {
                   <Text className="text-lg font-bold text-primary" numberOfLines={2} ellipsizeMode="tail">
                     {ticket.title || "Título no disponible"}
                   </Text>
-                  <Text className="text-xs text-gray-500 my-0.5">Fecha: {date}   Hora: {time}
-                  </Text>
+                  <Text className="text-xs text-gray-500 my-0.5">Fecha: {date}   Hora: {time}</Text>
                   <Text className="text-sm text-cancel">{getTypeLabel(ticket.type)}</Text>
                   <Text className="text-base text-secondary font-extrabold">{getStatusLabel(ticket.status)}</Text>
                 </View>
@@ -85,6 +91,7 @@ const SupportHistoryPage: React.FC = () => {
 };
 
 export default SupportHistoryPage;
+
 
 
 

@@ -23,6 +23,11 @@ const HomePage: React.FC = () => {
     router.push("/contact");
   };
 
+  const handleBoard = () => {
+    router.push("/board");
+  };
+
+
   return (
     <View className={styles.containerHome}>
 
@@ -58,6 +63,7 @@ const HomePage: React.FC = () => {
         <View className={styles.iconContainer}>
           <View className={styles.iconButtonWrapper}>
             <TouchableOpacity className={styles.iconButton}
+              onPress={handleBoard}
             >
               <Entypo name="images" size={26} color="#539091" />
             </TouchableOpacity>
