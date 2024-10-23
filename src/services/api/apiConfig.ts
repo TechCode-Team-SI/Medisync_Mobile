@@ -2,6 +2,7 @@ const API_URL = "https://chengkev.online/api/v1"
 
 /////ARREGLAR REDUNDANCIA 
 export type ApiResult<T> = { success: boolean; data?: T; message?: string };
+export type ApiResult2<T> = { success: boolean; data?: T; message?: string };
 
 
 export const api = {
@@ -39,6 +40,7 @@ export const api = {
 
     //// SUPPORT
       tickets: API_URL +"/tickets",
+      mytickets: API_URL +"/tickets/me",
 
 
 

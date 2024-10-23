@@ -20,6 +20,12 @@ const stylesSupport = {
 
     button1: 'w-full h-12 items-center justify-center bg-primary rounded-xl mt-8', //Config
     buttonText1: 'text-principal text-lg font-montserrat',
+
+    //////////HISTORY
+    containerHistory:"flex-1 bg-white",
+    containerItem:"flex-1 p-4",
+    titleHistory:"text-lg font-bold",
+
     
     };
     

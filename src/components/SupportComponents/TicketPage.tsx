@@ -91,7 +91,7 @@ const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, t
           </View>
 
           <TouchableOpacity className={styles.button1} onPress={handleCreateTicket}>
-            <Text className={styles.buttonText1}>Crear {type === "suggestion" ? "Sugerencia" : "Reclamo"}</Text>
+            <Text className={styles.buttonText1}>Crear ticket</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

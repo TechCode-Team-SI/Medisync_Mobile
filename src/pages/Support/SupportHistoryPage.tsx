@@ -1,76 +1,90 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity,ScrollView  } from 'react-native';
-import styles from '@/src/components/SupportComponents/stylesSuggestion';
-import ItemList from '@/src/components/SupportComponents/ItemList';
+import React, { useEffect, useState } from 'react';
+import { View, TouchableOpacity, ScrollView, Text } from 'react-native';
 import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
+import { getTickets } from '@/src/services/tickets/ticketsServices';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import styles from '@/src/components/SupportComponents/stylesSuggestion';
 
+///ARREGLAR LOS ESTILOS
 
 const SupportHistoryPage: React.FC = () => {
+  const [tickets, setTickets] = useState<{ id: string; title: string; type: string; status: string; createdAt: string; }[]>([]);
 
-    const images = [  
-        {   
-          codigo: '#0005',
-          fecha: '22-02-2024', 
-          hora: '11:04 am', 
-          tipoTicket:'Tipo de Ticket',
-          estatus:'Pendiente',  
-           
-        },  
-        {  
-          codigo: '#0004',
-          fecha: '22-02-2024', 
-          hora: '11:04 am', 
-          tipoTicket:'Tipo de Ticket',
-          estatus:'Cerrado',  
-           
-        },  
-        {  
-          codigo: '#0003',
-          fecha: '22-02-2024', 
-          hora: '11:04 am', 
-          tipoTicket:'Tipo de Ticket',
-          estatus:'En proceso',  
-         
-      }, 
-      {   
-        codigo: '#0002',
-        fecha: '22-02-2024', 
-        hora: '11:04 am', 
-        tipoTicket:'Tipo de Ticket',
-        estatus:'Cerrado',  
-    }, 
-    {   
-      codigo: '#0001',
-      fecha: '22-02-2024', 
-      hora: '11:04 am', 
-      tipoTicket:'Tipo de Ticket',
-      estatus:'Pendiente',  
-  }, 
+  const fetchTickets = async () => {
+    const response = await getTickets();
+    if (response.success && response.data && Array.isArray(response.data.data)) {
+      const ticketsList = response.data.data.map((ticket: any) => ({
+        id: ticket.id,
+        title: ticket.title,
+        type: ticket.type,
+        status: ticket.status,
+        createdAt: ticket.createdAt,
+      }));
+      setTickets(ticketsList);
+    } else {
+      console.error("Error al obtener tickets:", response.message);
+    }
+  };
 
+  useEffect(() => {
+    fetchTickets();
+  }, []);
 
-    ]; 
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case 'complaint':
+        return 'Reclamo';
+      case 'suggestion':
+        return 'Sugerencia';
+      default:
+        return type;
+    }
+  };
 
+  const getStatusLabel = (status: string) => {
+    return status === 'open' ? 'Abierto' : status;
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return {
+      date: date.toLocaleDateString('es-ES'), 
+      time: date.toLocaleTimeString('es-ES'), 
+    };
+  };
 
   return (
-    <View className={styles.container}>
+    <View className="flex-1 bg-white">
+      <TopBarSupport title="Historial" />
 
-        <TopBarSupport title="Historial" />
-        
-            <View className={styles.container2}>
-                <ScrollView className={styles.container3}>  
-                   {images.map((item, index) => (  
-                     <ItemList  
-                      key={index}
-                      codigo={item.codigo}
-                      fecha={item.fecha}
-                      hora={item.hora}  
-                      tipoTicket={item.tipoTicket}  
-                      estatus={item.estatus}  />  
-                      ))}  
-                </ScrollView>  
-          </View>
+      <View className="flex-1 p-4">
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+          {tickets.map(ticket => {
+            const { date, time } = formatDate(ticket.createdAt); 
+            return (
+              <TouchableOpacity key={ticket.id} className="bg-terciary p-4 mb-4 rounded-xl mx-1 shadow flex-row items-start">
+                <View className="bg-primary rounded-full p-2 mr-2 mt-4">
+                  <MaterialCommunityIcons name="headset" size={36} color="white" />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text className="text-lg font-bold text-primary" numberOfLines={2} ellipsizeMode="tail">
+                    {ticket.title || "Título no disponible"}
+                  </Text>
+                  <Text className="text-xs text-gray-500 my-0.5">Fecha: {date}   Hora: {time}
+                  </Text>
+                  <Text className="text-sm text-cancel">{getTypeLabel(ticket.type)}</Text>
+                  <Text className="text-base text-secondary font-extrabold">{getStatusLabel(ticket.status)}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </View>
     </View>
   );
 };
 
 export default SupportHistoryPage;
+
+
+
