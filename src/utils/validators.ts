@@ -16,4 +16,13 @@ export const isDateValid = (selectedDate: Date | null) => {
     const today = new Date();
     return selectedDate <= today; 
   };
+
+  export const validateDescription = (description: string): boolean => {
+    return description.trim() !== '' ;
+};
+
+export const validateTitle = (title1: string): boolean => {
+    return title1.trim() !== '' ;
+};
   
+
