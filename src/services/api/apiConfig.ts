@@ -6,7 +6,7 @@ export type ApiResult<T> = { success: boolean; data?: T; message?: string };
 
 export const api = {
 
-    ////AUTH
+    //// AUTH
 
       register: API_URL + "/auth/register",
       login: API_URL + "/auth/login",
@@ -18,15 +18,15 @@ export const api = {
 
       expiredCode: API_URL + "/auth/confirm/email",             // PENDIENTE
 
-    //// FILES
+    ///// FILES
 
       upload: API_URL + "/files/upload",
 
-    //// USER
+    ///// USER
 
       infoUser: API_URL + "/auth/me",             
 
-    //// FAMILY GROUP
+    ///// FAMILY GROUP
 
       userPatient: API_URL + "/users/patient/me",  
 
@@ -36,5 +36,10 @@ export const api = {
 
     //// SEARCH
       specialites: API_URL +"/specialties",
+
+    //// SUPPORT
+      tickets: API_URL +"/tickets",
+
+
 
 };
