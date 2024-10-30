@@ -4,44 +4,44 @@ import { register } from '@/src/services/auth/authServices';
 import { validateEmail, validatePasswordLength, validatePasswordsMatch } from '@/src/utils/validators'; 
 
 interface HandleRegisterParams {
-  inputEmail: string;
-  inputPassword: string;
-  inputPassword2: string;
-  inputName: string;
-  inputPhone: string;
-  inputDNI: string;
+  email: string;
+  password: string;
+  password2: string;
+  name: string;
+  phone: string;
+  dni: string;
   selectedGender: string;
-  inputCalendar: Date | null;
+  birthday: Date | null;
   setModalMessage: (message: string) => void;
   setModalVisible: (visible: boolean) => void;
   setShowSuccessModal: (visible: boolean) => void;
 }
 
 export const handleRegister = async ({
-  inputEmail,
-  inputPassword,
-  inputPassword2,
-  inputName,
-  inputPhone,
-  inputDNI,
+  email,
+  password,
+  password2,
+  name,
+  phone,
+  dni,
   selectedGender,
-  inputCalendar,
+  birthday,
   setShowSuccessModal,
   setModalMessage,
   setModalVisible,
 }: HandleRegisterParams) => {
 
-  if (!validateEmail(inputEmail)) {
+  if (!validateEmail(email)) {
     setModalMessage('El email no es válido.');
     setModalVisible(true);
     return;
   }
-  if (!validatePasswordLength(inputPassword)) {
+  if (!validatePasswordLength(password)) {
     setModalMessage('La contraseña debe tener al menos 8 caracteres.');
     setModalVisible(true);
     return;
   }
-  if (!validatePasswordsMatch(inputPassword, inputPassword2)) {
+  if (!validatePasswordsMatch(password, password2)) {
     setModalMessage('Las contraseñas no coinciden.');
     setModalVisible(true);
     return;
@@ -49,29 +49,29 @@ export const handleRegister = async ({
 
   try {
     const registerData = {
-      email: inputEmail,
-      password: inputPassword,
-      fullName: inputName,
-      phone: inputPhone,
+      email: email,
+      password: password,
+      fullName: name,
+      phone: phone,
       userPatient: {
-        dni: inputDNI,
-        fullName: inputName,
+        dni: dni,
+        fullName: name,
         gender: selectedGender,
-        birthday: inputCalendar?.toISOString(),
+        birthday: birthday?.toISOString(),
       },
     };
 
     const registerResponse = await register(registerData);
     console.log('Registro exitoso:', registerResponse);
 
-    const loginResponse = await login(inputEmail, inputPassword);
+    const loginResponse = await login(email, password);
 
     if (loginResponse.success) {
       setShowSuccessModal(true);
 
       setTimeout(() => {
         router.replace("/homeuser");
-      }, 150);
+      }, 50);
 
 
     } else {

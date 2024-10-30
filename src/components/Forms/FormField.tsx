@@ -12,6 +12,8 @@ interface FormFieldProps {
   onChangeText: (text: string) => void;
   keyboardType?: 'default' | 'numeric' | 'email-address' | 'phone-pad'; 
   secureTextEntry?: boolean; 
+  maxLength?: number;
+  editable?: boolean; 
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -21,6 +23,8 @@ const FormField: React.FC<FormFieldProps> = ({
   onChangeText,
   keyboardType = 'default',
   secureTextEntry = false,
+  maxLength,
+  editable = true 
 }) => {
   return (
     <View className={styles.inputContainer}>
@@ -33,6 +37,8 @@ const FormField: React.FC<FormFieldProps> = ({
         onChangeText={onChangeText}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
+        maxLength={maxLength} 
+        editable={editable} 
       />
     </View>
   );

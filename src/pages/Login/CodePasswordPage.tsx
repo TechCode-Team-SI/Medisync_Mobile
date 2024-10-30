@@ -6,12 +6,12 @@ import { Link, router } from "expo-router";
 
 import { confirmCode } from "@/src/services/auth/authServices";
 import AlertModal from '@/src/components/Modal/AlertModal';
+import FormField from "@/src/components/Forms/FormField";
 
 
 const CodePasswordPage: React.FC = () => {
 
   const [code, setCode] = useState('');
-  const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
 
@@ -49,18 +49,14 @@ const CodePasswordPage: React.FC = () => {
         <Text className={styles.title2}>
            Por favor, ingrese el código que le hemos enviado a su correo electrónico.
         </Text>
-
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091" />
-          <TextInput
-            className={styles.input}
-            placeholder="Código"
-            placeholderTextColor="#539091"
-            value={code}
-            onChangeText={setCode}
-            secureTextEntry={true} 
-          />
-        </View>
+        
+        <FormField
+          icon="lock"
+          placeholder="Código"
+          value={code}
+          onChangeText={setCode}
+          keyboardType="email-address"
+        />
 
         <View className={styles.container4}>
           <TouchableOpacity 

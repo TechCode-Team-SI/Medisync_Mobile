@@ -9,13 +9,14 @@ import { uploadImage } from "@/src/services/files/filesServices";
 import { ImagePickerAsset } from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import AlertModal from '@/src/components/Modal/AlertModal';
+import FormField from "@/src/components/Forms/FormField";
 
 type UserImage = string | ImagePickerAsset | null;
 
 const ConfigProfilePage: React.FC = () => {
-  const [inputName, setInputName] = useState("");
-  const [inputEmail, setInputEmail] = useState("");
-  const [inputPhone, setInputPhone] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [selectedImage, setSelectedImage] = useState<UserImage>(null);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,9 +30,9 @@ const ConfigProfilePage: React.FC = () => {
       if (result.success) {
         const userData = result.data;
         if (userData) {
-          setInputName(userData.fullName);
-          setInputEmail(userData.email);
-          setInputPhone(userData.phone);
+          setName(userData.fullName);
+          setEmail(userData.email);
+          setPhone(userData.phone);
           setSelectedImage(userData?.photo?.path ?? ''); 
         }
       } else {
@@ -55,8 +56,8 @@ const ConfigProfilePage: React.FC = () => {
     }
   
     const updateUserResult = await updateUserProfile({
-      fullName: inputName,
-      phone: inputPhone,
+      fullName: name,
+      phone: phone,
       ...(imageId && { photo: { id: imageId } }), 
     });
   
@@ -91,40 +92,33 @@ const ConfigProfilePage: React.FC = () => {
 
         <View className={styles.containerData}>
           <Text className={styles.title3}> Nombres </Text>
-          <View className={styles.inputContainer}>
-            <Entypo name="lock" size={24} color="#539091" />
-            <TextInput
-              className={styles.input}
-              placeholder="Nombre completo"
-              placeholderTextColor="#539091"
-              value={inputName}
-              onChangeText={setInputName}
-            />
-          </View>
+          <FormField
+            icon="user"
+            placeholder="Nombre completo"
+            value={name}
+            onChangeText={setName}
+            maxLength={100}
+          />
 
           <Text className={styles.title3}> Correo</Text>
-          <View className={styles.inputContainer}>
-            <Entypo name="lock" size={24} color="#539091" />
-            <TextInput
-              className={styles.input}
-              placeholder="email"
-              placeholderTextColor="#539091"
-              value={inputEmail}
-              editable={false}
-            />
-          </View>
+          <FormField
+            icon="mail"
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            editable={false}
+          />
 
           <Text className={styles.title3}> Teléfono</Text>
-          <View className={styles.inputContainer}>
-            <Entypo name="lock" size={24} color="#539091" />
-            <TextInput
-              className={styles.input}
-              placeholder="XXXX-XXXXXXX"
-              placeholderTextColor="#539091"
-              value={inputPhone}
-              onChangeText={setInputPhone}
-            />
-          </View>
+          <FormField
+            icon="phone"
+            placeholder="xxxx-xxxxxxx"
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad" 
+            maxLength={20}
+          />
 
           <View className={styles.container4}>
             <TouchableOpacity className={styles.button1} onPress={handleSave}>

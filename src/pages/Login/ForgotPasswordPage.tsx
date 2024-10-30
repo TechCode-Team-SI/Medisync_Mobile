@@ -5,6 +5,7 @@ import { Link, router } from "expo-router";
 import styles from "@/src/components/LoginComponents/stylesLogin";
 import { forgotPassword } from "@/src/services/auth/authServices";
 import AlertModal from '@/src/components/Modal/AlertModal';
+import FormField from "@/src/components/Forms/FormField";
 
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState(''); 
@@ -47,17 +48,13 @@ const ForgotPasswordPage: React.FC = () => {
           Introduce tu correo electrónico y te enviaremos un enlace para que vuelvas a entrar en tu cuenta.
         </Text>
 
-        <View className={styles.inputContainer}>
-          <Entypo name="mail" size={24} color="#539091" />
-          <TextInput
-            className={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#539091"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-          />
-        </View>
+        <FormField
+          icon="mail"
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
 
         <View className={styles.container4}>
           <TouchableOpacity 

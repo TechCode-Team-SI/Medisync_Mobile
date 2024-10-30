@@ -17,14 +17,14 @@ const genderOptions = [
 ];
 
 const RegisterPage: React.FC = () => {
-  const [inputEmail, setInputEmail] = useState('');
-  const [inputName, setInputName] = useState('');
-  const [inputPhone, setInputPhone] = useState('');
-  const [inputDNI, setInputDNI] = useState('');
-  const [inputCalendar, setInputCalendar] = useState<Date | null>(null); 
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [dni, setDNI] = useState('');
+  const [birthday, setBirthday] = useState<Date | null>(null); 
   const [selectedGender, setSelectedGender] = useState(''); 
-  const [inputPassword, setInputPassword] = useState('');
-  const [inputPassword2, setInputPassword2] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
 
   const [showSuccessModal, setShowSuccessModal] = useState(false); 
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,26 +33,26 @@ const RegisterPage: React.FC = () => {
 
   useEffect(() => {
     const allFieldsFilled = 
-      inputEmail !== '' && 
-      inputName !== '' && 
-      inputPassword !== '' && 
-      inputPassword2 !== '' && 
-      inputCalendar !== null && 
-      inputDNI !== '' && 
+      email !== '' && 
+      name !== '' && 
+      password !== '' && 
+      password2 !== '' && 
+      birthday !== null && 
+      dni !== '' && 
       selectedGender !== '';
     
     setIsButtonDisabled(!allFieldsFilled); 
-  }, [inputEmail, inputName, inputPassword, inputPassword2, inputCalendar, inputDNI, selectedGender]);
+  }, [email, name, password, password2, birthday, dni, selectedGender]);
 
   const onRegister = async () => {
     await handleRegister({
-      inputEmail,
-      inputPassword,
-      inputPassword2,
-      inputName,
-      inputPhone,
-      inputDNI, 
-      inputCalendar, 
+      email,
+      password,
+      password2,
+      name,
+      phone,
+      dni, 
+      birthday, 
       selectedGender,
       setModalMessage,
       setModalVisible,
@@ -67,28 +67,31 @@ const RegisterPage: React.FC = () => {
       <FormField
         icon="mail"
         placeholder="Email"
-        value={inputEmail}
-        onChangeText={setInputEmail}
+        value={email}
+        onChangeText={setEmail}
         keyboardType="email-address"
       />
       <FormField
         icon="user"
         placeholder="Nombre completo"
-        value={inputName}
-        onChangeText={setInputName}
+        value={name}
+        onChangeText={setName}
+        maxLength={100}
       />
       <FormField
         icon="phone"
         placeholder="Teléfono (opcional)"
-        value={inputPhone}
-        onChangeText={setInputPhone}
+        value={phone}
+        onChangeText={setPhone}
         keyboardType="phone-pad" 
+        maxLength={20}
       />
       <FormField
         icon="v-card"
         placeholder="Cédula"
-        value={inputDNI}
-        onChangeText={setInputDNI}
+        value={dni}
+        onChangeText={setDNI}
+        maxLength={20}
       />
       <Dropdown
         options={genderOptions}
@@ -97,10 +100,10 @@ const RegisterPage: React.FC = () => {
         onSelect={setSelectedGender}
       />
       <DatePicker
-        value={inputCalendar} 
+        value={birthday} 
         onChange={(date) => {
           if (isDateValid(date)) {
-            setInputCalendar(date);
+            setBirthday(date);
           } else {
             setModalMessage("La fecha de nacimiento no puede ser futura.");
             setModalVisible(true);
@@ -109,13 +112,13 @@ const RegisterPage: React.FC = () => {
       />
       <PasswordField
         placeholder="Contraseña"
-        value={inputPassword}
-        onChangeText={setInputPassword}
+        value={password}
+        onChangeText={setPassword}
       />
       <PasswordField
         placeholder="Confirmar Contraseña"
-        value={inputPassword2}
-        onChangeText={setInputPassword2}
+        value={password2}
+        onChangeText={setPassword2}
       />
       <TouchableOpacity
         className={styles.button}

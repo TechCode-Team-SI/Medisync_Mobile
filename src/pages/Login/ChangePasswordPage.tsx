@@ -5,12 +5,11 @@ import styles from '@/src/components/LoginComponents/stylesLogin';
 import AlertModal from '@/src/components/Modal/AlertModal';
 import { Link, router } from "expo-router";
 import { resetPassword } from "@/src/services/auth/authServices";
+import PasswordField from '@/src/components/Forms/PasswordField';
 
 const ChangePasswordPage: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [showModal, setShowModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
@@ -57,35 +56,16 @@ const ChangePasswordPage: React.FC = () => {
 
         <Text className={styles.title2}>La nueva contraseña debe ser diferente a la utilizada anteriormente.</Text>
 
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091" />
-          <TextInput
-            className={styles.input}
-            placeholder="Nueva Contraseña"
-            placeholderTextColor="#539091"
-            value={newPassword}
-            onChangeText={setNewPassword}
-            secureTextEntry={!showNewPassword}
-          />
-          <TouchableOpacity onPress={() => setShowNewPassword(!showNewPassword)}>
-            <Entypo name={showNewPassword ? "eye-with-line" : "eye"} size={24} color="#539091" />
-          </TouchableOpacity>
-        </View>
-
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091" />
-          <TextInput
-            className={styles.input}
-            placeholder="Confirmar Contraseña"
-            placeholderTextColor="#539091"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry={!showConfirmPassword}
-          />
-          <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-            <Entypo name={showConfirmPassword ? "eye-with-line" : "eye"} size={24} color="#539091" />
-          </TouchableOpacity>
-        </View>
+        <PasswordField
+        placeholder="Contraseña"
+        value={newPassword}
+        onChangeText={setNewPassword}
+        />
+        <PasswordField
+          placeholder="Confirmar Contraseña"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
 
         <TouchableOpacity
           className={styles.button}

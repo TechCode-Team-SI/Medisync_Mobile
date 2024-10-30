@@ -3,7 +3,6 @@ import { View, TouchableOpacity, ScrollView, Text } from 'react-native';
 import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
 import { getTickets } from '@/src/services/tickets/ticketsServices';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import styles from '@/src/components/SupportComponents/stylesSuggestion';
 import { router } from "expo-router";
 
 const SupportHistoryPage: React.FC = () => {
