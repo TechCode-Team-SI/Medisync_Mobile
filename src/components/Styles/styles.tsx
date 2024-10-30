@@ -7,8 +7,8 @@ const styles = {
     ////INPUTS 
 
     inputContainer: "flex-row items-center bg-bgInput w-full mb-5 p-3 h-12",
+    dropdownContainer: "flex-row items-center bg-bgInput w-full p-3 h-12",
     input: 'mx-1 w-4/5 h-full',
-
     ////BOTONES
 };
     

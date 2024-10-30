@@ -21,9 +21,9 @@ const Dropdown: React.FC<DropdownProps> = ({ options, placeholder, selectedValue
     const selectedLabel = options.find(option => option.value === selectedValue)?.label || placeholder;
 
     return (
-        <View>
+        <View className="mb-5">
             <TouchableOpacity onPress={() => setIsDropdownOpen(!isDropdownOpen)}>
-                <View className={styles.inputContainer}>
+                <View className={styles.dropdownContainer}>
                     <Entypo name="chevron-thin-down" size={24} color="#539091" />
                     <Text className="flex-1 ml-1 text-primary">
                         {selectedLabel} 

@@ -92,7 +92,7 @@ const RegisterPage: React.FC = () => {
       />
       <Dropdown
         options={genderOptions}
-        placeholder="Género"
+        placeholder="Sexo"
         selectedValue={selectedGender}
         onSelect={setSelectedGender}
       />
