@@ -4,7 +4,7 @@ import styles from "@/src/components/ProfileComponents/stylesProfile";
 import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
 import Entypo from "@expo/vector-icons/Entypo";
 import { pickImage } from "@/src/utils/imagePicker";
-import { getUser, updateUserProfile } from "@/src/services/user/userServices2";
+import { getUser, updateUserProfile } from "@/src/services/user/userServices";
 import { uploadImage } from "@/src/services/files/filesServices";
 import { ImagePickerAsset } from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";

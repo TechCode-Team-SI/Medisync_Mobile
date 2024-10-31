@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { api } from "@/src/services/api/apiConfig";
-import { ApiResult, handleError } from "@/src/services/error/errorHandler"
+import { api, ApiResult} from "@/src/services/api/apiConfig";
+import { handleError } from "@/src/services/error/errorHandler"
 
 type MedicalCenter = {
   id: number;
@@ -20,7 +20,7 @@ type MedicalCenter = {
   email: string;
 };
 
-export const getMedicalCenters = async (): Promise<ApiResult> => {
+export const getMedicalCenters = async (): Promise<ApiResult<any>> => {
   try {
 
     const response = await axios.get(api.infoCompany);

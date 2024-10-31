@@ -23,7 +23,7 @@ const fetchMedicalCenters = async () => {
   if (result.success) {
     setMedicalCenters(result.data);
   } else {
-    setError(result.message);
+    setError(result.message || "Error al obtener información del centro médico.");
   }
 };
 

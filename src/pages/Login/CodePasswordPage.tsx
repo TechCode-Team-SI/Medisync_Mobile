@@ -30,7 +30,7 @@ const CodePasswordPage: React.FC = () => {
       router.push("/changepassword"); 
     } else {
       console.log('Error:', result.message);
-      setModalMessage(result.message);
+      setModalMessage(result.message || "Error. Código invalido." );
       setShowModal(true);
     }
   };

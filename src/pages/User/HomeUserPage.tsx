@@ -9,8 +9,7 @@ import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 
 import { getUser } from "@/src/services/user/userServices"
-
-
+import { TUser } from "@/src/types/user"; 
 import ImageItem from '@/src/components/BoardComponents/imageItem';
 
 
@@ -29,15 +28,16 @@ const HomeUserPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUser= async () => {
+    const fetchUser = async () => {
       const result = await getUser();
-      if (result.success) {
-        setUser(result.data);
+      if (result.success && result.data) {
+        const userData = result.data as TUser;
+        setUser(userData);
       } else {
-        setError(result.message);
+        setError(result.message || "Error al obtener datos de usuario");
       }
     };
-
+  
     fetchUser();
   }, []);
 

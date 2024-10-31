@@ -71,7 +71,7 @@ export const handleRegister = async ({
 
       setTimeout(() => {
         router.replace("/homeuser");
-      }, 50);
+      }, 150);
 
 
     } else {

@@ -70,7 +70,7 @@ const AddFamilyPage: React.FC = () => {
                 setModalVisible(true);
                 resetFields(); 
             } else if ('message' in response) {
-                setModalMessage(response.message);
+                setModalMessage(response.message || "Error al añadir familiar." );
                 setModalVisible(true);
             }
         } catch (error) {

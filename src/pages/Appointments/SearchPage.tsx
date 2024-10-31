@@ -5,9 +5,9 @@ import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { router } from "expo-router";
 
-import { getspecialites } from "@/src/services/auth/authSpecialties";
-import { getDr } from "@/src/services/auth/authDr";
-import { Specialties } from "@/src/services/auth/authSpecialties";
+import { getspecialites } from "@/src/services/appointments/specialtiesServices";
+import { getDr } from "@/src/services/appointments/doctorsServices";
+import { Specialties } from "@/src/services/appointments/specialtiesServices";
 
 
 

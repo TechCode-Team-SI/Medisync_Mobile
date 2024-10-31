@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { api } from "@/src/services/api/apiConfig";
+import { api, ApiResult } from "@/src/services/api/apiConfig";
 import { getToken } from "@/src/services/auth/sessionServices";
-import { ApiResult, handleError } from "@/src/services/error/errorHandler";
+import { handleError } from "@/src/services/error/errorHandler";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const changePassword = async (currentPassword: string, newPassword: string): Promise<ApiResult> => {
+export const changePassword = async (currentPassword: string, newPassword: string): Promise<ApiResult<any>> => {
   try {
     const token = await getToken();
     const response = await axios.patch(

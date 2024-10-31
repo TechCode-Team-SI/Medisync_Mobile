@@ -5,7 +5,7 @@ import styles from '@/src/components/Styles/styleSearch';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useRouter } from 'expo-router'; 
-import { Dr } from "@/src/services/auth/authDr";
+import { Dr } from "@/src/services/appointments/doctorsServices";
 
 const SearchDrPage: React.FC = () => {
   const router = useRouter();

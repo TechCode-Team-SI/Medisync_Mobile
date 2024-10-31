@@ -50,7 +50,7 @@ const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, t
       setTicketTitle("");
       setTicketDescription("");
     } else {
-      setModalMessage(result.message);
+      setModalMessage(result.message || "Error al crear el ticket." );
       setModalVisible(true);
     }
   };

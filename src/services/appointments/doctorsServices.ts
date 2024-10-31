@@ -1,5 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ApiResult } from '../api/apiConfig';
+import { handleError } from "@/src/services/error/errorHandler"
 
 export interface Dr{
   id: string;
@@ -9,11 +11,7 @@ export interface Dr{
   dni: string;
 }
 
-type ApiResult =
-  | { success: true; data: Dr[] }
-  | { success: false; message: string };
-
-  export const getDr = async (specialtyid:string[]): Promise<ApiResult> => {
+  export const getDr = async (specialtyid:string[]): Promise<ApiResult<any>> => {
     try {
       const session = await AsyncStorage.getItem('userSession');
       const userSession = session ? JSON.parse(session) : null;
@@ -38,18 +36,3 @@ type ApiResult =
       return handleError(error);
     }
   };
-
-
-  const handleError = (error: any): ApiResult => {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        console.log('Error en la respuesta del servidor:', error.response.data);
-        return { success: false, message: error.response.data.message || 'Error desconocido.' };
-      }
-      console.log('Error de red:', error.message);
-      return { success: false, message: 'Error de red. Inténtalo de nuevo.' };
-    }
-    console.log('Error inesperado:', error);
-    return { success: false, message: 'Ocurrió un error inesperado.' };
-  };
-  

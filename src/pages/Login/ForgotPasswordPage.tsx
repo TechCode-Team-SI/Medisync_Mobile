@@ -27,7 +27,7 @@ const ForgotPasswordPage: React.FC = () => {
       setShowModal(true);
     } else {
       console.log('Error:', result.message);
-      setModalMessage(result.message);
+      setModalMessage(result.message || "Error." );
       setShowModal(true);
     }
   };

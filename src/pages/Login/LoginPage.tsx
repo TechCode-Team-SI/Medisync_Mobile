@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
       
       router.replace('/homeuser'); 
     } else {
-      setModalMessage(result.message);
+      setModalMessage(result.message || "Error al iniciar sesión." );
       setShowErrorModal(true);
     }
   };

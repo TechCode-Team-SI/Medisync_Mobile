@@ -1,11 +1,10 @@
 import axios from "axios";
-import { api, ApiResult2} from "@/src/services/api/apiConfig";
+import { api, ApiResult} from "@/src/services/api/apiConfig";
 import { handleError } from "@/src/services/error/errorHandler";
 import { getToken } from "../auth/sessionServices";
-import { ApiResult } from "@/src/services/error/errorHandler";
 
 
-export const createTicket = async (token: string, ticketData: { title: string; description: string; type: string }): Promise<ApiResult> => {
+export const createTicket = async (token: string, ticketData: { title: string; description: string; type: string }): Promise<ApiResult<any>> => {
     try {
       const response = await axios.post(api.tickets, ticketData, {
         headers: {

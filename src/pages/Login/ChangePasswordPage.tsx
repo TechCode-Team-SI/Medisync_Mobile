@@ -41,7 +41,7 @@ const ChangePasswordPage: React.FC = () => {
       router.push("/login");
     } else {
       console.log('Error:', result.message);
-      setModalMessage(result.message);
+      setModalMessage(result.message || "Error al cambiar la contraseña." );
       setShowModal(true);
     }
   };
