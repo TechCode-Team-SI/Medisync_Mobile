@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile";
 
@@ -17,31 +17,52 @@ const genderOptions = [
     { label: "Masculino", value: "M" },
 ];
 
+const relationshipOptions = [
+    { label: "Madre", value: "madre" },
+    { label: "Padre", value: "padre" },
+    { label: "Hijo", value: "hijo" },
+    { label: "Hija", value: "hija" },
+    { label: "Hermano", value: "hermano" },
+    { label: "Hermana", value: "hermana" },
+    { label: "Abuela", value: "abuela" },
+    { label: "Abuelo", value: "abuelo" },
+    { label: "Nieto", value: "nieto" },
+    { label: "Nieta", value: "nieta" },
+    { label: "Tía", value: "tía" },
+    { label: "Tío", value: "tío" },
+    { label: "Primo/a", value: "primo/a" },
+    { label: "Sobrino", value: "sobrino" },
+    { label: "Sobrina", value: "sobrina" },
+];
+
 const AddFamilyPage: React.FC = () => {
-    const [inputName, setInputName] = useState('');
-    const [inputDNI, setInputDNI] = useState('');
-    const [inputCalendar, setInputCalendar] = useState<Date | null>(null); 
+    const [name, setName] = useState('');
+    const [dni, setDNI] = useState('');
+    const [birthday, setBirthday] = useState<Date | null>(null); 
     const [selectedGender, setSelectedGender] = useState(''); 
+    const [selectedRelationship, setSelectedRelationship] = useState(''); 
 
     const [modalVisible, setModalVisible] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
-        const valid = inputName.trim() !== '' &&
-                      inputDNI.trim() !== '' &&
+        const valid = name.trim() !== '' &&
+                      dni.trim() !== '' &&
                       selectedGender !== '' &&
-                      inputCalendar !== null &&
-                      isDateValid(inputCalendar); 
+                      selectedRelationship !== '' &&
+                      birthday !== null &&
+                      isDateValid(birthday); 
 
         setIsFormValid(valid);
-    }, [inputName, inputDNI, selectedGender, inputCalendar]);
+    }, [name, dni, selectedGender, selectedRelationship, birthday]);
 
     const resetFields = () => {
-        setInputName('');
-        setInputDNI('');
-        setInputCalendar(null); 
+        setName('');
+        setDNI('');
+        setBirthday(null); 
         setSelectedGender('');
+        setSelectedRelationship('');
     };
 
     const handleSave = async () => {
@@ -55,10 +76,11 @@ const AddFamilyPage: React.FC = () => {
         }
       
         const patientData = {
-            fullName: inputName,
-            dni: inputDNI,
+            fullName: name,
+            dni: dni,
             gender: selectedGender,
-            birthday: inputCalendar ? inputCalendar.toISOString() : '', 
+            familyRelationship: selectedRelationship,
+            birthday: birthday ? birthday.toISOString() : '', 
         };
       
         try {
@@ -70,7 +92,7 @@ const AddFamilyPage: React.FC = () => {
                 setModalVisible(true);
                 resetFields(); 
             } else if ('message' in response) {
-                setModalMessage(response.message || "Error al añadir familiar." );
+                setModalMessage(response.message || "Error al añadir familiar.");
                 setModalVisible(true);
             }
         } catch (error) {
@@ -83,26 +105,25 @@ const AddFamilyPage: React.FC = () => {
     return (
         <View className={styles.container}>
             <ButtonBack />
-            <Text className={styles.title4}>Añadir Familiar</Text>
+            <Text className={styles.title5}>Añadir Familiar</Text>
 
-            <View className={styles.containerBg1}>
+            <ScrollView className={styles.containerBgFamily}>
                 <Text className={styles.title3}>Nombres</Text>
                 <FormField
                     icon="user"
                     placeholder="Nombre completo"
-                    value={inputName}
-                    onChangeText={setInputName}
+                    value={name}
+                    onChangeText={setName}
                 />
 
                 <Text className={styles.title3}>Cédula</Text>
                 <FormField
                     icon="v-card"
                     placeholder="Cédula"
-                    value={inputDNI}
-                    onChangeText={setInputDNI}
+                    value={dni}
+                    onChangeText={setDNI}
                 />
                 
-
                 <Text className={styles.title3}>Sexo</Text>
                 <Dropdown
                     options={genderOptions}
@@ -113,10 +134,10 @@ const AddFamilyPage: React.FC = () => {
 
                 <Text className={styles.title3}>Fecha de Nacimiento</Text>
                 <DatePicker
-                    value={inputCalendar} 
+                    value={birthday} 
                     onChange={(date) => {
                         if (isDateValid(date)) {
-                            setInputCalendar(date);
+                            setBirthday(date);
                         } else {
                             setModalMessage("La fecha de nacimiento no puede ser futura.");
                             setModalVisible(true);
@@ -124,9 +145,17 @@ const AddFamilyPage: React.FC = () => {
                     }}
                 />
 
+                <Text className={styles.title3}>Parentesco</Text>
+                <Dropdown
+                    options={relationshipOptions}
+                    placeholder="Seleccione"
+                    selectedValue={selectedRelationship}
+                    onSelect={setSelectedRelationship}
+                />
+
                 <View className={styles.container4}>
                     <TouchableOpacity
-                        className={styles.button1}
+                        className={styles.buttonFamily}
                         onPress={handleSave}
                         disabled={!isFormValid} 
                         style={{
@@ -136,7 +165,7 @@ const AddFamilyPage: React.FC = () => {
                         <Text className={styles.buttonText1}>Guardar</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ScrollView>
 
             <AlertModal
                 visible={modalVisible}
@@ -149,6 +178,3 @@ const AddFamilyPage: React.FC = () => {
 };
 
 export default AddFamilyPage;
-
-
-

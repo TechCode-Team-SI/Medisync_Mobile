@@ -10,11 +10,11 @@ import { router } from "expo-router";
 import { getUserPatients } from '@/src/services/familyGroup/familyServices';
 
 const FamilyPage: React.FC = () => {
-  const [patients, setPatients] = useState<{ fullName: string; id: string; dni: string; birthday: string; gender: string; }[]>([]);
+  const [patients, setPatients] = useState<{ fullName: string; id: string; dni: string; birthday: string; gender: string; familyRelationship: string}[]>([]);
   const [searchText, setSearchText] = useState('');
 
   const handleSelect = (patient: any) => {
-    router.push(`/userfamily?fullName=${encodeURIComponent(patient.fullName)}&dni=${encodeURIComponent(patient.dni)}&birthday=${encodeURIComponent(patient.birthday)}&gender=${encodeURIComponent(patient.gender)}`);
+    router.push(`/userfamily?fullName=${encodeURIComponent(patient.fullName)}&dni=${encodeURIComponent(patient.dni)}&birthday=${encodeURIComponent(patient.birthday)}&gender=${encodeURIComponent(patient.gender)}&familyRelationship=${encodeURIComponent(patient.familyRelationship)}`);
   };
   
 
@@ -35,6 +35,7 @@ const FamilyPage: React.FC = () => {
         dni: patient.dni,
         birthday: patient.birthday,
         gender: patient.gender,
+        familyRelationship: patient.familyRelationship
       }));
       setPatients(patientsList);
     } else {

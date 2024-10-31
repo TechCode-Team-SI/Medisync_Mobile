@@ -12,3 +12,8 @@ export const formatDate = (dateString: string) => {
     }
     return gender === "F" ? "Femenino" : gender === "M" ? "Masculino" : "No especificado";
   };
+
+  export const capitalizeFirstLetter = (text: string): string => {
+    if (!text) return "";
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };

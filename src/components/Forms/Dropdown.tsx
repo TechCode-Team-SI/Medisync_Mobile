@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, ScrollView } from "react-native";
 import Entypo from '@expo/vector-icons/Entypo';
 import styles from '../Styles/styles';
 
@@ -32,20 +32,19 @@ const Dropdown: React.FC<DropdownProps> = ({ options, placeholder, selectedValue
             </TouchableOpacity>
 
             {isDropdownOpen && (
-                <FlatList
-                    data={options}
-                    keyExtractor={(item) => item.value}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => handleSelect(item.value)}>
-                            <Text
-                                className={`p-2 text-primary ${item.value === selectedValue ? 'bg-bgMenu' : ''}`}
-                            >
+                <ScrollView 
+                    style={{ maxHeight: 175 }} 
+                    nestedScrollEnabled={true} 
+                    className="bg-white border border-primary"
+                >
+                    {options.map((item) => (
+                        <TouchableOpacity key={item.value} onPress={() => handleSelect(item.value)}>
+                            <Text className={`p-2 text-primary ${item.value === selectedValue ? 'bg-bgMenu' : ''}`}>
                                 {item.label}
                             </Text>
                         </TouchableOpacity>
-                    )}
-                    className="bg-white border border-primary"
-                />
+                    ))}
+                </ScrollView>
             )}
         </View>
     );
