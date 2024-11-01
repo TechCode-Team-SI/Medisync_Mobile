@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView  } from 'react-native';
 import styles from '@/src/components/Styles/styleSearch';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { router } from "expo-router";
-
+import SearchBar from "@/src/components/SearchBar";
 import { getspecialites } from "@/src/services/appointments/specialtiesServices";
 import { getDr } from "@/src/services/appointments/doctorsServices";
 import { Specialties } from "@/src/services/appointments/specialtiesServices";
-
+import styles2 from "@/src/components/ProfileComponents/stylesProfile";
 
 
 const SearchPage: React.FC = () => {
@@ -30,7 +30,8 @@ const SearchPage: React.FC = () => {
     };
 
     const [specialties, setSpecialties]  = useState<Specialties[]>([]);
-
+    const [searchText, setSearchText] = useState(''); // Estado para la barra de búsqueda
+    
     useEffect(() => {
       const fetchUser= async () => {
         const result = await getspecialites();
@@ -43,6 +44,11 @@ const SearchPage: React.FC = () => {
       fetchUser();
     }, []);
 
+     // Filtrar especialidades según el texto ingresado
+     const filteredSpecialties = specialties.filter(specialty => 
+     specialty.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
     return (
         <View className={styles.container1}>
 
@@ -53,8 +59,16 @@ const SearchPage: React.FC = () => {
 
             <Text className={styles.title2}> Especialidad</Text>
               
+            <View className={styles2.containerTop}>
+            <SearchBar
+                    value={searchText}
+                    onChangeText={setSearchText}
+                />
+            </View>
+
+            <ScrollView contentContainerStyle={{ paddingVertical: 3 }}>
             <View className={styles.containerGrid}>
-            {specialties.map((specialty) => (
+            {filteredSpecialties.map((specialty) => (
 
             <TouchableOpacity
             key={specialty.id}
@@ -66,7 +80,7 @@ const SearchPage: React.FC = () => {
 ))}
 
             </View>
-
+            </ScrollView>
           </View>
           
           

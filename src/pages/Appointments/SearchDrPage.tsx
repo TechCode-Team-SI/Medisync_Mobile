@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView   } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import styles from '@/src/components/Styles/styleSearch';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useRouter } from 'expo-router'; 
 import { Dr } from "@/src/services/appointments/doctorsServices";
+import SearchBar from "@/src/components/SearchBar";
+import styles2 from "@/src/components/ProfileComponents/stylesProfile";
 
 const SearchDrPage: React.FC = () => {
   const router = useRouter();
   const { doctors, specialtyName } = useLocalSearchParams();
 
   const [drs, setdrs]  = useState<Dr[]>([]);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     if (doctors) {
@@ -19,6 +22,10 @@ const SearchDrPage: React.FC = () => {
       setdrs(JSON.parse(doctors as string)); // Parsear el string JSON a un array de objetos
     }
   }, [doctors]);
+
+  const filteredDrs = drs.filter(dr => 
+    dr.fullName.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   const handleSelect = () => {
     router.push('/createappointment');
@@ -31,8 +38,17 @@ const SearchDrPage: React.FC = () => {
 
       <View className={styles.containerBg2}>
         <Text className={styles.title2}>Especialistas Disponibles</Text>
+       
+        <View className={styles2.containerTop}>
+        <SearchBar
+            value={searchText}
+            onChangeText={setSearchText}
+          />
+          </View>
+        
+        <ScrollView contentContainerStyle={{ paddingVertical: 3 }}>
         <View className={styles.container}>
-        {drs.map((dr) => (
+        {filteredDrs.map((dr) => (
           <TouchableOpacity
           key={dr.id}
             className={styles.button2}
@@ -42,6 +58,7 @@ const SearchDrPage: React.FC = () => {
           </TouchableOpacity>
            ))}
         </View>
+        </ScrollView>
       </View>
 
     </View>

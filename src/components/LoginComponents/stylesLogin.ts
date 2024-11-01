@@ -38,6 +38,9 @@ const stylesLogin = {
   
     button: 'w-full h-12 items-center justify-center bg-primary rounded-xl',
     buttonText: 'text-white text-lg font-montserrat',
-    };
+    
+    /// EN REGISTRO permite que el contenido de la pantalla permanezca dentro de los límites sin afectar el diseño 
+    safeArea:'flex-1 bg-transparent',
+};
     
     export default stylesLogin;
