@@ -2,7 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 
-const CarouselHome: React.FC = () => {
+interface CarouselHomeProps {
+  onUpdateHasPublications: (has: boolean) => void;
+}
+
+const CarouselHome: React.FC<CarouselHomeProps> = ({
+  onUpdateHasPublications,
+}) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -14,26 +20,24 @@ const CarouselHome: React.FC = () => {
       try {
         const response = await fetch(apiUrl);
         const json = await response.json();
-        console.log(json); // Verifica la respuesta aquí
 
         if (Array.isArray(json.data)) {
           setData(json.data);
+          onUpdateHasPublications(json.data.length > 0); // Actualizar el estado de publicaciones
         } else {
-          console.error(
-            "La respuesta no contiene un array de artículos:",
-            json
-          );
+          onUpdateHasPublications(false); // No hay publicaciones
         }
 
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        onUpdateHasPublications(false); // Error al obtener publicaciones
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [onUpdateHasPublications]);
 
   const handleReadMore = (item: any) => {
     router.push({

@@ -54,7 +54,10 @@ const HomeUserPage: React.FC = () => {
         </View>
         <View className={styles.container3}>
           <ButtonsHome />
-          {hasPublications && <CarouselHome />}
+          {/* Mostrar CarouselHome solo si hay publicaciones */}
+          {hasPublications ? (
+            <CarouselHome onUpdateHasPublications={setHasPublications} />
+          ) : null}
           <InfoHome />
         </View>
       </ScrollView>
