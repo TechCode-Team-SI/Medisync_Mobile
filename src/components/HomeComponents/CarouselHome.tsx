@@ -4,11 +4,10 @@ import { useRouter } from "expo-router";
 
 interface CarouselHomeProps {
   onUpdateHasPublications: (has: boolean) => void;
+  searchText: string; // Nueva prop para el texto de búsqueda
 }
 
-const CarouselHome: React.FC<CarouselHomeProps> = ({
-  onUpdateHasPublications,
-}) => {
+const CarouselHome: React.FC<CarouselHomeProps> = ({ onUpdateHasPublications, searchText }) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -23,15 +22,15 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
 
         if (Array.isArray(json.data)) {
           setData(json.data);
-          onUpdateHasPublications(json.data.length > 0); // Actualizar el estado de publicaciones
+          onUpdateHasPublications(json.data.length > 0);
         } else {
-          onUpdateHasPublications(false); // No hay publicaciones
+          onUpdateHasPublications(false);
         }
 
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        onUpdateHasPublications(false); // Error al obtener publicaciones
+        onUpdateHasPublications(false);
         setLoading(false);
       }
     };
@@ -52,6 +51,11 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
       : null;
   };
 
+  // Filtrar artículos por el texto de búsqueda
+  const filteredData = data.filter((item) =>
+    item.title.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center">
@@ -60,10 +64,10 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
     );
   }
 
-  if (data.length === 0) {
+  if (filteredData.length === 0 && searchText) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="text-lg">No hay publicaciones</Text>
+        <Text className="text-lg">No hay publicaciones al respecto</Text>
       </View>
     );
   }
@@ -79,7 +83,7 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
         showsHorizontalScrollIndicator={false}
         className="flex-1"
       >
-        {data.map((item, index) => {
+        {(filteredData.length > 0 ? filteredData : data).map((item, index) => {
           const imageSource = getImageSource(item.image);
           return (
             <View

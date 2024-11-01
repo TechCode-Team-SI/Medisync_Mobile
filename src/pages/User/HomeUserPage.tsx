@@ -8,11 +8,13 @@ import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 import { getUser } from "@/src/services/user/userServices";
 import CarouselHome from "@/src/components/HomeComponents/CarouselHome";
+import SearchBar from "@/src/components/SearchBar"; // Importar el componente de búsqueda
 
 const HomeUserPage: React.FC = () => {
   const [user, setUser] = useState<{ fullName: string }>({ fullName: "" });
   const [error, setError] = useState<string | null>(null);
   const [hasPublications, setHasPublications] = useState(true);
+  const [searchText, setSearchText] = useState(""); // Estado para el texto de búsqueda
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -54,10 +56,18 @@ const HomeUserPage: React.FC = () => {
         </View>
         <View className={styles.container3}>
           <ButtonsHome />
-          {/* Mostrar CarouselHome solo si hay publicaciones */}
-          {hasPublications ? (
-            <CarouselHome onUpdateHasPublications={setHasPublications} />
-          ) : null}
+          {/* Componente de búsqueda */}
+          <SearchBar
+            value={searchText}
+            onChangeText={setSearchText}
+            placeholder="Buscar artículos..."
+          />
+          {hasPublications && (
+            <CarouselHome
+              onUpdateHasPublications={setHasPublications}
+              searchText={searchText} // Pasar el texto de búsqueda
+            />
+          )}
           <InfoHome />
         </View>
       </ScrollView>

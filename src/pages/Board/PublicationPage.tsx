@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
-import SearchBar from "@/src/components/SearchBar"; // Importar el componente
+import SearchBar from "@/src/components/SearchBar";
 
 const PublicationPage: React.FC<{
   setHasPublications: (hasPublications: boolean) => void;
 }> = ({ setHasPublications }) => {
+  const router = useRouter();
   const [isMenuVisible, setMenuVisible] = useState(false);
   const { article } = useLocalSearchParams<{ article?: string }>();
   const [articleData, setArticleData] = useState<any>(null);
@@ -41,9 +42,9 @@ const PublicationPage: React.FC<{
       <SearchBar
         value={searchText}
         onChangeText={setSearchText}
-        placeholder="Buscar otro Articulo"
+        placeholder="Buscar en la publicación..."
       />
-      <View style={{ padding: 20 }}>
+      <View style={{ padding: 20, flex: 1 }}>
         <Text style={{ fontSize: 24, fontWeight: "bold", color: "#539091" }}>
           {articleData.title}
         </Text>
@@ -57,6 +58,12 @@ const PublicationPage: React.FC<{
           {articleData.description}
         </Text>
       </View>
+      <TouchableOpacity
+        onPress={() => router.back()} // Navegar a la página anterior
+        style={{ padding: 10, margin: 20, backgroundColor: '#539091', borderRadius: 5, alignSelf: 'center' }}
+      >
+        <Text style={{ color: 'white', textAlign: 'center' }}>Regresar</Text>
+      </TouchableOpacity>
     </View>
   );
 };
