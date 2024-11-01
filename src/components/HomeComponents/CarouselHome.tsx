@@ -1,73 +1,119 @@
-import React, { useRef } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
-import data from "../../../data.json";
-import { router } from 'expo-router'; 
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 
 const CarouselHome: React.FC = () => {
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
-  const duplicatedData = [...data, ...data]; 
+  const apiUrl = "https://chengkev.online/api/v1/articles";
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(apiUrl);
+        const json = await response.json();
+        console.log(json); // Verifica la respuesta aquí
+
+        if (Array.isArray(json.data)) {
+          setData(json.data);
+        } else {
+          console.error(
+            "La respuesta no contiene un array de artículos:",
+            json
+          );
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleReadMore = (item: any) => {
     router.push({
-      pathname: '/publication',
-      params: { item: JSON.stringify(item) }, 
+      pathname: "/publication",
+      params: { article: JSON.stringify(item) },
     });
   };
 
-  const getImageSource = (imageName: string) => {
-    switch (imageName) {
-      case 'arterial.jpeg':
-        return require('../../../assets/posts/arterial.jpeg');
-      case 'Artritis.jpeg':
-        return require('../../../assets/posts/Artritis.jpeg');
-      case 'cardiaca.jpeg':
-        return require('../../../assets/posts/cardiaca.jpeg');
-      case 'diabetes.jpeg':
-        return require('../../../assets/posts/diabetes.jpeg');
-      case 'epoc.jpg':
-        return require('../../../assets/posts/epoc.jpg');
-      default:
-        return null; 
-    }
+  const getImageSource = (imageUrl: string) => {
+    return typeof imageUrl === "string" && imageUrl.trim() !== ""
+      ? { uri: imageUrl }
+      : null;
   };
 
-  return (   
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-lg">Cargando...</Text>
+      </View>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-lg">No hay publicaciones</Text>
+      </View>
+    );
+  }
+
+  return (
     <View className="flex-1">
       <Text className="text-lg font-bold my-5 ml-5 text-[#539091]">
         Mantente informado
       </Text>
-
-      <ScrollView 
+      <ScrollView
         ref={scrollViewRef}
-        horizontal 
-        showsHorizontalScrollIndicator={false} 
+        horizontal
+        showsHorizontalScrollIndicator={false}
         className="flex-1"
-        onScrollEndDrag={(event) => {
-          const contentOffsetX = event.nativeEvent.contentOffset.x;
-          const width = event.nativeEvent.layoutMeasurement.width;
-          const totalWidth = width * data.length;
-
-
-          if (contentOffsetX >= totalWidth) {
-            scrollViewRef.current?.scrollTo({ x: 0, animated: false });
-          }
-        }}
       >
-        {duplicatedData.map((item, index) => (
-          <View key={index} className="w-[300px] h-[300px] mx-0 justify-center border border-white">
-            <Image source={getImageSource(item.image)} className="w-full h-full rounded-none" />
-            <View style={{ backgroundColor: 'rgba(83, 144, 145, 0.8)' }}  className="absolute p-[20px] w-full border-white border-y-2 flex flex-col gap-y-[20px]">
-              <Text className="text-white font-bold text-lg">{item.title}</Text>
-              <Text numberOfLines={4} className="text-white">{item.content}</Text>
-              <TouchableOpacity onPress={() => handleReadMore(item)}>
-                <Text className="text-white font-bold text-right">Leer más</Text>
-              </TouchableOpacity>
+        {data.map((item, index) => {
+          const imageSource = getImageSource(item.image);
+          return (
+            <View
+              key={index}
+              className="w-[300px] h-[300px] mx-0 justify-center border border-white"
+            >
+              {imageSource ? (
+                <Image
+                  source={imageSource}
+                  className="w-full h-full rounded-none"
+                />
+              ) : (
+                <View className="w-full h-full bg-gray-300 justify-center items-center">
+                  <Text className="text-white">Imagen no disponible</Text>
+                </View>
+              )}
+              <View
+                style={{ backgroundColor: "rgba(83, 144, 145, 0.8)" }}
+                className="absolute p-[20px] w-full border-white border-y-2 flex flex-col gap-y-[20px]"
+              >
+                <Text className="text-white font-bold text-lg">
+                  {item.title}
+                </Text>
+                <Text numberOfLines={4} className="text-white">
+                  {item.description}
+                </Text>
+                <TouchableOpacity onPress={() => handleReadMore(item)}>
+                  <Text className="text-white font-bold text-right">
+                    Leer más
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        ))}
+          );
+        })}
       </ScrollView>
     </View>
   );
 };
 
-export default CarouselHome; 
+export default CarouselHome;
