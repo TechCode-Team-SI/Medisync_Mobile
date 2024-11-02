@@ -1,44 +1,60 @@
-const API_URL = "https://chengkev.online/api/v1"
+const API_URL = "https://chengkev.online/api/v1";
 
 export type ApiResult<T> = { success: boolean; data?: T; message?: string };
 
 export const api = {
+  ////AUTH
 
-    //// AUTH
+  register: API_URL + "/auth/register",
+  login: API_URL + "/auth/login",
+  logout: API_URL + "/auth/logout",
 
-      register: API_URL + "/auth/register",
-      login: API_URL + "/auth/login",
-      logout: API_URL + "/auth/logout",
+  forgotPassword: API_URL + "/auth/forgot/password",
+  codePassword: API_URL + "/auth/forgot/password-code",
+  resetPassword: API_URL + "/auth/reset/password",
 
-      forgotPassword: API_URL + "/auth/forgot/password",
-      codePassword: API_URL + "/auth/forgot/password-code",
-      resetPassword: API_URL + "/auth/reset/password",
+  expiredCode: API_URL + "/auth/confirm/email", // PENDIENTE
 
-      expiredCode: API_URL + "/auth/confirm/email",             // PENDIENTE
+  //// FILES
 
-    ///// FILES
+  upload: API_URL + "/files/upload",
 
-      upload: API_URL + "/files/upload",
+  //// USER
 
-    ///// USER
+  infoUser: API_URL + "/auth/me",
 
-      infoUser: API_URL + "/auth/me",             
+  //// FAMILY GROUP
 
-    ///// FAMILY GROUP
+  userPatient: API_URL + "/users/patient/me",
 
-      userPatient: API_URL + "/users/patient/me",  
+  //// REQUEST TEMPLATE
 
-    //// INFO MEDICAL CENTERS
+  requestTemplateBySpecialty: API_URL + "/request-templates/specialty",
 
-      infoCompany: API_URL + "/medical-centers",
+  //// REQUEST
 
-    //// SEARCH
-      specialites: API_URL +"/specialties",
+  createRequest: API_URL + "/requests",
 
-    //// SUPPORT
-      tickets: API_URL +"/tickets",
-      mytickets: API_URL +"/tickets/me",
+  //// SUPPORT
+  tickets: API_URL + "/tickets",
+  mytickets: API_URL + "/tickets/me",
 
+  //// SCHEDULE
 
+  scheduleByUser: API_URL + "/schedules/user",
 
+  //// AGENDA
+
+  agendaByMedic: API_URL + "/agendas/user/:userId",
+
+  //// DAYS OFFS
+
+  daysOffsRanged: API_URL + "/days-offs/ranged",
+
+  //// INFO MEDICAL CENTERS
+
+  infoCompany: API_URL + "/medical-centers",
+
+  //// SEARCH
+  specialites: API_URL + "/specialties",
 };

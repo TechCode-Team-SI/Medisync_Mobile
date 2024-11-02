@@ -1,87 +1,102 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
 import styles from "@/src/components/AppointmentsComponents/stylesCreate";
-import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
-import Dropdown from "@/src/components/Forms/Dropdown"; 
-import DatePicker from "@/src/components/Forms/DatePicker";
-import { getUserPatients } from '@/src/services/familyGroup/familyServices';
-
+import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
+import { getUserPatients } from "@/src/services/familyGroup/familyServices";
+import { getRequestTemplateBySpecialty } from "@/src/services/requestTemplates/requestTemplates";
+import { UserPatient } from "@/src/types/types";
+import { useQuery } from "@tanstack/react-query";
+import { useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import CreateAppointmentForm from "./CreateAppointmentForm";
+import { getMedicTimeSlots } from "@/src/services/schedule/scheduleServices";
+import { getDaysOffs } from "@/src/services/daysOffs/daysOffsService";
+import { getMedicAgenda } from "@/src/services/agenda/agendaServices";
+import Loader from "@/src/components/ui/Loader";
 
 const CreateAppointmentPage: React.FC = () => {
-    const [selectedPatient, setSelectedPatient] = useState(''); 
-    const [selectedSchedule, setSelectedSchedule] = useState(''); 
-    const [inputCalendar, setInputCalendar] = useState<Date | null>(null); 
-    const [patientsOptions, setPatientsOptions] = useState<{ label: string; value: string; }[]>([]); 
+  const { requestedDrId, requestedSpecialtyId } = useLocalSearchParams();
 
-    const fetchPatients = async () => {
-        const response = await getUserPatients();
+  const { data: requestTemplate } = useQuery({
+    queryKey: [requestedSpecialtyId],
+    queryFn: ({ queryKey }) => {
+      if (typeof queryKey[0] === "string") {
+        return getRequestTemplateBySpecialty(queryKey[0]);
+      }
+      return undefined;
+    },
+  });
 
-        if (response.success && response.data && Array.isArray(response.data.data)) {
-            console.log("Usuarios/Pacientes obtenidos:", response.data.data);
-            
-            const patients = response.data.data.map((patient: any) => ({
-                label: patient.fullName,  
-                value: patient.id,        
-            }));
-            
-            setPatientsOptions(patients);
-        } else {
-            console.error("Error: La respuesta de la API no tiene el formato esperado o no contiene pacientes.");
-            console.error("Error de la API:", response.message);
-        }
-    };
+  const { data: timeSlots } = useQuery({
+    queryKey: ["timeSlots"],
+    queryFn: () => getMedicTimeSlots(requestedDrId as string),
+  });
 
-    useEffect(() => {
-        fetchPatients();
-    }, []);
+  const { data: agenda } = useQuery({
+    queryKey: ["agenda"],
+    queryFn: () => getMedicAgenda(requestedDrId as string),
+  });
 
-    return (
-        <View className={styles.container}>
+  const { data: daysOffs } = useQuery({
+    queryKey: ["daysOffs"],
+    queryFn: () =>
+      getDaysOffs({
+        userId: requestedDrId as string,
+        specialtyId: requestedSpecialtyId as string,
+        startDate: new Date().toISOString(),
+        endDate: new Date(
+          new Date().setFullYear(new Date().getFullYear() + 1)
+        ).toISOString(),
+      }),
+  });
 
-            <ButtonBack/>
+  const [patients, setPatients] = useState<UserPatient[]>([]);
 
-            <Text className={styles.title1}> Agenda una cita </Text>
-            
-            <View className={styles.containerBg1}>  
+  const fetchPatients = async () => {
+    const response = await getUserPatients();
 
-                <Text className={styles.title3}>Seleccione el paciente</Text>
-                <Dropdown
-                    options={patientsOptions} 
-                    placeholder="Seleccione"
-                    selectedValue={selectedPatient}
-                    onSelect={setSelectedPatient} 
-                />
-            
-                <Text className={styles.title3}>Seleccione la fecha</Text>
-                <DatePicker
-                    value={inputCalendar} 
-                    onChange={setInputCalendar}
-                />
+    if (
+      response.success &&
+      response.data &&
+      Array.isArray(response.data.data)
+    ) {
+      setPatients(response.data.data);
+    } else {
+      console.error(
+        "Error: La respuesta de la API no tiene el formato esperado o no contiene pacientes."
+      );
+      console.error("Error de la API:", response.message);
+    }
+  };
 
-                <Text className={styles.title3}>Seleccione el horario</Text>
-                <Dropdown
-                    options={[
-                        { label: "Horario1", value: "Horario1" },
-                        { label: "Horario2", value: "Horario2" },
-                    ]}
-                    placeholder="Horarios disponibles"
-                    selectedValue={selectedSchedule}
-                    onSelect={setSelectedSchedule}
-                />
+  useEffect(() => {
+    fetchPatients();
+  }, []);
 
-                <View className={styles.container2}>
-                    <TouchableOpacity
-                        className={styles.button1}>
-                        <Text className={styles.buttonText1}>Agendar</Text>
-                    </TouchableOpacity>
-                </View>
+  return (
+    <View className={styles.container}>
+      <ButtonBack />
 
-            </View> 
-            
-        </View>
-    );
+      <Text className={styles.title1}> Agenda una cita </Text>
+
+      <View className={styles.containerBg1}>
+        {requestTemplate && daysOffs && timeSlots && agenda ? (
+          <CreateAppointmentForm
+            requestTemplate={requestTemplate}
+            userPatients={patients}
+            requestedDrId={requestedDrId as string}
+            requestedSpecialtyId={requestedSpecialtyId as string}
+            daysOffs={daysOffs}
+            timeSlots={timeSlots}
+            workingDays={agenda.weekdays}
+          />
+        ) : (
+          <View className="flex justify-center items-center">
+            <Loader />
+          </View>
+        )}
+      </View>
+    </View>
+  );
 };
 
 export default CreateAppointmentPage;
-
-
