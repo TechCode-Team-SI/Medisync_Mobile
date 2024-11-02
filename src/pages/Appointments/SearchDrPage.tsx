@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import styles from "@/src/components/Styles/styleSearch";
+import styles from "@/src/components/AppointmentsComponents/styleSearch";
 import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useRouter } from "expo-router";
 import { Dr } from "@/src/services/appointments/doctorsServices";
+
+import SearchBar from "@/src/components/SearchBar";
 
 const SearchDrPage: React.FC = () => {
   const router = useRouter();
   const { doctors, specialtyName, specialtyId } = useLocalSearchParams();
 
   const [drs, setdrs] = useState<Dr[]>([]);
+
+  const [searchText, setSearchText] = useState(''); 
 
   useEffect(() => {
     if (doctors) {
@@ -29,15 +33,30 @@ const SearchDrPage: React.FC = () => {
     });
   };
 
+  const filteredDrs = drs.filter(dr => 
+    dr.fullName.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
     <View className={styles.container1}>
       <ButtonBack />
       <Text className={styles.title1}>{specialtyName}</Text>
 
       <View className={styles.containerBg2}>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Text className={styles.title2}>Especialistas Disponibles</Text>
+
+        <View className={styles.containerSearch}>
+          <SearchBar
+            value={searchText}
+            onChangeText={setSearchText}
+          />
+          </View>
+
+
         <View className={styles.container}>
-          {drs.map((dr) => (
+          {filteredDrs.map((dr) => (
             <TouchableOpacity
               key={dr.id}
               className={styles.button2}
@@ -50,6 +69,8 @@ const SearchDrPage: React.FC = () => {
             </TouchableOpacity>
           ))}
         </View>
+
+        </ScrollView>
       </View>
     </View>
   );

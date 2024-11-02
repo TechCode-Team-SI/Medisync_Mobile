@@ -115,7 +115,7 @@ const CreateAppointmentForm = (props: CreateAppointmentFormProps) => {
         message={modalMessage}
       />
       <Loader showLoader={createRequest.isPending} />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Text className={styles.title3}>Seleccione el paciente</Text>
         <Controller
           control={form.control}
