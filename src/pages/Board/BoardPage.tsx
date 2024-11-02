@@ -1,91 +1,80 @@
-///// ARREGLAR //////
-
-import React, { useState,useEffect } from 'react';
-import { View,ScrollView } from 'react-native';
-import styles from '@/src/components/BoardComponents/stylesBoard';
-
-import ImageItem from '@/src/components/BoardComponents/imageItem';
-
-import SideMenuModal from '@/src/components/Navigation/SideMenuModal';
-import TopBar from '@/src/components/Navigation/TopBar';
-import { useFocusEffect } from '@react-navigation/native'
-
+import React, { useState, useEffect } from "react";
+import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
+import styles from "@/src/components/BoardComponents/stylesBoard"; // Importar estilos
+import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
+import TopBar from "@/src/components/Navigation/TopBar";
+import { useFocusEffect } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 
 const BoardPage: React.FC = () => {
+  const [isMenuVisible, setMenuVisible] = useState(false);
+  const [articles, setArticles] = useState<any[]>([]);
+  const router = useRouter();
 
-    const [isMenuVisible, setMenuVisible] = useState(false);
+  const toggleMenu = () => {
+    setMenuVisible((prev) => !prev);
+  };
 
-    const toggleMenu = () => {
-      setMenuVisible(prev => !prev);
+  useFocusEffect(
+    React.useCallback(() => {
+      setMenuVisible(false);
+    }, [])
+  );
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const response = await fetch("https://chengkev.online/api/v1/articles");
+      const json = await response.json();
+      if (Array.isArray(json.data)) {
+        setArticles(json.data);
+      }
     };
-  
-    useFocusEffect(
-      React.useCallback(() => {
-        setMenuVisible(false); 
-      }, [])
-    );
 
-  const images = [  
-    {  
-      url: 'https://concienciasaludable.uchile.cl/wp-content/uploads/2023/10/pexels-vanessa-loring-5966434-scaled-1.jpg',
-      title: 'Alimentación saludable',  
-      date:"08-10-2024",
-      description: 'Para lograrlo, es necesario el...',   
-     
-  },
-    {  
-        url: 'https://cdn.euroinnova.edu.es/euroinnova_es/next-gen-formats-img/m/Maestria-Medicina-Interna.webp',
-        title: 'medicine',  
-        date:"11-02-2023",
-        description: 'Descripción de imagen 2',   
-       
-    },  
-    {  
-      url: 'https://www.doctorponce.com/wp-content/uploads/2024/04/medicina-pasada-de-moda-actual-pendiente-doctor-ponce.png', 
-      title: 'medicine', 
-      date:"15-08-2023",
-      description: 'Descripción de imagen 3',   
-     
-  }, 
-  {  
-    url: 'https://www.nosequeestudiar.net/site/assets/files/1695520/medicina-medico-estetoscopio.jpg', 
-    title: 'medicine', 
-    date:"15-08-2023",
-    description: 'Descripción de imagen 4',   
-   
-}, 
-{  
-  url: 'https://www.doctorponce.com/wp-content/uploads/2024/04/medicina-pasada-de-moda-actual-pendiente-doctor-ponce.png', 
-  title: 'medicine', 
-  date:"15-08-2023",
-  description: 'Descripción de imagen 3',   
- 
-},
-    
-];  
-    return (
-        <View className={styles.container}>
-            
-            <TopBar title="Cartelera informativa" onLeftPress={toggleMenu} />
+    fetchArticles();
+  }, []);
 
-            <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+  const handleReadMore = (article: any) => {
+    router.push({
+      pathname: "/publication",
+      params: { article: JSON.stringify(article) },
+    });
+  };
 
-            <View className={styles.container}>
-                    <ScrollView className={styles.container5} >  
-                    {images.map((item, index) => (  
-                        <ImageItem  
-                        key={index}
-                        imageUrl={item.url}
-                        title={item.title}
-                        description={item.description}
-                        date={item.date}             />  
-                    ))}  
-                </ScrollView> 
-            </View>
-        </View>
-      );
+  // Agregar el console.log aquí
+  useEffect(() => {
+    articles.forEach((article) => {
+      console.log(article.image); // Verificar el valor de article.image
+    });
+  }, [articles]);
 
-  
+  return (
+    <View style={styles.container}>
+      <TopBar title="Cartelera informativa" onLeftPress={toggleMenu} />
+      <SideMenuModal
+        isVisible={isMenuVisible}
+        onClose={() => setMenuVisible(false)}
+      />
+
+      <ScrollView style={styles.container3}>
+        {articles.map((article, index) => (
+          <View key={index} style={styles.container6}>
+            <Text style={styles.title3}>{article.title}</Text>
+            {article.image && typeof article.image === "string" ? (
+              <Image source={{ uri: article.image }} style={styles.image} />
+            ) : (
+              <Text style={styles.noImageText}>
+                La imagen no está disponible
+              </Text>
+            )}
+            <Text style={styles.description}>{article.description}</Text>
+            <TouchableOpacity onPress={() => handleReadMore(article)}>
+              <Text style={styles.readMoreText}>Leer más</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+  );
 };
 
 export default BoardPage;

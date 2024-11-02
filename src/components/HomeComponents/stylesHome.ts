@@ -50,7 +50,7 @@ const stylesHome = {
   carouselItemTitle: "font-bold text-lg mb-1",
   carouselItemDescription: "text-sm text-gray-600 mb-2",
   readMoreText: "text-blue-500 underline",
-  loadingContainer: "flex-1 justify-center items-center bg-white", // Estilo para el contenedor de carga
+  loadingContainer: "flex-1 justify-center items-center bg-white",
   loadingText: "text-lg text-gray-600",
 
   ///////// InfoHome
@@ -69,6 +69,9 @@ const stylesHome = {
   publicationDescription: "text-base text-[#539091]",
   backButton: "p-2 m-5 bg-[#539091] rounded-md",
   backButtonText: "text-white text-center",
+
+  //////// Separación entre componentes (nueva clase)
+  spacingBetweenSections: "my-4",
 };
 
 export default stylesHome;

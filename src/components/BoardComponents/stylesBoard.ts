@@ -1,22 +1,56 @@
-const stylesBoard = {
-    //////General//////
-    container: 'flex-1 bg-principal relative', 
-    container2: "bg-primary border-y-4 border-principal w-full h-40",
-    container3: "bg-principal w-full flex-1 rounded-t-xl",
-    container4:" flex: 1, padding: 20",
-    container5:"bg-Principal border-y-4 border-principal w-full h-40",
+import { StyleSheet } from "react-native";
 
-    ////ItemList///////////////
-    container6:"m-2.5 border-1 border-white rounded p-0 ",
-    image:"w-full h-50 rounded justify-end ",
-    description:"text-[#818F8F] my-1.25 text-base font-bold left-0",
-    date:"text-[#E9F6F5] font-bold text-xs -left-1 p-1",
-    title3:"text-[#A8DCD9] font-bold text-xl left-0  ",
-    overlay:" p-2.5 mt-20  bg-black/50 ",
+const stylesBoard = StyleSheet.create({
+  //////General//////
+  container: {
+    flex: 1,
+    backgroundColor: "#yourBackgroundColor", // Reemplaza con tu color principal
+    position: "relative",
+  },
+  container3: {
+    backgroundColor: "#yourBackgroundColor",
+    width: "100%",
+    flex: 1,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
 
-    title:"text-principal text-3xl ml-6 mt-10",
-    title2:"text-principal text-3xl ml-6 font-bold mt-1",
-    
-    };
-    
-    export default stylesBoard;
+  ////ItemList///////////////
+  container6: {
+    margin: 10,
+    borderWidth: 1,
+    borderColor: "white",
+    borderRadius: 10,
+    padding: 0,
+  },
+  image: {
+    width: "100%",
+    height: 200, // Ajusta según tu diseño
+    borderRadius: 10,
+  },
+  description: {
+    color: "#818F8F",
+    marginVertical: 5,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  title3: {
+    color: "#A8DCD9",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  readMoreText: {
+    color: "#yourColor", // Cambia según tu diseño
+  },
+
+  // Agrega esto en stylesBoard
+  noImageText: {
+    color: "#FF0000", // Rojo para indicar un error
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 10,
+  },
+});
+
+export default stylesBoard;
