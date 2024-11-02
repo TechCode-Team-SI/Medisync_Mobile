@@ -53,19 +53,13 @@ const HomeUserPage: React.FC = () => {
           <Text className={styles.title}>Hola,</Text>
           <Text className={styles.title2}>{user.fullName}</Text>
         </View>
-        
+
         <View className={styles.container3}>
           <ButtonsHome />
-          
+
           {/* Espacio entre ButtonsHome y CarouselHome */}
           <View className={styles.spacingBetweenSections} />
 
-          <SearchBar
-            value={searchText}
-            onChangeText={setSearchText}
-            placeholder="Buscar artículos..."
-          />
-          
           {hasPublications && (
             <CarouselHome
               onUpdateHasPublications={setHasPublications}

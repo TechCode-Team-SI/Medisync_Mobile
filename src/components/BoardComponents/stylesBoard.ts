@@ -7,6 +7,10 @@ const stylesBoard = StyleSheet.create({
     backgroundColor: "#yourBackgroundColor", // Reemplaza con tu color principal
     position: "relative",
   },
+  searchContainer: {
+    alignItems: "center",
+    marginVertical: 10,
+  },
   container3: {
     backgroundColor: "#yourBackgroundColor",
     width: "100%",
@@ -28,6 +32,14 @@ const stylesBoard = StyleSheet.create({
     height: 200, // Ajusta según tu diseño
     borderRadius: 10,
   },
+  imagePlaceholder: {
+    width: "100%",
+    height: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e0e0e0", // Color de fondo para el placeholder
+    borderRadius: 10,
+  },
   description: {
     color: "#818F8F",
     marginVertical: 5,
@@ -41,15 +53,6 @@ const stylesBoard = StyleSheet.create({
   },
   readMoreText: {
     color: "#yourColor", // Cambia según tu diseño
-  },
-
-  // Agrega esto en stylesBoard
-  noImageText: {
-    color: "#FF0000", // Rojo para indicar un error
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginVertical: 10,
   },
 });
 
