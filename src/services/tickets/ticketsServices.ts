@@ -40,4 +40,46 @@ export const createTicket = async (token: string, ticketData: { title: string; d
     }
   };
 
+  export const addCommentToTicket = async (ticketId: string, comment: string): Promise<ApiResult<any>> => {
+    const token = await getToken();
 
+    if (!token) {
+        console.log("No se encontró el token de autenticación.");
+        return { success: false, message: "No se encontró el token de autenticación." };
+    }
+
+    try {
+        const response = await axios.post(`${api.tickets}/comments/${ticketId}`, { comment }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return { success: true, data: response.data };
+    } catch (error: any) {
+        console.error("Error al agregar comentario al ticket:", error);
+        return handleError(error);
+    }
+};
+
+
+export const getCommentsForTicket = async (ticketId: string): Promise<ApiResult<any>> => {
+  const token = await getToken();
+
+  if (!token) {
+      console.log("No se encontró el token de autenticación.");
+      return { success: false, message: "No se encontró el token de autenticación." };
+  }
+
+  try {
+      const response = await axios.get(`${api.tickets}/comments/${ticketId}`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      return { success: true, data: response.data };
+  } catch (error: any) {
+      console.log("Error al obtener los comentarios:", error);
+      return handleError(error);
+  }
+};
