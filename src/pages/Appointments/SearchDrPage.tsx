@@ -7,7 +7,6 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useRouter } from 'expo-router'; 
 import { Dr } from "@/src/services/appointments/doctorsServices";
 import SearchBar from "@/src/components/SearchBar";
-import styles2 from "@/src/components/ProfileComponents/stylesProfile";
 
 const SearchDrPage: React.FC = () => {
   const router = useRouter();
@@ -39,7 +38,7 @@ const SearchDrPage: React.FC = () => {
       <View className={styles.containerBg2}>
         <Text className={styles.title2}>Especialistas Disponibles</Text>
        
-        <View className={styles2.containerTop}>
+        <View className={styles.containerSearch}>
         <SearchBar
             value={searchText}
             onChangeText={setSearchText}

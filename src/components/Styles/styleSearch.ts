@@ -2,11 +2,11 @@ const stylesSearch = {
     container1: 'flex-1 bg-primary relative', 
      //// Background 
      containerBg1: 'absolute bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-8 px-4 ',
-     containerBg2: 'absolute items-center bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-8 px-6',
+     containerBg2: 'absolute items-center bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-8 px-4',
      container4: "justify-center items-center",
 
-     title1: "text-principal font-montserrat text-center pt-4 text-3xl px-22 m-4" ,
-     title2: " font-montserrat text-left mb-4 text-primary text-base",   
+     title1: "text-principal font-montserrat text-center pt-1 text-3xl px-22 m-4" ,
+     title2: " font-montserrat text-left mb-5 text-primary text-base",   
      title3: " font-montserrat text-left  text-primary text-l",  
 
      //Button back
@@ -20,9 +20,11 @@ const stylesSearch = {
     button1: 'w-full items-center justify-center bg-primary rounded-xl mt-1 ', //Config
     buttonText1: 'text-principal text-lg font-montserrat',
 
-    container:"flex-col gap-4",
+    container:"flex-row my-4 mx-1",
     button2: 'shadow flex-row w-full space-x-4 h-20 items-center justify-center bg-terciary rounded-xl ', 
     buttonText2: 'basis-3/4 mt-2 h-7 text-primary text-m font-montserrat',
+
+    containerSearch:"items-center flex-row"
 };
     
 export default stylesSearch;

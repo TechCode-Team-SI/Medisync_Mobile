@@ -8,7 +8,6 @@ import SearchBar from "@/src/components/SearchBar";
 import { getspecialites } from "@/src/services/appointments/specialtiesServices";
 import { getDr } from "@/src/services/appointments/doctorsServices";
 import { Specialties } from "@/src/services/appointments/specialtiesServices";
-import styles2 from "@/src/components/ProfileComponents/stylesProfile";
 
 
 const SearchPage: React.FC = () => {
@@ -56,10 +55,8 @@ const SearchPage: React.FC = () => {
          <Text className={styles.title1}> Servicios</Text>
 
           <View className={styles.containerBg1}>
-
-            <Text className={styles.title2}> Especialidad</Text>
               
-            <View className={styles2.containerTop}>
+            <View className={styles.containerSearch}>
             <SearchBar
                     value={searchText}
                     onChangeText={setSearchText}
