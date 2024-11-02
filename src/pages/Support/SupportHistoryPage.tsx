@@ -6,7 +6,8 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router } from "expo-router";
 
 const SupportHistoryPage: React.FC = () => {
-  const [tickets, setTickets] = useState<{ id: string; title: string; type: string; status: string; createdAt: string; }[]>([]);
+
+  const [tickets, setTickets] = useState<{ id: string; title: string; description: string; type: string; status: string; createdAt: string; }[]>([]);
 
   const fetchTickets = async () => {
     const response = await getTickets();
@@ -14,6 +15,7 @@ const SupportHistoryPage: React.FC = () => {
       const ticketsList = response.data.data.map((ticket: any) => ({
         id: ticket.id,
         title: ticket.title,
+        description: ticket.description,
         type: ticket.type,
         status: ticket.status,
         createdAt: ticket.createdAt,
@@ -51,9 +53,10 @@ const SupportHistoryPage: React.FC = () => {
     };
   };
 
-  const handlePress = (ticketId: string) => {
-    router.push("/chat");
+  const handlePress = (ticket: any) => {
+    router.push(`/chat?id=${encodeURIComponent(ticket.id)}&title=${encodeURIComponent(ticket.title)}&description=${encodeURIComponent(ticket.description)}`);
   };
+  
 
   return (
     <View className="flex-1 bg-white">
@@ -67,7 +70,7 @@ const SupportHistoryPage: React.FC = () => {
               <TouchableOpacity 
                 key={ticket.id} 
                 className="bg-terciary p-4 mb-4 rounded-xl mx-1 shadow flex-row items-start"
-                onPress={() => handlePress(ticket.id)} // Maneja el clic
+                onPress={() => handlePress(ticket)} 
               >
                 <View className="bg-primary rounded-full p-2 mr-2 mt-4">
                   <MaterialCommunityIcons name="headset" size={36} color="white" />

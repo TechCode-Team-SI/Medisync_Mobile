@@ -49,7 +49,7 @@ const stylesProfile = {
     title5:"text-base font-montserrat text-center text-2xl text-principal pt-3 pb-6",
 
 
-    title4: "text-base font-montserrat text-center text-2xl text-principal pt-8", 
+    title4: "text-base font-montserrat text-center text-2xl text-principal pt-6", 
     text: "text-base text-primary py-4",
     button2: 'shadow flex-row w-full space-x-4 h-16 items-center bg-bgData rounded-xl p-5 my-2', 
     buttonText2: 'basis-3/4 mt-1 h-7 text-primary text-base font-montserrat',

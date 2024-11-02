@@ -4,8 +4,8 @@ import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile"
 import Entypo from '@expo/vector-icons/Entypo';
 import { Link, router } from "expo-router";
-import { TUser } from "@/src/types/user"; 
 
+import { TUser } from "@/src/types/user"; 
 import { getUser } from "@/src/services/user/userServices"
 
 import { handleLogout } from '@/src/services/auth/authUtils';

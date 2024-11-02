@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StatusBar, SafeAreaView } from 'react-native';
 import styles from '@/src/components/LoginComponents/stylesLogin';
 import FormField from "@/src/components/Forms/FormField";
 import Dropdown from "@/src/components/Forms/Dropdown"; 
@@ -149,6 +149,9 @@ const RegisterPage: React.FC = () => {
   );
 
   return (
+ 
+    <SafeAreaView className={styles.safeArea}>
+    <StatusBar  backgroundColor="#539091" barStyle="light-content" />
     <View className={styles.container2}>
     <FlatList
       data={[{}]} 
@@ -156,11 +159,12 @@ const RegisterPage: React.FC = () => {
       keyExtractor={(item, index) => index.toString()}
       ListHeaderComponent={
         <View className={styles.containerTitle}>
-          <Text className={styles.title1}>¡Regístrate!</Text>
+          <Text className={styles.title4}>¡Regístrate!</Text>
         </View>
       }
     />
     </View>
+    </SafeAreaView>
   );
 };
 
