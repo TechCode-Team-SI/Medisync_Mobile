@@ -1,49 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
-import styles from '@/src/components/Styles/styleSearch';
-import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import { useRouter } from 'expo-router'; 
+import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import styles from "@/src/components/Styles/styleSearch";
+import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { useRouter } from "expo-router";
 import { Dr } from "@/src/services/appointments/doctorsServices";
 
 const SearchDrPage: React.FC = () => {
   const router = useRouter();
-  const { doctors, specialtyName } = useLocalSearchParams();
+  const { doctors, specialtyName, specialtyId } = useLocalSearchParams();
 
-  const [drs, setdrs]  = useState<Dr[]>([]);
+  const [drs, setdrs] = useState<Dr[]>([]);
 
   useEffect(() => {
     if (doctors) {
-      console.log('Doctores recibidos:', doctors);
       setdrs(JSON.parse(doctors as string)); // Parsear el string JSON a un array de objetos
     }
   }, [doctors]);
 
-  const handleSelect = () => {
-    router.push('/createappointment');
+  const handleSelect = (drId: string) => {
+    router.push({
+      pathname: "/createappointment",
+      params: {
+        requestedDrId: drId,
+        requestedSpecialtyId: specialtyId,
+      },
+    });
   };
 
   return (
     <View className={styles.container1}>
-      <ButtonBack/>
+      <ButtonBack />
       <Text className={styles.title1}>{specialtyName}</Text>
 
       <View className={styles.containerBg2}>
         <Text className={styles.title2}>Especialistas Disponibles</Text>
         <View className={styles.container}>
-        {drs.map((dr) => (
-          <TouchableOpacity
-          key={dr.id}
-            className={styles.button2}
-            onPress={handleSelect}>
-            <FontAwesome5 name="user-alt" size={26} color="#539091"/>
-            <Text className={styles.buttonText2}>Dr. {dr.fullName || 'Nombre no disponible'}</Text>
-          </TouchableOpacity>
-           ))}
+          {drs.map((dr) => (
+            <TouchableOpacity
+              key={dr.id}
+              className={styles.button2}
+              onPress={() => handleSelect(dr.id)}
+            >
+              <FontAwesome5 name="user-alt" size={26} color="#539091" />
+              <Text className={styles.buttonText2}>
+                Dr. {dr.fullName || "Nombre no disponible"}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
-
     </View>
   );
 };

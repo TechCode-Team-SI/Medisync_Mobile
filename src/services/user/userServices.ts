@@ -1,22 +1,22 @@
-import axios from 'axios';
 import { api, ApiResult } from "@/src/services/api/apiConfig";
-import { handleError } from "@/src/services/error/errorHandler"
-import { getToken } from "@/src/services/auth/sessionServices"
-import { TPhotoResult, TPhotoUserUpload, TUser } from '@/src/types/user';
+import { getToken } from "@/src/services/auth/sessionServices";
+import { handleError } from "@/src/services/error/errorHandler";
+import { TPhotoResult, TPhotoUserUpload } from "@/src/types/user";
+import axios from "axios";
 
-export const getUser = async (): Promise<ApiResult<TUser>> => {
+export const getUser = async (): Promise<ApiResult<any>> => {
   try {
-    const token = await getToken(); 
+    const token = await getToken();
 
     if (!token) {
-      return { success: false, message: 'Token no disponible.' };
+      return { success: false, message: "Token no disponible." };
     }
 
     const response = await axios.get(api.infoUser, {
       headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${token}`
-      }
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     return { success: true, data: response.data };
@@ -25,23 +25,25 @@ export const getUser = async (): Promise<ApiResult<TUser>> => {
   }
 };
 
-export const updateUserProfile = async (data: TPhotoUserUpload): Promise<ApiResult<TPhotoResult>> => {
+export const updateUserProfile = async (
+  data: TPhotoUserUpload
+): Promise<ApiResult<TPhotoResult>> => {
   try {
-      const token = await getToken();
+    const token = await getToken();
 
-      if (!token) {
-          return { success: false, message: 'Token no disponible.' };
-      }
+    if (!token) {
+      return { success: false, message: "Token no disponible." };
+    }
 
-      const response = await axios.patch(api.infoUser, data, {
-          headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`
-          }
-      });
+    const response = await axios.patch(api.infoUser, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      return { success: true, data: response.data };
+    return { success: true, data: response.data };
   } catch (error) {
-      return handleError(error);
+    return handleError(error);
   }
 };
