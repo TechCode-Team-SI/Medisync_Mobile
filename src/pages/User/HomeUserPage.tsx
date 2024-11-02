@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, ScrollView } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import styles from "@/src/components/HomeComponents/stylesHome";
+import styles from "@/src/components/HomeComponents/stylesHome"; // Importar estilos
 import ButtonsHome from "@/src/components/HomeComponents/ButtonsHome";
 import InfoHome from "@/src/components/HomeComponents/InfoHome";
 import TopBar from "@/src/components/Navigation/TopBar";
@@ -14,7 +14,7 @@ const HomeUserPage: React.FC = () => {
   const [user, setUser] = useState<{ fullName: string }>({ fullName: "" });
   const [error, setError] = useState<string | null>(null);
   const [hasPublications, setHasPublications] = useState(true);
-  const [searchText, setSearchText] = useState(""); // Estado para el texto de búsqueda
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,7 +48,6 @@ const HomeUserPage: React.FC = () => {
         isVisible={isMenuVisible}
         onClose={() => setMenuVisible(false)}
       />
-
       <ScrollView>
         <View className={styles.container2}>
           <Text className={styles.title}>Hola,</Text>
@@ -56,7 +55,6 @@ const HomeUserPage: React.FC = () => {
         </View>
         <View className={styles.container3}>
           <ButtonsHome />
-          {/* Componente de búsqueda */}
           <SearchBar
             value={searchText}
             onChangeText={setSearchText}
@@ -65,7 +63,7 @@ const HomeUserPage: React.FC = () => {
           {hasPublications && (
             <CarouselHome
               onUpdateHasPublications={setHasPublications}
-              searchText={searchText} // Pasar el texto de búsqueda
+              searchText={searchText}
             />
           )}
           <InfoHome />

@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import styles from "@/src/components/HomeComponents/stylesHome"; // Importar estilos
 
 interface CarouselHomeProps {
   onUpdateHasPublications: (has: boolean) => void;
-  searchText: string; // Nueva prop para el texto de búsqueda
+  searchText: string;
 }
 
-const CarouselHome: React.FC<CarouselHomeProps> = ({ onUpdateHasPublications, searchText }) => {
+const CarouselHome: React.FC<CarouselHomeProps> = ({
+  onUpdateHasPublications,
+  searchText,
+}) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -51,32 +55,31 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({ onUpdateHasPublications, se
       : null;
   };
 
-  // Filtrar artículos por el texto de búsqueda
   const filteredData = data.filter((item) =>
     item.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
   if (loading) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-lg">Cargando...</Text>
+      <View className={styles.loadingContainer}>
+        <Text className={styles.loadingText}>Cargando...</Text>
       </View>
     );
   }
 
   if (filteredData.length === 0 && searchText) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-lg">No hay publicaciones al respecto</Text>
+      <View className={styles.loadingContainer}>
+        <Text className={styles.loadingText}>
+          No hay publicaciones al respecto
+        </Text>
       </View>
     );
   }
 
   return (
     <View className="flex-1">
-      <Text className="text-lg font-bold my-5 ml-5 text-[#539091]">
-        Mantente informado
-      </Text>
+      <Text className={styles.carouselTitle}>Mantente informado</Text>
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -86,34 +89,26 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({ onUpdateHasPublications, se
         {(filteredData.length > 0 ? filteredData : data).map((item, index) => {
           const imageSource = getImageSource(item.image);
           return (
-            <View
-              key={index}
-              className="w-[300px] h-[300px] mx-0 justify-center border border-white"
-            >
+            <View key={index} className={styles.carouselItem}>
               {imageSource ? (
-                <Image
-                  source={imageSource}
-                  className="w-full h-full rounded-none"
-                />
+                <Image source={imageSource} className={styles.carouselImage} />
               ) : (
-                <View className="w-full h-full bg-gray-300 justify-center items-center">
-                  <Text className="text-white">Imagen no disponible</Text>
+                <View className={styles.imagePlaceholder}>
+                  <Text className={styles.placeholderText}>
+                    Imagen no disponible
+                  </Text>
                 </View>
               )}
-              <View
-                style={{ backgroundColor: "rgba(83, 144, 145, 0.8)" }}
-                className="absolute p-[20px] w-full border-white border-y-2 flex flex-col gap-y-[20px]"
-              >
-                <Text className="text-white font-bold text-lg">
-                  {item.title}
-                </Text>
-                <Text numberOfLines={4} className="text-white">
+              <View className={styles.carouselContent}>
+                <Text className={styles.carouselItemTitle}>{item.title}</Text>
+                <Text
+                  numberOfLines={4}
+                  className={styles.carouselItemDescription}
+                >
                   {item.description}
                 </Text>
                 <TouchableOpacity onPress={() => handleReadMore(item)}>
-                  <Text className="text-white font-bold text-right">
-                    Leer más
-                  </Text>
+                  <Text className={styles.readMoreText}>Leer más</Text>
                 </TouchableOpacity>
               </View>
             </View>

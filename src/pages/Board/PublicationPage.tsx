@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
+import styles from "@/src/components/HomeComponents/stylesHome"; // Importar estilos
 
 const PublicationPage: React.FC<{
   setHasPublications: (hasPublications: boolean) => void;
@@ -31,37 +32,29 @@ const PublicationPage: React.FC<{
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View className={styles.publicationContainer}>
       <TopBar title="Publicación" onLeftPress={toggleMenu} />
       <SideMenuModal
         isVisible={isMenuVisible}
         onClose={() => setMenuVisible(false)}
       />
       <View style={{ padding: 20, flex: 1 }}>
-        <Text style={{ fontSize: 24, fontWeight: "bold", color: "#539091" }}>
-          {articleData.title}
-        </Text>
+        <Text className={styles.publicationTitle}>{articleData.title}</Text>
         {articleData.image && (
           <Image
             source={{ uri: articleData.image }}
-            style={{ width: "100%", height: 200, marginVertical: 10 }}
+            className={styles.publicationImage}
           />
         )}
-        <Text style={{ fontSize: 16, color: "#539091" }}>
+        <Text className={styles.publicationDescription}>
           {articleData.description}
         </Text>
       </View>
       <TouchableOpacity
         onPress={() => router.back()} // Navegar a la página anterior
-        style={{
-          padding: 10,
-          margin: 20,
-          backgroundColor: "#539091",
-          borderRadius: 5,
-          alignSelf: "center",
-        }}
+        className={styles.backButton}
       >
-        <Text style={{ color: "white", textAlign: "center" }}>Regresar</Text>
+        <Text className={styles.backButtonText}>Regresar</Text>
       </TouchableOpacity>
     </View>
   );
