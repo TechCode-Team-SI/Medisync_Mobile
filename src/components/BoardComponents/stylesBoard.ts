@@ -29,7 +29,7 @@ const stylesBoard = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 200, // Ajusta según tu diseño
+    height: 200, // Ajusta según el diseño
     borderRadius: 10,
   },
   imagePlaceholder: {
@@ -52,8 +52,16 @@ const stylesBoard = StyleSheet.create({
     fontWeight: "bold",
   },
   readMoreText: {
-    color: "#yourColor", // Cambia según tu diseño
+    color: "#yourColor", // Cambiar según el diseño
   },
+  noPublicationsText: {
+    color: "#818F8F", // Ajusta el color 
+    textAlign: "center",
+    marginTop: 20,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  
 });
 
 export default stylesBoard;
