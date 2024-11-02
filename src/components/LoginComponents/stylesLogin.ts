@@ -20,9 +20,10 @@ const stylesLogin = {
 
     /// Titulos
     containerTitle:"pb-4",
-    title1: "text-principal font-montserrat text-center pt-32 text-3xl px-5", // Titulo principal
+    title1: "text-principal font-montserrat text-center pt-36 text-3xl px-5", // Titulo principal
     title2: "font-montserrat text-center my-8 text-base",   //Login - Forgot - Descripción
     title3: "font-montserrat text-center my-6 text-base",   //Register - Descripción
+    title4: "text-principal font-montserrat text-center pt-28 pb-6 text-3xl px-5", // Titulo principal
 
     /// Input
     

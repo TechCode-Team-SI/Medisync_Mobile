@@ -159,7 +159,7 @@ const RegisterPage: React.FC = () => {
       keyExtractor={(item, index) => index.toString()}
       ListHeaderComponent={
         <View className={styles.containerTitle}>
-          <Text className={styles.title1}>¡Regístrate!</Text>
+          <Text className={styles.title4}>¡Regístrate!</Text>
         </View>
       }
     />
