@@ -4,7 +4,7 @@ const stylesBoard = StyleSheet.create({
   //////General//////
   container: {
     flex: 1,
-    backgroundColor: "#yourBackgroundColor", // Reemplaza con tu color principal
+    backgroundColor: "white",
     position: "relative",
   },
   searchContainer: {
@@ -12,7 +12,7 @@ const stylesBoard = StyleSheet.create({
     marginVertical: 10,
   },
   container3: {
-    backgroundColor: "#yourBackgroundColor",
+    backgroundColor: "white",
     width: "100%",
     flex: 1,
     borderTopLeftRadius: 10,
@@ -29,7 +29,7 @@ const stylesBoard = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 200, // Ajusta según el diseño
+    height: 200, 
     borderRadius: 10,
   },
   imagePlaceholder: {
@@ -55,13 +55,17 @@ const stylesBoard = StyleSheet.create({
     color: "#yourColor", // Cambiar según el diseño
   },
   noPublicationsText: {
-    color: "#818F8F", // Ajusta el color 
+    color: "#818F8F", // Ajusta el color
     textAlign: "center",
     marginTop: 20,
     fontSize: 18,
     fontWeight: "bold",
   },
-  
+  dateText: {
+    color: "#818F8F", // Ajusta el color según el diseño
+    fontSize: 14,
+    marginVertical: 5,
+  },
 });
 
 export default stylesBoard;

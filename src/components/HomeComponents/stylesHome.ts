@@ -52,6 +52,7 @@ const stylesHome = {
   readMoreText: "text-blue-500 underline",
   loadingContainer: "flex-1 justify-center items-center bg-white",
   loadingText: "text-lg text-gray-600",
+  carouselDate: "text-gray-500 text-sm mb-2",
 
   ///////// InfoHome
   containerInfo: "flex-1 my-2 mx-7 items-center",
@@ -69,6 +70,7 @@ const stylesHome = {
   publicationDescription: "text-base text-[#539091]",
   backButton: "p-2 m-5 bg-[#539091] rounded-md",
   backButtonText: "text-white text-center",
+  publicationDate: "text-gray-500 text-sm mb-2",
 
   //////// Separación entre componentes (nueva clase)
   spacingBetweenSections: "my-4",

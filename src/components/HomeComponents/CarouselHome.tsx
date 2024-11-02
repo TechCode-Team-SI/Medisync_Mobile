@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
-import styles from "@/src/components/HomeComponents/stylesHome"; // Importar estilos
+import styles from "@/src/components/HomeComponents/stylesHome";
 
 interface CarouselHomeProps {
   onUpdateHasPublications: (has: boolean) => void;
@@ -88,6 +88,7 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
       >
         {(filteredData.length > 0 ? filteredData : data).map((item, index) => {
           const imageSource = getImageSource(item.image);
+          const formattedDate = new Date(item.createdAt).toLocaleDateString();
           return (
             <View key={index} className={styles.carouselItem}>
               {imageSource ? (
@@ -101,6 +102,7 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
               )}
               <View className={styles.carouselContent}>
                 <Text className={styles.carouselItemTitle}>{item.title}</Text>
+                <Text className={styles.carouselDate}>{formattedDate}</Text>
                 <Text
                   numberOfLines={4}
                   className={styles.carouselItemDescription}

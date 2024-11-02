@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
-import styles from "@/src/components/HomeComponents/stylesHome"; // Importar estilos
+import styles from "@/src/components/HomeComponents/stylesHome";
 
 const PublicationPage: React.FC<{
   setHasPublications: (hasPublications: boolean) => void;
@@ -31,6 +31,8 @@ const PublicationPage: React.FC<{
     );
   }
 
+  const formattedDate = new Date(articleData.createdAt).toLocaleDateString();
+
   return (
     <View className={styles.publicationContainer}>
       <TopBar title="Publicación" onLeftPress={toggleMenu} />
@@ -40,18 +42,14 @@ const PublicationPage: React.FC<{
       />
       <View style={{ padding: 20, flex: 1 }}>
         <Text className={styles.publicationTitle}>{articleData.title}</Text>
+        <Text className={styles.publicationDate}>{formattedDate}</Text>
         {articleData.image && (
-          <Image
-            source={{ uri: articleData.image }}
-            className={styles.publicationImage}
-          />
+          <Image source={{ uri: articleData.image }} className={styles.publicationImage} />
         )}
-        <Text className={styles.publicationDescription}>
-          {articleData.description}
-        </Text>
+        <Text className={styles.publicationDescription}>{articleData.description}</Text>
       </View>
       <TouchableOpacity
-        onPress={() => router.back()} // Navegar a la página anterior
+        onPress={() => router.back()}
         className={styles.backButton}
       >
         <Text className={styles.backButtonText}>Regresar</Text>

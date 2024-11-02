@@ -28,7 +28,15 @@ const BoardPage: React.FC = () => {
       const response = await fetch("https://chengkev.online/api/v1/articles");
       const json = await response.json();
       if (Array.isArray(json.data)) {
-        setArticles(json.data);
+        const articlesWithDate = json.data.map((article: any) => ({
+          ...article,
+          date: new Date(article.createdAt).toLocaleDateString("es-ES", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }), // Formatear la fecha
+        }));
+        setArticles(articlesWithDate);
       }
     };
 
@@ -43,7 +51,7 @@ const BoardPage: React.FC = () => {
   };
 
   const filteredArticles = articles.filter((article) =>
-    article.title.toLowerCase().includes(searchText.toLowerCase())
+    article.title?.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -64,26 +72,25 @@ const BoardPage: React.FC = () => {
         {filteredArticles.length === 0 ? (
           <Text style={styles.noPublicationsText}>No hay publicaciones</Text>
         ) : (
-          filteredArticles.map((article, index) => {
-            console.log("Article data:", article);
-
-            return (
-              <View key={index} style={styles.container6}>
-                <Text style={styles.title3}>{article.title}</Text>
-                {article.image && typeof article.image === "string" ? (
-                  <Image source={{ uri: article.image }} style={styles.image} />
-                ) : (
-                  <Text style={styles.description}>
-                    La imagen no está disponible
-                  </Text>
-                )}
-                <Text style={styles.description}>{article.description}</Text>
-                <TouchableOpacity onPress={() => handleReadMore(article)}>
-                  <Text style={styles.readMoreText}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            );
-          })
+          filteredArticles.map((article, index) => (
+            <View key={index} style={styles.container6}>
+              <Text style={styles.title3}>{article.title || ""}</Text>
+              <Text style={styles.dateText}>{article.date || ""}</Text>
+              {article.image && typeof article.image === "string" ? (
+                <Image source={{ uri: article.image }} style={styles.image} />
+              ) : (
+                <Text style={styles.description}>
+                  La imagen no está disponible
+                </Text>
+              )}
+              <Text style={styles.description}>
+                {article.description || ""}
+              </Text>
+              <TouchableOpacity onPress={() => handleReadMore(article)}>
+                <Text style={styles.readMoreText}>Leer más</Text>
+              </TouchableOpacity>
+            </View>
+          ))
         )}
       </ScrollView>
     </View>
