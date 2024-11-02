@@ -1,30 +1,29 @@
 const stylesSearch = {
     container1: 'flex-1 bg-primary relative', 
      //// Background 
-     containerBg1: 'absolute bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-8 px-4 ',
-     containerBg2: 'absolute items-center bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-8 px-4',
+     containerBg1: 'absolute bottom-0 w-full h-4/6 bg-principal rounded-t-3xl pt-8 px-4',
+     containerBg2: 'absolute items-center bottom-0 w-full h-4/6 bg-principal rounded-t-3xl pt-8 px-6',
      container4: "justify-center items-center",
 
-     title1: "text-principal font-montserrat text-center pt-1 text-3xl px-22 m-4" ,
-     title2: " font-montserrat text-left mb-5 text-primary text-base",   
+     title1: "text-principal font-montserrat text-center pt-12 text-3xl px-22 m-4" ,
+     title2: " font-montserrat text-left my-3 text-primary text-base",   
      title3: " font-montserrat text-left  text-primary text-l",  
 
      //Button back
     buttonBack1: 'w-full h-12 items-center justify-center bg-secondary rounded-lg', 
 
     ///Button
-    containerGrid:"flex-row flex-wrap gap-4 space-x-3 justify-center mt-0.5",
+    containerGrid:"flex-row flex-wrap gap-4 space-x-3 justify-center",
     button: 'basis-[28.5714286%] w-11/12 h-24 items-center justify-center bg-terciary rounded-xl ', 
     buttonText: ' mt-2 h-7 text-primary text-xs font-montserrat',
 
-    button1: 'w-full items-center justify-center bg-primary rounded-xl mt-1 ', //Config
+    button1: 'w-full h-12 items-center justify-center bg-primary rounded-xl mt-8', //Config
     buttonText1: 'text-principal text-lg font-montserrat',
 
-    container:"flex-row my-4 mx-1",
+    container:"flex-col gap-4",
     button2: 'shadow flex-row w-full space-x-4 h-20 items-center justify-center bg-terciary rounded-xl ', 
     buttonText2: 'basis-3/4 mt-2 h-7 text-primary text-m font-montserrat',
-
-    containerSearch:"items-center flex-row"
+    
 };
     
 export default stylesSearch;
