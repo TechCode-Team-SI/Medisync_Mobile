@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
+import React, {  useState } from "react";
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile"
 import Entypo from '@expo/vector-icons/Entypo';
-import { Link, router } from "expo-router";
-
+import { useFocusEffect, router } from "expo-router";
 import { TUser } from "@/src/types/user"; 
+
 import { getUser } from "@/src/services/user/userServices"
 
 import { handleLogout } from '@/src/services/auth/authUtils';
@@ -14,21 +14,23 @@ const ProfilePage: React.FC = () => {
   
     const [user, setUser] = useState<{ fullName: string }>({ fullName: '' });
     const [error, setError] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    useEffect(() => {
-      const fetchUser = async () => {
-        const result = await getUser();
-        if (result.success && result.data) {
-          const userData = result.data as TUser;
-          setUser(userData);
-          setSelectedImage(userData.photo?.path ?? null); 
-        } else {
-          setError(result.message || "Error al obtener datos de usuario");
-        }
-      };
+    const userLoad= async() => {
+      const result = await getUser();
+      if (result.success && result.data) {
+        const userData = result.data as TUser;
+        setUser(userData);
+        setSelectedImage(userData.photo?.path ?? null); 
+      } else {
+        setError(result.message || "Error al obtener datos de usuario");
+      }
+    }
     
-      fetchUser();
-    }, []);
+    useFocusEffect( React.useCallback(() =>{
+     userLoad();
+    },[]))
+    
 
     const handleEdit = () => {
       router.push("/configprofile");
@@ -46,7 +48,6 @@ const ProfilePage: React.FC = () => {
       router.push("/history");
     };
     
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     return (
         <View className={styles.container}>

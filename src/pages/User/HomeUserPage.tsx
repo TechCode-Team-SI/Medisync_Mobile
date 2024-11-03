@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Text, View, ScrollView} from "react-native";
 import { useFocusEffect } from '@react-navigation/native'
-
+import { getUser } from "@/src/services/user/userServices"
+import { TUser } from "@/src/types/user"; 
 import styles from "@/src/components/HomeComponents/stylesHome";
 import ButtonsHome from "@/src/components/HomeComponents/ButtonsHome";
 import InfoHome from "@/src/components/HomeComponents/InfoHome";
 import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
-
-import useFetchUser from "@/src/services/user/useFetchUser";
 import ImageItem from '@/src/components/BoardComponents/imageItem';
-
+ 
 
 const HomeUserPage: React.FC = () => {
   
@@ -23,10 +22,21 @@ const HomeUserPage: React.FC = () => {
        
     },  ]
 
-
-    const { user } = useFetchUser();
-
+  const [user, setUser] = useState<{ fullName: string }>({ fullName: '' });
+  const [error, setError] = useState<string | null>(null);
   const [isMenuVisible, setMenuVisible] = useState(false);
+
+
+  const userLoad= async() => {
+    const result = await getUser();
+    if (result.success && result.data) {
+      const userData = result.data as TUser;
+      setUser(userData);
+    } else {
+      setError(result.message|| "Error al obtener datos de usuario");
+    }
+  }
+
 
   const toggleMenu = () => {
     setMenuVisible(prev => !prev);
@@ -35,6 +45,8 @@ const HomeUserPage: React.FC = () => {
   useFocusEffect(
     React.useCallback(() => {
       setMenuVisible(false); 
+      userLoad(); 
+
     }, [])
   );
 
