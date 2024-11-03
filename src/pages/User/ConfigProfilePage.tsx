@@ -4,12 +4,13 @@ import styles from "@/src/components/ProfileComponents/stylesProfile";
 import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
 import Entypo from "@expo/vector-icons/Entypo";
 import { pickImage } from "@/src/utils/imagePicker";
-import { getUser, updateUserProfile } from "@/src/services/user/userServices";
-import { uploadImage } from "@/src/services/files/filesServices";
 import { ImagePickerAsset } from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import AlertModal from '@/src/components/Modal/AlertModal';
 import FormField from "@/src/components/Forms/FormField";
+
+import { getUser, updateUserProfile } from "@/src/services/user/userServices";
+import { uploadImage } from "@/src/services/files/filesServices";
 
 type UserImage = string | ImagePickerAsset | null;
 
@@ -102,16 +103,7 @@ const ConfigProfilePage: React.FC = () => {
             maxLength={100}
           />
 
-          <Text className={styles.title3}> Correo</Text>
-          <FormField
-            icon="mail"
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            editable={false}
-          />
-
+          
           <Text className={styles.title3}> Teléfono</Text>
           <FormField
             icon="phone"
@@ -120,6 +112,16 @@ const ConfigProfilePage: React.FC = () => {
             onChangeText={setPhone}
             keyboardType="phone-pad" 
             maxLength={20}
+          />
+
+          <Text className={styles.title3}> Correo</Text>
+          <FormField
+            icon="mail"
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            editable={false}
           />
 
           <View className={styles.container4}>

@@ -24,7 +24,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
   return (
     <View>
       <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-        <View className={"flex-row items-center bg-bgInput w-full p-3 h-12"}>
+        <View className={"flex-row items-center bg-bgInput w-full p-3 h-12 mb-5"}>
           <Entypo name="calendar" size={24} color="#539091" />
           <TextInput
             className={styles.input}
