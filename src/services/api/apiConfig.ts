@@ -27,6 +27,9 @@ export const api = {
 
   userPatient: API_URL + "/users/patient/me",
 
+  //// ARTICLES
+  articles: API_URL + "/articles",
+
   //// REQUEST TEMPLATE
 
   requestTemplateBySpecialty: API_URL + "/request-templates/specialty",

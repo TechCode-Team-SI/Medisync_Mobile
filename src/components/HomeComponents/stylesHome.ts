@@ -26,7 +26,7 @@ const stylesHome = {
     logo:"w-52 h-52 mb-5",
 
     ///////// ButtonsHome
-    containerButtons: "flex-1 space-y-3 items-center mt-10 pb-6",
+    containerButtons: "flex-1 space-y-3 items-center mt-10",
     containerGrid:"flex-row space-x-4",
     button2:"bg-primary h-24 w-28 items-center justify-center  rounded-tr-2xl rounded-bl-2xl rounded-br-2xl",
     button3:"bg-primary h-24 w-28 items-center justify-center rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl ",
@@ -37,16 +37,30 @@ const stylesHome = {
 
     ///////// CarouselHome
 
-    containerBoard:" mx-4",
+    carouselTitle: "text-primary font-montserrat text-lg text-center pb-3",
+    carouselItem: "flex flex-col w-64 p-3 m-2 bg-bgMenu rounded-lg shadow",
+    carouselImage: "w-full h-32 object-cover mb-2",
+    imagePlaceholder: "flex items-center justify-center h-32 bg-gray-200 mb-2 rounded",
+    placeholderText: "text-gray-500",
+    carouselContent: "flex-1 p-2",
+    carouselItemTitle: "font-bold text-lg mb-1 text-primary",
+    carouselItemDescription: "text-base text-gray-600 mb-2",
+    loadingContainer: "flex justify-center items-center",
+    loadingText: "text-lg text-gray-600",
+    carouselDate: "text-gray-400 text-sm mb-2",
 
     ///////// InfoHome
-    containerInfo:"flex-1 my-2 mx-7 items-center",
+    containerInfo:"flex-1 my-5 mx-7 items-center",
     containerInfo2:" w-full space-y-2 mt-4",
     containerInfo3:"flex-row",
     titleInfo:"text-primary font-montserrat text-lg pt-1",
     textInfo:"text-primary",
     errorText:"text-red",
-    containerText:"ml-4"
+    containerText:"ml-4",
+
+
+
+    spacingBetweenSections: "my-4",
 
     };
     

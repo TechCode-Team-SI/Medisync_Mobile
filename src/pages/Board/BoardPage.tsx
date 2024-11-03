@@ -1,91 +1,102 @@
-///// ARREGLAR //////
-
-import React, { useState,useEffect } from 'react';
-import { View,ScrollView } from 'react-native';
-import styles from '@/src/components/BoardComponents/stylesBoard';
-
-import ImageItem from '@/src/components/BoardComponents/imageItem';
-
-import SideMenuModal from '@/src/components/Navigation/SideMenuModal';
-import TopBar from '@/src/components/Navigation/TopBar';
-import { useFocusEffect } from '@react-navigation/native'
-
+import React, { useState, useEffect } from "react";
+import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
+import styles from "@/src/components/BoardComponents/stylesBoard";
+import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
+import TopBar from "@/src/components/Navigation/TopBar";
+import SearchBar from "@/src/components/SearchBar";
+import { useFocusEffect } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import { Article, fetchArticles } from "@/src/services/board/boardServices"; 
+import Loader from "@/src/components/ui/Loader"; // Asegúrate de que la ruta sea correcta
 
 const BoardPage: React.FC = () => {
+  const [isMenuVisible, setMenuVisible] = useState(false);
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(true); // Estado para el loader
+  const router = useRouter();
 
-    const [isMenuVisible, setMenuVisible] = useState(false);
+  const toggleMenu = () => {
+    setMenuVisible((prev) => !prev);
+  };
 
-    const toggleMenu = () => {
-      setMenuVisible(prev => !prev);
+  useFocusEffect(
+    React.useCallback(() => {
+      setMenuVisible(false);
+    }, [])
+  );
+
+  useEffect(() => {
+    const loadArticles = async () => {
+      setLoading(true); // Activar el loader antes de cargar
+      const articlesData = await fetchArticles();
+      setArticles(articlesData);
+      setLoading(false); // Desactivar el loader después de cargar
     };
-  
-    useFocusEffect(
-      React.useCallback(() => {
-        setMenuVisible(false); 
-      }, [])
-    );
 
-  const images = [  
-    {  
-      url: 'https://concienciasaludable.uchile.cl/wp-content/uploads/2023/10/pexels-vanessa-loring-5966434-scaled-1.jpg',
-      title: 'Alimentación saludable',  
-      date:"08-10-2024",
-      description: 'Para lograrlo, es necesario el...',   
-     
-  },
-    {  
-        url: 'https://cdn.euroinnova.edu.es/euroinnova_es/next-gen-formats-img/m/Maestria-Medicina-Interna.webp',
-        title: 'medicine',  
-        date:"11-02-2023",
-        description: 'Descripción de imagen 2',   
-       
-    },  
-    {  
-      url: 'https://www.doctorponce.com/wp-content/uploads/2024/04/medicina-pasada-de-moda-actual-pendiente-doctor-ponce.png', 
-      title: 'medicine', 
-      date:"15-08-2023",
-      description: 'Descripción de imagen 3',   
-     
-  }, 
-  {  
-    url: 'https://www.nosequeestudiar.net/site/assets/files/1695520/medicina-medico-estetoscopio.jpg', 
-    title: 'medicine', 
-    date:"15-08-2023",
-    description: 'Descripción de imagen 4',   
-   
-}, 
-{  
-  url: 'https://www.doctorponce.com/wp-content/uploads/2024/04/medicina-pasada-de-moda-actual-pendiente-doctor-ponce.png', 
-  title: 'medicine', 
-  date:"15-08-2023",
-  description: 'Descripción de imagen 3',   
- 
-},
-    
-];  
-    return (
-        <View className={styles.container}>
-            
-            <TopBar title="Cartelera informativa" onLeftPress={toggleMenu} />
+    loadArticles();
+  }, []);
 
-            <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+  const handleReadMore = (article: Article) => {
+    router.push({
+      pathname: "/publication",
+      params: { article: JSON.stringify(article) },
+    });
+  };
 
-            <View className={styles.container}>
-                    <ScrollView className={styles.container5} >  
-                    {images.map((item, index) => (  
-                        <ImageItem  
-                        key={index}
-                        imageUrl={item.url}
-                        title={item.title}
-                        description={item.description}
-                        date={item.date}             />  
-                    ))}  
-                </ScrollView> 
-            </View>
+  const filteredArticles = articles.filter((article) =>
+    article.title?.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  return (
+    <View className={styles.container}>
+      <TopBar title="Cartelera informativa" onLeftPress={toggleMenu} />
+      <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+
+      <ScrollView className={styles.container3} showsVerticalScrollIndicator={false}>
+        <View className="items-center flex-row pt-5 pb-1 mx-3">
+          <SearchBar
+            placeholder="Buscar..."
+            value={searchText}
+            onChangeText={setSearchText}
+          />
         </View>
-      );
 
-  
+        {loading ? ( // Mostrar loader mientras se cargan los artículos
+          <View className={styles.loadingContainer}>
+            <Loader />
+          </View>
+        ) : filteredArticles.length === 0 ? (
+          <Text className={styles.noPublicationsText}>No hay publicaciones</Text>
+        ) : (
+          filteredArticles.map((article, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleReadMore(article)}
+              className={styles.container6}
+            >
+              {article.image && typeof article.image === "string" ? (
+                <Image source={{ uri: article.image }} className={styles.image} />
+              ) : (
+                <View className={styles.imagePlaceholder}>
+                  <Text className={styles.description}>
+                    La imagen no está disponible
+                  </Text>
+                </View>
+              )}
+              <Text className={styles.title}>{article.title || ""}</Text>
+              <Text className={styles.dateText}>
+                {new Date(article.createdAt).toLocaleDateString("es-ES")}
+              </Text>
+              <Text className={styles.description}>
+                {article.description || ""}
+              </Text>
+            </TouchableOpacity>
+          ))
+        )}
+      </ScrollView>
+    </View>
+  );
 };
 
 export default BoardPage;
