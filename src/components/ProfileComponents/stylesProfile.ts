@@ -6,10 +6,10 @@ const stylesProfile = {
     containerBg1: 'absolute bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-7 px-6',
    
     //// Image
-    containerImage:"w-full justify-center absolute items-center h-1/6 pb-20 ml-6",
+    containerImage:"w-full justify-center absolute items-center h-1/6 pb-20 ml-6 z-10",
     image:"w-32 h-32 rounded-full ",
-    iconImage: "w-32 h-32 rounded-full border-2 border-primary justify-center items-center bg-white",
-    image1:"w-32 h-32 rounded-full mx-auto",
+    iconImage: "w-32 h-32 rounded-full border-2 border-primary justify-center items-center bg-white  z-10",
+    image1:"w-32 h-32 rounded-full mx-auto  z-10",
   
     //// Data
     containerData:"pt-8",
