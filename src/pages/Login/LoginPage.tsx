@@ -8,6 +8,8 @@ import AlertModal from '@/src/components/Modal/AlertModal';
 import InfoModal from '@/src/components/Modal/InfoModal';
 
 import { login } from "@/src/services/auth/authServices"
+import { getToken} from "@/src/services/auth/sessionServices"
+
 
 const LoginPage: React.FC = () => {
 
@@ -21,9 +23,31 @@ const LoginPage: React.FC = () => {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+  // Método para verificar el token
+ const checkToken = async () => {
+ const token = await getToken(); 
+ console.log("prueba login");
+  return token !== null;
+  
+   };
+
+   useFocusEffect(
+       React.useCallback(() => {
+         const validateToken = async () => {
+           const tokenExists = await checkToken();
+            if (tokenExists) {
+              router.replace('/homeuser'); 
+           }
+          };
+          validateToken();
+        }, [])
+    );
+    
+
   useEffect(() => {
     const allFieldsFilled = inputEmail !== '' && inputPassword !== '';
     setIsButtonDisabled(!allFieldsFilled); 
+    
   }, [inputEmail, inputPassword]);
 
   useFocusEffect(

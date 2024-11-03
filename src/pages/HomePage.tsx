@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, Image } from "react-native";
 import styles from "../components/HomeComponents/stylesHome";
-import { router } from "expo-router";
+import { router} from "expo-router";
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+
+import { getToken} from "@/src/services/auth/sessionServices"
+import { useFocusEffect } from '@react-navigation/native';
 
 const HomePage: React.FC = () => {
 
@@ -27,8 +30,29 @@ const HomePage: React.FC = () => {
     router.push("/board");
   };
 
-
+ // Método para verificar el token
+ const checkToken = async () => {
+  const token = await getToken(); 
+  console.log("prueba homePage",token);
+   return token !== null;
+   
+    };
+ 
+ 
+    useFocusEffect(
+          React.useCallback(() => {
+            const validateToken = async () => {
+              const tokenExists = await checkToken();
+              if (tokenExists) {
+                router.replace('/homeuser'); 
+             }
+           };
+            validateToken();
+         }, [])
+       );
+ 
   return (
+    
     <View className={styles.containerHome}>
 
 

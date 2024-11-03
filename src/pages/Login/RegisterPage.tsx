@@ -6,10 +6,13 @@ import Dropdown from "@/src/components/Forms/Dropdown";
 import DatePicker from "@/src/components/Forms/DatePicker";
 import PasswordField from '@/src/components/Forms/PasswordField';
 import AlertModal from '@/src/components/Modal/AlertModal';
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { handleRegister } from '@/src/services/auth/authUtils';
 import { isDateValid } from '@/src/utils/validators';
 import InfoModal from '@/src/components/Modal/InfoModal';
+
+import { getToken} from "@/src/services/auth/sessionServices";
+import { useFocusEffect } from '@react-navigation/native';
 
 const genderOptions = [
   { label: "Femenino", value: "F" },
@@ -31,6 +34,26 @@ const RegisterPage: React.FC = () => {
   const [modalMessage, setModalMessage] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+   // Método para verificar el token
+ const checkToken = async () => {
+  const token = await getToken(); 
+  console.log("prueba registro");
+   return token !== null;
+   
+    };
+
+    useFocusEffect(
+         React.useCallback(() => {
+           const validateToken = async () => {
+           const tokenExists = await checkToken();
+             if (tokenExists) {
+               router.replace('/homeuser'); 
+              }
+            };
+            validateToken();
+          }, [])
+        );
+ 
   useEffect(() => {
     const allFieldsFilled = 
       inputEmail !== '' && 
