@@ -1,6 +1,8 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import { PaginationResponse } from "@/src/types/types";
+import { formatLink } from "@/src/utils/utils";
+import { api } from "../api/apiConfig";
 import { handleError, NewApiResult } from "../error/errorHandler";
+import { transporterHTTP } from "../transporter";
 
 export interface Dr {
   id: string;
@@ -11,29 +13,12 @@ export interface Dr {
 }
 
 export const getDr = async (
-  specialtyid: string[]
+  specialtyId: string
 ): Promise<NewApiResult<Dr[]>> => {
   try {
-    const session = await AsyncStorage.getItem("userSession");
-    const userSession = session ? JSON.parse(session) : null;
-    const token = userSession?.token;
-
-    if (!token) {
-      return { success: false, message: "Token no disponible." };
-    }
-
-    const specialtyParams = specialtyid
-      .map((id) => `filters[specialtyIds][]=${encodeURIComponent(id)}`)
-      .join("&");
-    const url = `https://chengkev.online/api/v1/users?${specialtyParams}`;
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const specialtiesArray = response.data.data || [];
-    return { success: true, data: specialtiesArray as Dr[] };
+    const link = formatLink(api.usersBySpecialty, { specialtyId });
+    const data = await transporterHTTP.get<PaginationResponse<Dr>>(link);
+    return { success: true, data: data.data };
   } catch (error) {
     return handleError(error);
   }
