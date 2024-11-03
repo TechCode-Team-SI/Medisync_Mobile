@@ -1,122 +1,57 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
+import React from "react";
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
-import styles from "@/src/components/ProfileComponents/stylesProfile"
+import styles from "@/src/components/ProfileComponents/stylesProfile";
 import Entypo from '@expo/vector-icons/Entypo';
-import { Link, router } from "expo-router";
-
-import { TUser } from "@/src/types/user"; 
-import { getUser } from "@/src/services/user/userServices"
-
+import { useFocusEffect, router } from "expo-router";
+import useFetchUser from "@/src/hooks/user/useFetchUser";
 import { handleLogout } from '@/src/services/auth/authUtils';
+import useReloadUser from "@/src/hooks/user/useReloadUser";
 
 const ProfilePage: React.FC = () => {
-  
-    const [user, setUser] = useState<{ fullName: string }>({ fullName: '' });
-    const [error, setError] = useState<string | null>(null);
+  const { user, selectedImage, error, reloadUser } = useFetchUser();
+  useReloadUser(reloadUser);
 
-    useEffect(() => {
-      const fetchUser = async () => {
-        const result = await getUser();
-        if (result.success && result.data) {
-          const userData = result.data as TUser;
-          setUser(userData);
-          setSelectedImage(userData.photo?.path ?? null); 
-        } else {
-          setError(result.message || "Error al obtener datos de usuario");
-        }
-      };
-    
-      fetchUser();
-    }, []);
+  const buttons = [
+    { iconName: 'edit' as const, label: 'Editar Perfil', onPress: () => router.push("/configprofile") },
+    { iconName: 'users' as const, label: 'Grupo familiar', onPress: () => router.push("/family") },
+    { iconName: 'list' as const, label: 'Historial', onPress: () => router.push("/history") },
+    { iconName: 'cog' as const, label: 'Seguridad', onPress: () => router.push("/updatepassword") },
+    { iconName: 'log-out' as const, label: 'Cerrar Sesión', onPress: handleLogout }
+  ];
 
-    const handleEdit = () => {
-      router.push("/configprofile");
-    };
+  return (
+    <View className={styles.container}>
+      <ButtonBack />
 
-    const handleFamily = () => {
-      router.push("/family");
-    };
-
-    const handleSecurity = () => {
-      router.push("/updatepassword");
-    };
-
-    const handleHistory = () => {
-      router.push("/history");
-    };
-    
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-    return (
-        <View className={styles.container}>
-
-          <ButtonBack/>
-    
-          <View className={styles.containerBg1}>
-
-         <View className={styles.containerImage}>
+      <View className={styles.containerBg1}>
+        <View className={styles.containerImage}>
           {selectedImage ? (
-              <Image source={{ uri: selectedImage }} className={styles.image} />
-            ) : (
-              <View className={styles.iconImage}>
-                <Entypo name="camera" size={24} color="#539091" />
-              </View>
-            )}
-          </View>
+            <Image source={{ uri: selectedImage }} className={styles.image} />
+          ) : (
+            <View className={styles.iconImage}>
+              <Entypo name="camera" size={24} color="#539091" />
+            </View>
+          )}
+        </View>
 
-            <Text className={styles.title1}>{user.fullName}</Text>
-            
-          <View className={styles.container3}>
+        <Text className={styles.title1}>{user.fullName}</Text>
+        {error && <Text className={styles.text}>{error}</Text>}
 
+        {buttons.map((button, index) => (
+          <View key={index} className={styles.container3}>
             <TouchableOpacity
               className={styles.button}
-              onPress={handleEdit}>
-                <Entypo name='edit' size={22} color="#539091" ></Entypo>
-              <Text className={styles.buttonText}>Editar Perfil</Text>
+              onPress={button.onPress}
+            >
+              <Entypo name={button.iconName} size={24} color="#539091" />
+              <Text className={styles.buttonText}>{button.label}</Text>
             </TouchableOpacity>
           </View>
-
-          <View className={styles.container3}>
-            <TouchableOpacity
-                className={styles.button}
-                onPress={handleFamily}>
-                  <Entypo name='users' size={22} color="#539091" ></Entypo>
-                <Text className={styles.buttonText}>Grupo familiar</Text>
-              </TouchableOpacity>
-          </View>
-
-          <View className={styles.container3}>
-            <TouchableOpacity
-                className={styles.button}
-                onPress={handleHistory}>
-                  <Entypo name='list' size={24} color="#539091" ></Entypo>
-                <Text className={styles.buttonText}>Historial</Text>
-              </TouchableOpacity>
-          </View>
-
-          <View className={styles.container3}>
-            <TouchableOpacity
-                className={styles.button}
-                onPress={handleSecurity}>
-                  <Entypo name='cog' size={24} color="#539091" ></Entypo>
-                <Text className={styles.buttonText}>Seguridad</Text>
-              </TouchableOpacity>
-          </View>
-
-          <View className={styles.container3}>
-            <TouchableOpacity
-                className={styles.button}
-                onPress={handleLogout}>
-                  <Entypo name='log-out' size={22} color="#539091" ></Entypo>
-                <Text className={styles.buttonText}>Cerrar Sesión</Text>
-            </TouchableOpacity>
-          </View>
-          
-          </View>
-    
-        </View>
-      );
+        ))}
+      </View>
+    </View>
+  );
 };
 
 export default ProfilePage;

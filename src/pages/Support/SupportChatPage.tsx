@@ -7,7 +7,7 @@ import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AlertModal from '@/src/components/Modal/AlertModal';
 
-import useFetchUser from '@/src/services/user/useFetchUser';
+import useFetchUser from '@/src/hooks/user/useFetchUser';
 import { useLocalSearchParams } from "expo-router";
 import { handleSendComment } from '@/src/services/tickets/ticketsUtils';
 

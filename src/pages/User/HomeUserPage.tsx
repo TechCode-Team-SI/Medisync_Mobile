@@ -8,14 +8,16 @@ import InfoHome from "@/src/components/HomeComponents/InfoHome";
 import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 
-import useFetchUser from "@/src/services/user/useFetchUser";
+import useFetchUser from "@/src/hooks/user/useFetchUser";
+import useReloadUser from "@/src/hooks/user/useReloadUser";
 
 import CarouselHome from "@/src/components/HomeComponents/CarouselHome";
 
 
 const HomeUserPage: React.FC = () => {
 
-    const { user } = useFetchUser();
+  const { user, reloadUser } = useFetchUser();
+  useReloadUser(reloadUser);
 
   const [isMenuVisible, setMenuVisible] = useState(false);
 
@@ -38,7 +40,7 @@ const HomeUserPage: React.FC = () => {
 
       <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
         
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
 
       <View className={styles.container2}>
         <Text className={styles.title}>Hola,</Text>
