@@ -4,7 +4,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import TopBar from "@/src/components/Navigation/TopBar";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 import styles from "@/src/components/BoardComponents/stylesBoard";
-import { formatArticleDate } from "@/src/services/board/boarUtils"; 
+import { formatArticleDate } from "@/src/services/board/boardUtils"; 
 
 const PublicationPage: React.FC<{
   setHasPublications: (hasPublications: boolean) => void;
