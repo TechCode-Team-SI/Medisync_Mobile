@@ -1,7 +1,8 @@
-import axios from "axios";
 import { api } from "@/src/services/api/apiConfig";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PaginationResponse } from "@/src/types/types";
+import { formatLink } from "@/src/utils/utils";
 import { NewApiResult, handleError } from "../error/errorHandler";
+import { transporterHTTP } from "../transporter";
 
 export interface Specialties {
   id: string;
@@ -14,24 +15,11 @@ export const getspecialites = async (): Promise<
   NewApiResult<Specialties[]>
 > => {
   try {
-    const session = await AsyncStorage.getItem("userSession");
-    const userSession = session ? JSON.parse(session) : null;
-    const token = userSession?.token;
-
-    if (!token) {
-      return { success: false, message: "Token no disponible." };
-    }
-
-    const response = await axios.get(api.specialites + "?limit=100", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log("Search exitoso:");
-    console.log("data:", response.data);
-    const specialtiesArray = response.data.data || [];
-    return { success: true, data: specialtiesArray as Specialties[] };
+    const link = formatLink(api.specialties, { page: "1", limit: "100" });
+    const data = await transporterHTTP.get<PaginationResponse<Specialties>>(
+      link
+    );
+    return { success: true, data: data.data };
   } catch (error) {
     return handleError(error);
   }

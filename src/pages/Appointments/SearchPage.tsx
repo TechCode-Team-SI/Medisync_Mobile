@@ -12,19 +12,18 @@ import { getDr } from "@/src/services/appointments/doctorsServices";
 import { Specialties } from "@/src/services/appointments/specialtiesServices";
 
 const SearchPage: React.FC = () => {
+  const [searchText, setSearchText] = useState("");
 
-  const [searchText, setSearchText] = useState(''); 
-
-  const handleSelect = async (specialtyid: string, specialtyName: string) => {
-    const result = await getDr([specialtyid]);
+  const handleSelect = async (specialtyId: string, specialtyName: string) => {
+    const result = await getDr(specialtyId);
     if (result.success && Array.isArray(result.data)) {
       router.push({
         pathname: "/searchdr",
         params: {
           doctors: JSON.stringify(result.data),
           specialtyName: specialtyName,
-          specialtyId: specialtyid,
-        }, 
+          specialtyId: specialtyId,
+        },
       });
     } else {
       console.log("Error inesperado:");
@@ -45,9 +44,9 @@ const SearchPage: React.FC = () => {
     fetchUser();
   }, []);
 
-    const filteredSpecialties = specialties.filter(specialty => 
-        specialty.name.toLowerCase().includes(searchText.toLowerCase())
-     );
+  const filteredSpecialties = specialties.filter((specialty) =>
+    specialty.name.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <View className={styles.container1}>
@@ -55,15 +54,10 @@ const SearchPage: React.FC = () => {
       <Text className={styles.title1}> Servicios</Text>
 
       <View className={styles.containerBg1}>
-
-
         <ScrollView showsVerticalScrollIndicator={false}>
-        <View className={styles.containerSearch}>
-            <SearchBar
-              value={searchText}
-              onChangeText={setSearchText}
-            />
-        </View>
+          <View className={styles.containerSearch}>
+            <SearchBar value={searchText} onChangeText={setSearchText} />
+          </View>
           <View className={styles.containerGrid}>
             {filteredSpecialties.map((specialty) => (
               <TouchableOpacity
