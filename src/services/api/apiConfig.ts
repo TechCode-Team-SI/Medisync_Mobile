@@ -23,6 +23,8 @@ export const api = {
 
   infoUser: API_URL + "/auth/me",
 
+  usersBySpecialty: API_URL + "/users/specialties/:specialtyId",
+
   //// FAMILY GROUP
 
   userPatient: API_URL + "/users/patient/me",
@@ -58,6 +60,6 @@ export const api = {
 
   infoCompany: API_URL + "/medical-centers",
 
-  //// SEARCH
-  specialites: API_URL + "/specialties",
+  //// SPECIALTIES
+  specialties: API_URL + "/specialties/active",
 };
