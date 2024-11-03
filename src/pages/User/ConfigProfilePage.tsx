@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, TextInput, Text, Image, TouchableOpacity } from "react-native";
+import { View, TextInput, Text, Image, TouchableOpacity,ScrollView } from "react-native";
 import styles from "@/src/components/ProfileComponents/stylesProfile";
 import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -89,8 +89,10 @@ const ConfigProfilePage: React.FC = () => {
             </View>
           )}
         </TouchableOpacity>
-
+       
         <View className={styles.containerData}>
+
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Text className={styles.title3}> Nombres </Text>
           <FormField
             icon="user"
@@ -125,7 +127,10 @@ const ConfigProfilePage: React.FC = () => {
               <Text className={styles.buttonText1}>Guardar cambios</Text>
             </TouchableOpacity>
           </View>
+
+          </ScrollView>
         </View>
+
       </View>
 
     <AlertModal

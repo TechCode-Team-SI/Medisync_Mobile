@@ -6,18 +6,18 @@ const stylesProfile = {
     containerBg1: 'absolute bottom-0 w-full h-3/4 bg-principal rounded-t-3xl pt-7 px-6',
    
     //// Image
-    containerImage:"w-full justify-center absolute items-center h-1/6 pb-20 ml-6",
+    containerImage:"w-full justify-center absolute items-center h-1/6 pb-20 ml-6 z-10",
     image:"w-32 h-32 rounded-full ",
-    iconImage: "w-32 h-32 rounded-full border-2 border-primary justify-center items-center bg-white",
-    image1:"w-32 h-32 rounded-full mx-auto",
+    iconImage: "w-32 h-32 rounded-full border-2 border-primary justify-center items-center bg-white  z-10",
+    image1:"w-32 h-32 rounded-full mx-auto  z-10",
   
     //// Data
-    containerData:"pt-8",
+    containerData:"pt-10",
     containerRow: "flex-row items-center justify-center w-full space-x-1 pt-1",
     titleFlex: "mx-1 w-1/5 font-montserrat text-center text-l my-3 text-primary", 
 
     container3: "items-center justify-center pt-9 mb-5 h-12", //Profile
-    container4: "justify-center items-center", //Config
+    container4: "justify-center items-center pb-4", //Config
 
     containerData2: "flex-row items-center bg-bgData w-full mb-4 p-3 h-12",//FAMILY USER
 
@@ -55,6 +55,7 @@ const stylesProfile = {
     buttonText2: 'basis-3/4 mt-1 h-7 text-primary text-base font-montserrat',
     containerFamily:"",
     containerTop:"flex-row items-center justify-between pb-2",
+
     };
     
     export default stylesProfile;
