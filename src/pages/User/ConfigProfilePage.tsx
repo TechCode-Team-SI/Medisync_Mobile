@@ -89,8 +89,10 @@ const ConfigProfilePage: React.FC = () => {
             </View>
           )}
         </TouchableOpacity>
-        <ScrollView >
+       
         <View className={styles.containerData}>
+
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Text className={styles.title3}> Nombres </Text>
           <FormField
             icon="user"
@@ -125,8 +127,10 @@ const ConfigProfilePage: React.FC = () => {
               <Text className={styles.buttonText1}>Guardar cambios</Text>
             </TouchableOpacity>
           </View>
+
+          </ScrollView>
         </View>
-        </ScrollView>
+
       </View>
 
     <AlertModal
