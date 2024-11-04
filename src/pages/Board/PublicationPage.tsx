@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import TopBar from "@/src/components/Navigation/TopBar";
-import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
+import { useLocalSearchParams } from "expo-router";
+
 import styles from "@/src/components/BoardComponents/stylesBoard";
 import { formatArticleDate } from "@/src/services/board/boardUtils"; 
+import TopBarBack from "@/src/components/Navigation/TopBarBack";
 
 const PublicationPage: React.FC<{
   setHasPublications: (hasPublications: boolean) => void;
 }> = ({ setHasPublications }) => {
-  const router = useRouter();
-  const [isMenuVisible, setMenuVisible] = useState(false);
   const { article } = useLocalSearchParams<{ article?: string }>();
   const [articleData, setArticleData] = useState<any>(null);
 
@@ -19,10 +17,6 @@ const PublicationPage: React.FC<{
       setArticleData(JSON.parse(article));
     }
   }, [article]);
-
-  const toggleMenu = () => {
-    setMenuVisible((prev) => !prev);
-  };
 
   if (!articleData) {
     return (
@@ -36,11 +30,7 @@ const PublicationPage: React.FC<{
 
   return (
     <View className={styles.publicationContainer}>
-      <TopBar title="Publicación" onLeftPress={toggleMenu} />
-      <SideMenuModal
-        isVisible={isMenuVisible}
-        onClose={() => setMenuVisible(false)}
-      />
+      <TopBarBack title="Publicación" />
 
       <View className={styles.container2}>
 

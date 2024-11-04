@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, ScrollView, Text } from 'react-native';
-import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
+import TopBarBack from '@/src/components/Navigation/TopBarBack';
 import { getTickets } from '@/src/services/tickets/ticketsServices';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router } from "expo-router";
@@ -60,7 +60,7 @@ const SupportHistoryPage: React.FC = () => {
 
   return (
     <View className="flex-1 bg-white">
-      <TopBarSupport title="Historial" />
+      <TopBarBack title="Historial" />
 
       <View className="flex-1 p-4">
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>

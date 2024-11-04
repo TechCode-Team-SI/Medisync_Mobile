@@ -3,7 +3,7 @@ import { View, TextInput, Text, TouchableOpacity, ScrollView, KeyboardAvoidingVi
 import styles from '@/src/components/SupportComponents/stylesChat';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
+import TopBarBack from '@/src/components/Navigation/TopBarBack';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AlertModal from '@/src/components/Modal/AlertModal';
 
@@ -31,7 +31,7 @@ const SupportChatPage: React.FC = () => {
 
   return (
     <View className={styles.container}>
-      <TopBarSupport title="Agente de Soporte" />
+      <TopBarBack title="Agente de Soporte" />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}

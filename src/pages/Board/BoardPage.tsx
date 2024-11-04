@@ -3,17 +3,20 @@ import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
 import styles from "@/src/components/BoardComponents/stylesBoard";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 import TopBar from "@/src/components/Navigation/TopBar";
+import TopBarBack from "@/src/components/Navigation/TopBarBack";
 import SearchBar from "@/src/components/SearchBar";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { Article, fetchArticles } from "@/src/services/board/boardServices"; 
-import Loader from "@/src/components/ui/Loader"; // Asegúrate de que la ruta sea correcta
+import Loader from "@/src/components/ui/Loader";
+import { getToken } from "@/src/services/auth/sessionServices";
 
 const BoardPage: React.FC = () => {
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [articles, setArticles] = useState<Article[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(true); // Estado para el loader
+  const [loading, setLoading] = useState(true); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -28,12 +31,18 @@ const BoardPage: React.FC = () => {
 
   useEffect(() => {
     const loadArticles = async () => {
-      setLoading(true); // Activar el loader antes de cargar
+      setLoading(true); 
       const articlesData = await fetchArticles();
       setArticles(articlesData);
-      setLoading(false); // Desactivar el loader después de cargar
+      setLoading(false); 
     };
 
+    const checkLoginStatus = async () => {
+      const token = await getToken();
+      setIsLoggedIn(!!token);
+    };
+
+    checkLoginStatus();
     loadArticles();
   }, []);
 
@@ -50,7 +59,14 @@ const BoardPage: React.FC = () => {
 
   return (
     <View className={styles.container}>
-      <TopBar title="Cartelera informativa" onLeftPress={toggleMenu} />
+      {isLoggedIn ? (
+        <TopBar title="Cartelera informativa" onLeftPress={toggleMenu} />
+      ) : (
+        <TopBarBack title="Cartelera informativa" 
+        backgroundColor="#539091"
+        textColor="#ffff"       
+        iconColor="#ffff"  />
+      )}
       <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
 
       <ScrollView className={styles.container3} showsVerticalScrollIndicator={false}>
@@ -62,7 +78,7 @@ const BoardPage: React.FC = () => {
           />
         </View>
 
-        {loading ? ( // Mostrar loader mientras se cargan los artículos
+        {loading ? ( 
           <View className={styles.loadingContainer}>
             <Loader />
           </View>
@@ -100,3 +116,4 @@ const BoardPage: React.FC = () => {
 };
 
 export default BoardPage;
+

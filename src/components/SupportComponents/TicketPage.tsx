@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, View, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import styles from "@/src/components/SupportComponents/stylesSupport";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import TopBarSupport from '@/src/components/SupportComponents/TopBarSupport';
+import TopBarBack from "../Navigation/TopBarBack";
 import { createTicket } from "@/src/services/tickets/ticketsServices";
 import { getToken } from "@/src/services/auth/sessionServices"; 
 import AlertModal from '@/src/components/Modal/AlertModal';
@@ -57,7 +57,7 @@ const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, t
 
   return (
     <View className={styles.container}>
-      <TopBarSupport title={title} />
+      <TopBarBack title={title} />
 
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className={styles.container3}>
