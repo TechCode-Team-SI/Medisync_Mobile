@@ -87,7 +87,7 @@ const CreateAppointmentPage: React.FC = () => {
             requestedSpecialtyId={requestedSpecialtyId as string}
             daysOffs={daysOffs}
             timeSlots={timeSlots}
-            workingDays={agenda.weekdays}
+            workingDays={agenda.weekdays.join("_")}
           />
         ) : (
           <View className="flex justify-center items-center">
