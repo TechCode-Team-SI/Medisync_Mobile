@@ -51,7 +51,7 @@ export interface Selection {
 export interface Agenda {
   id: string;
   name: string;
-  weekdays: string;
+  weekdays: string[];
   createdAt: Date;
   updatedAt: Date;
 }
