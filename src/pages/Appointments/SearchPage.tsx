@@ -4,15 +4,16 @@ import styles from "@/src/components/AppointmentsComponents/styleSearch";
 import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import { router } from "expo-router";
-
 import SearchBar from "@/src/components/SearchBar";
-
 import { getspecialites } from "@/src/services/appointments/specialtiesServices";
 import { getDr } from "@/src/services/appointments/doctorsServices";
 import { Specialties } from "@/src/services/appointments/specialtiesServices";
+import Loader from "../../components/ui/Loader";
 
 const SearchPage: React.FC = () => {
   const [searchText, setSearchText] = useState("");
+  const [specialties, setSpecialties] = useState<Specialties[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const handleSelect = async (specialtyId: string, specialtyName: string) => {
     const result = await getDr(specialtyId);
@@ -30,23 +31,30 @@ const SearchPage: React.FC = () => {
     }
   };
 
-  const [specialties, setSpecialties] = useState<Specialties[]>([]);
-
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchSpecialties = async () => {
       const result = await getspecialites();
       if (result.success && Array.isArray(result.data)) {
         setSpecialties(result.data);
       } else {
         console.log("Error al obtener especialidades o la data no es un array");
       }
+      setLoading(false);
     };
-    fetchUser();
+    fetchSpecialties();
   }, []);
 
   const filteredSpecialties = specialties.filter((specialty) =>
     specialty.name.toLowerCase().includes(searchText.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <View className={styles.container4}>
+        <Loader />
+      </View>
+    );
+  }
 
   return (
     <View className={styles.container1}>
