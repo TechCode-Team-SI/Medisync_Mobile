@@ -4,11 +4,10 @@ import TopBarBack from "@/src/components/Navigation/TopBarBack";
 import { getTickets } from "@/src/services/tickets/ticketsServices";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
-import Loader from "../../components/ui/Loader";
-import styles from "@/src/components/SupportComponents/stylesSupport";
+import Loader from "@/src/components/ui/Loader";
+import styles from "@/src/components/SupportComponents/StylesSupportHistory";
 
 const SupportHistoryPage: React.FC = () => {
-  const router = useRouter();
   const [tickets, setTickets] = useState<
     {
       id: string;
@@ -20,8 +19,10 @@ const SupportHistoryPage: React.FC = () => {
     }[]
   >([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const fetchTickets = async () => {
+    setLoading(true);
     const response = await getTickets();
     if (
       response.success &&
@@ -47,21 +48,14 @@ const SupportHistoryPage: React.FC = () => {
     fetchTickets();
   }, []);
 
-  const getTypeLabel = (type: string) => {
-    switch (type) {
-      case "complaint":
-        return "Reclamo";
-      case "suggestion":
-        return "Sugerencia";
-      default:
-        return type;
-    }
-  };
-
-  const getStatusLabel = (status: string) => {
-    return status === "open" ? "Abierto" : status;
-  };
-
+  const getTypeLabel = (type: string) =>
+    type === "complaint"
+      ? "Reclamo"
+      : type === "suggestion"
+      ? "Sugerencia"
+      : type;
+  const getStatusLabel = (status: string) =>
+    status === "open" ? "Abierto" : status;
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return {
@@ -80,55 +74,55 @@ const SupportHistoryPage: React.FC = () => {
 
   if (loading) {
     return (
-      <View className={styles.container}>
+      <View style={styles.loadingContainer}>
+        <TopBarBack title="Historial" />
         <Loader />
       </View>
     );
   }
 
   return (
-    <View className={styles.containerHistory}>
+    <View style={styles.container}>
       <TopBarBack title="Historial" />
-      <View className={styles.containerItem}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {tickets.map((ticket) => {
-            const { date, time } = formatDate(ticket.createdAt);
-            return (
-              <TouchableOpacity
-                key={ticket.id}
-                className={styles.button}
-                onPress={() => handlePress(ticket)}
-              >
-                <View className={styles.icon}>
-                  <MaterialCommunityIcons
-                    name="headset"
-                    size={36}
-                    color="white"
-                  />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text
-                    className={styles.titleHistory}
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
-                  >
-                    {ticket.title || "Título no disponible"}
-                  </Text>
-                  <Text className={styles.text2}>
-                    Fecha: {date} Hora: {time}
-                  </Text>
-                  <Text className={styles.text3}>
-                    {getTypeLabel(ticket.type)}
-                  </Text>
-                  <Text className={styles.buttonText1}>
-                    {getStatusLabel(ticket.status)}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        {tickets.map((ticket) => {
+          const { date, time } = formatDate(ticket.createdAt);
+          return (
+            <TouchableOpacity
+              key={ticket.id}
+              style={styles.ticketButton}
+              onPress={() => handlePress(ticket)}
+            >
+              <View style={styles.iconContainer}>
+                <MaterialCommunityIcons
+                  name="headset"
+                  size={36}
+                  color="white"
+                />
+              </View>
+              <View style={styles.ticketContent}>
+                <Text
+                  style={styles.title}
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                >
+                  {ticket.title || "Título no disponible"}
+                </Text>
+                <Text style={styles.dateText}>
+                  Fecha: {date} Hora: {time}
+                </Text>
+                <Text style={styles.typeText}>{getTypeLabel(ticket.type)}</Text>
+                <Text style={styles.statusText}>
+                  {getStatusLabel(ticket.status)}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };

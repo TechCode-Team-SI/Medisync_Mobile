@@ -1,24 +1,35 @@
 import React, { useState } from "react";
-import { Text, View, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from "react-native";
 import styles from "@/src/components/SupportComponents/stylesSupport";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import TopBarBack from "../Navigation/TopBarBack";
 import { createTicket } from "@/src/services/tickets/ticketsServices";
-import { getToken } from "@/src/services/auth/sessionServices"; 
-import AlertModal from '@/src/components/Modal/AlertModal';
+import { getToken } from "@/src/services/auth/sessionServices";
+import AlertModal from "@/src/components/Modal/AlertModal";
 
 interface TicketPageProps {
   title: string;
   icon: string;
   descriptionText: string;
-  type: "suggestion" | "complaint";  
+  type: "suggestion" | "complaint";
 }
 
-const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, type }) => {
+const TicketPage: React.FC<TicketPageProps> = ({
+  title,
+  icon,
+  descriptionText,
+  type,
+}) => {
   const [ticketTitle, setTicketTitle] = useState("");
   const [ticketDescription, setTicketDescription] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalMessage, setModalMessage] = useState("");
 
   const handleCreateTicket = async () => {
     if (!ticketTitle || !ticketDescription) {
@@ -30,7 +41,9 @@ const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, t
     const token = await getToken();
 
     if (!token) {
-      setModalMessage("No se pudo obtener la sesión. Inicie sesión nuevamente.");
+      setModalMessage(
+        "No se pudo obtener la sesión. Inicie sesión nuevamente."
+      );
       setModalVisible(true);
       console.log("Token no encontrado");
       return;
@@ -45,12 +58,16 @@ const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, t
     console.log("Resultado de crear ticket:", result);
 
     if (result.success) {
-      setModalMessage(`${type === "suggestion" ? "Sugerencia" : "Reclamo"} creado exitosamente.`);
+      setModalMessage(
+        `${
+          type === "suggestion" ? "Sugerencia" : "Reclamo"
+        } creado exitosamente.`
+      );
       setModalVisible(true);
       setTicketTitle("");
       setTicketDescription("");
     } else {
-      setModalMessage(result.message || "Error al crear el ticket." );
+      setModalMessage(result.message || "Error al crear el ticket.");
       setModalVisible(true);
     }
   };
@@ -61,11 +78,11 @@ const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, t
 
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className={styles.container3}>
-          <MaterialCommunityIcons name="headset" size={100} color="#539091"/>
+          <MaterialCommunityIcons name="headset" size={100} color="#539091" />
           <Text className={styles.title1}>{descriptionText}</Text>
         </View>
 
-        <View className={styles.container4}>
+        <View className={styles.container}>
           <Text className={styles.text2}>Título</Text>
           <View className={styles.containerInput}>
             <TextInput
@@ -90,7 +107,10 @@ const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, t
             />
           </View>
 
-          <TouchableOpacity className={styles.button1} onPress={handleCreateTicket}>
+          <TouchableOpacity
+            className={styles.button}
+            onPress={handleCreateTicket}
+          >
             <Text className={styles.buttonText1}>Crear ticket</Text>
           </TouchableOpacity>
         </View>
