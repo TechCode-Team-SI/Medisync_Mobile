@@ -7,7 +7,7 @@ import TopBarBack from "@/src/components/Navigation/TopBarBack";
 import SearchBar from "@/src/components/SearchBar";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import { Article, fetchArticles } from "@/src/services/board/boardServices"; 
+import { Article, fetchArticles } from "@/src/services/board/boardServices";
 import Loader from "@/src/components/ui/Loader";
 import { getToken } from "@/src/services/auth/sessionServices";
 
@@ -15,7 +15,7 @@ const BoardPage: React.FC = () => {
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [articles, setArticles] = useState<Article[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
@@ -31,10 +31,10 @@ const BoardPage: React.FC = () => {
 
   useEffect(() => {
     const loadArticles = async () => {
-      setLoading(true); 
+      setLoading(true);
       const articlesData = await fetchArticles();
       setArticles(articlesData);
-      setLoading(false); 
+      setLoading(false);
     };
 
     const checkLoginStatus = async () => {
@@ -53,6 +53,15 @@ const BoardPage: React.FC = () => {
     });
   };
 
+  const getImageSource = (imageUrl: string) => {
+    if (!imageUrl) {
+      console.log("Image URL is invalid or empty");
+      return undefined; 
+    }
+    console.log("Image URL:", imageUrl); 
+    return { uri: imageUrl }; 
+  };
+
   const filteredArticles = articles.filter((article) =>
     article.title?.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -62,14 +71,22 @@ const BoardPage: React.FC = () => {
       {isLoggedIn ? (
         <TopBar title="Cartelera informativa" onLeftPress={toggleMenu} />
       ) : (
-        <TopBarBack title="Cartelera informativa" 
-        backgroundColor="#539091"
-        textColor="#ffff"       
-        iconColor="#ffff"  />
+        <TopBarBack
+          title="Cartelera informativa"
+          backgroundColor="#539091"
+          textColor="#ffff"
+          iconColor="#ffff"
+        />
       )}
-      <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+      <SideMenuModal
+        isVisible={isMenuVisible}
+        onClose={() => setMenuVisible(false)}
+      />
 
-      <ScrollView className={styles.container3} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className={styles.container3}
+        showsVerticalScrollIndicator={false}
+      >
         <View className="items-center flex-row pt-5 pb-1 mx-3">
           <SearchBar
             placeholder="Buscar..."
@@ -78,12 +95,14 @@ const BoardPage: React.FC = () => {
           />
         </View>
 
-        {loading ? ( 
+        {loading ? (
           <View className={styles.loadingContainer}>
             <Loader />
           </View>
         ) : filteredArticles.length === 0 ? (
-          <Text className={styles.noPublicationsText}>No hay publicaciones</Text>
+          <Text className={styles.noPublicationsText}>
+            No hay publicaciones
+          </Text>
         ) : (
           filteredArticles.map((article, index) => (
             <TouchableOpacity
@@ -92,7 +111,10 @@ const BoardPage: React.FC = () => {
               className={styles.container6}
             >
               {article.image && typeof article.image === "string" ? (
-                <Image source={{ uri: article.image }} className={styles.image} />
+                <Image
+                  source={getImageSource(article.image)} 
+                  style={{ width: "100%", height: 200, borderRadius: 10 }} // Hago esto aqui porque sino no muestra la imagen jajaja
+                />
               ) : (
                 <View className={styles.imagePlaceholder}>
                   <Text className={styles.description}>
@@ -100,13 +122,7 @@ const BoardPage: React.FC = () => {
                   </Text>
                 </View>
               )}
-              <Text className={styles.title}>{article.title || ""}</Text>
-              <Text className={styles.dateText}>
-                {new Date(article.createdAt).toLocaleDateString("es-ES")}
-              </Text>
-              <Text className={styles.description}>
-                {article.description || ""}
-              </Text>
+              <Text className={styles.title}>{article.title}</Text>
             </TouchableOpacity>
           ))
         )}
@@ -116,4 +132,3 @@ const BoardPage: React.FC = () => {
 };
 
 export default BoardPage;
-
