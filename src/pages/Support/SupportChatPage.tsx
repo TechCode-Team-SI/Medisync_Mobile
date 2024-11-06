@@ -90,7 +90,7 @@ const SupportChatPage: React.FC = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+
           <View className={styles.container1}>
             <View className={styles.containerRow}>
               <View className={styles.containerImage}>
@@ -114,6 +114,8 @@ const SupportChatPage: React.FC = () => {
             <Entypo name="chevron-down" size={25} color="#539091" />
             <Text className={styles.title3}>Respuestas</Text>
           </TouchableOpacity>
+
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
           <View className={styles.container2}>
             {comments.map(comment => (

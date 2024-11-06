@@ -54,6 +54,8 @@ const stylesAppointments = {
     separation:'flex flex-row justify-between mt-2 mb-6 space-x-20',
        //// Separa la fecha y hora
     separation2:'flex-1 flex flex-row items-center ',
+
+    loadingContainer: "flex justify-center items-center pt-20",
     
    
 

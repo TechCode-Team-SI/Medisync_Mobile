@@ -24,7 +24,9 @@ const stylesSearch = {
     button2: 'shadow flex-row w-full space-x-4 h-20 items-center justify-center bg-terciary rounded-xl ', 
     buttonText2: 'basis-3/4 mt-2 h-7 text-primary text-m font-montserrat',
 
-    containerSearch:"items-center flex-row "
+    containerSearch:"items-center flex-row ",
+
+    loadingContainer: "flex justify-center items-center pt-12",
 };
     
 export default stylesSearch;

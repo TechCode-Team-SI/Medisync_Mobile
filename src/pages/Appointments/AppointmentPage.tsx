@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import TopBar from '@/src/components/Navigation/TopBar';
@@ -11,6 +11,7 @@ import { getRequestsMadeByMe } from "@/src/services/request/requestServices";
 import { formatDate, formatGender, formatStatus } from "@/src/utils/changeFormat";
 import { calculateAge } from "@/src/utils/calculateAge";
 import AppointmentModal from '@/src/components/AppointmentsComponents/AppointmentModal'; 
+import Loader from "@/src/components/ui/Loader"; 
 
 interface Appointment {
   id: number;
@@ -31,6 +32,7 @@ const AppointmentPage: React.FC = () => {
   const [isModalVisible, setModalVisible] = useState(false); 
   const [modalTitle, setModalTitle] = useState(''); 
   const [modalMessage, setModalMessage] = useState(''); 
+  const [loading, setLoading] = useState(true); 
 
   const toggleMenu = () => {
     setMenuVisible(prev => !prev);
@@ -44,6 +46,7 @@ const AppointmentPage: React.FC = () => {
   );
 
   const fetchRequests = async () => {
+    setLoading(true); 
     const result = await getRequestsMadeByMe();
     if (result.success) {
       const formattedAppointments = result.data.map((request: any) => ({
@@ -63,6 +66,7 @@ const AppointmentPage: React.FC = () => {
     } else {
       console.log(result.message);
     }
+    setLoading(false); 
   };
 
   const handleOption = () => {
@@ -98,35 +102,39 @@ const AppointmentPage: React.FC = () => {
         </View>
         
         <ScrollView contentContainerStyle={{ paddingBottom: 20, marginTop: 10 }} showsVerticalScrollIndicator={false}>
-          {appointments.map((appointment) => (
-            <TouchableOpacity
-              key={appointment.id}
-              className={stylesAppointments.cardcolor}
-              activeOpacity={0.7}
-              onPress={() => handleAppointmentPress(appointment)}
-            >
+          {loading ? ( 
+            <Loader />
+          ) : (
+            appointments.map((appointment) => (
               <TouchableOpacity
-                className={stylesAppointments.button2}
+                key={appointment.id}
+                className={stylesAppointments.cardcolor}
                 activeOpacity={0.7}
-                onPress={handleOption} 
+                onPress={() => handleAppointmentPress(appointment)}
               >
-                <Ionicons name="ellipsis-vertical-circle-sharp" size={32} color="#539091" />
-              </TouchableOpacity>
-              
-              <View className="flex-row items-center">
-                <FontAwesome6 name="file-medical" size={30} color='#539091'/>
-                <View className="ml-4 flex-1">
-                  <Text className={stylesAppointments.textTitle3}>{appointment.name}</Text>
-                  <View className="flex-row justify-between">
-                    <Text className={stylesAppointments.item}>Fecha: {appointment.date}</Text>
-                    <Text className={stylesAppointments.item}>Hora: {appointment.time}</Text>
+                <TouchableOpacity
+                  className={stylesAppointments.button2}
+                  activeOpacity={0.7}
+                  onPress={handleOption} 
+                >
+                  <Ionicons name="ellipsis-vertical-circle-sharp" size={32} color="#539091" />
+                </TouchableOpacity>
+                
+                <View className="flex-row items-center">
+                  <FontAwesome6 name="file-medical" size={30} color='#539091'/>
+                  <View className="ml-4 flex-1">
+                    <Text className={stylesAppointments.textTitle3}>{appointment.name}</Text>
+                    <View className="flex-row justify-between">
+                      <Text className={stylesAppointments.item}>Fecha: {appointment.date}</Text>
+                      <Text className={stylesAppointments.item}>Hora: {appointment.time}</Text>
+                    </View>
+                    <Text className={stylesAppointments.item2}>{appointment.specialization}</Text>
+                    <Text className={stylesAppointments.item3}>{appointment.status}</Text>
                   </View>
-                  <Text className={stylesAppointments.item2}>{appointment.specialization}</Text>
-                  <Text className={stylesAppointments.item3}>{appointment.status}</Text>
                 </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            ))
+          )}
         </ScrollView>
       </View>
 
