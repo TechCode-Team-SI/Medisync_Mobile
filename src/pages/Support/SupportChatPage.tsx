@@ -5,29 +5,81 @@ import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import TopBarBack from '@/src/components/Navigation/TopBarBack';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AlertModal from '@/src/components/Modal/AlertModal';
 
 import useFetchUser from '@/src/hooks/user/useFetchUser';
 import { useLocalSearchParams } from "expo-router";
 import { handleSendComment } from '@/src/services/tickets/ticketsUtils';
+import { getCommentsForTicket } from '@/src/services/tickets/ticketsServices'; 
+
+interface TicketComment {
+  id: string;
+  comment: string;
+  createdBy: {
+    fullName: string;
+  };
+  createdAt: string;
+}
 
 const SupportChatPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalMessage, setModalMessage] = useState<string>(''); 
   const [inputTex, setInputTex] = useState('');
+  
+  const [comments, setComments] = useState<TicketComment[]>([]); 
   const { user, selectedImage } = useFetchUser();
   const { id, title, description } = useLocalSearchParams();
-
-  if (typeof id !== 'string') {
-    console.error("El id no es un string válido:", id);
-    setModalMessage("ID de ticket no válido.");
-    setModalVisible(true);
-    return null; 
-  }
-
-  const onSendComment = () => {
-    handleSendComment(id, inputTex, setModalMessage, setModalVisible, setInputTex);
+  const onSendComment = async () => {
+    if (typeof id === 'string') {
+      const newComment: TicketComment = {
+        id: Math.random().toString(), 
+        comment: inputTex,
+        createdBy: {
+          fullName: user.fullName,
+        },
+        createdAt: new Date().toISOString(),
+      };
+  
+      setComments(prevComments => [newComment, ...prevComments]);
+      setInputTex('');  
+  
+      try {
+        await handleSendComment(id, inputTex, setModalMessage, setModalVisible, setInputTex);
+      } catch (error) {
+        setModalMessage("Error al enviar el comentario.");
+        setModalVisible(true);
+        setComments(prevComments => prevComments.filter(comment => comment.id !== newComment.id));
+      }
+    } else {
+      setModalMessage("ID de ticket no válido.");
+      setModalVisible(true);
+    }
   };
+  
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      if (typeof id === 'string') {
+        const result = await getCommentsForTicket(id);
+        console.log("Resultado de obtener comentarios:", result); 
+        if (result.success) {
+          if (Array.isArray(result.data.data)) {
+            setComments(result.data.data);
+          } else {
+            setModalMessage("Error: Los comentarios no son un array.");
+            setModalVisible(true);
+          }
+        } else {
+          setModalMessage(result.message ?? "Error al obtener comentarios.");
+          setModalVisible(true);
+        }
+      } else {
+        setModalMessage("ID de ticket no válido.");
+        setModalVisible(true);
+      }
+    };
+  
+    fetchComments();
+  }, [id]);
 
   return (
     <View className={styles.container}>
@@ -39,7 +91,6 @@ const SupportChatPage: React.FC = () => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-
           <View className={styles.container1}>
             <View className={styles.containerRow}>
               <View className={styles.containerImage}>
@@ -65,8 +116,16 @@ const SupportChatPage: React.FC = () => {
           </TouchableOpacity>
 
           <View className={styles.container2}>
-
-            <View className={styles.containerInput}>
+            {comments.map(comment => (
+              <View key={comment.id} className={styles.commentContainer}>
+                <Text className={styles.commentUser}>{comment.createdBy.fullName}</Text>
+                <Text className={styles.commentDate}>{new Date(comment.createdAt).toLocaleString()}</Text>
+                <Text className={styles.commentText}>{comment.comment}</Text>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+        <View className={styles.containerInput}>
               <TextInput
                 className={styles.input}
                 placeholder="Escribe tu mensaje"
@@ -78,22 +137,11 @@ const SupportChatPage: React.FC = () => {
                 <Ionicons name="send-sharp" size={28} color="#539091" />
               </TouchableOpacity>
             </View>
-          </View>
-        </ScrollView>
       </KeyboardAvoidingView>
 
-      <AlertModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        title="ATENCIÓN"
-        message={modalMessage}
-      />
+
     </View>
   );
 };
 
 export default SupportChatPage;
-
-
-
-

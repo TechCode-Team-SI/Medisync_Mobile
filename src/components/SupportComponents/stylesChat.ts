@@ -15,8 +15,8 @@ const stylesChat = {
 
     /////Input (inferior)
 
-    container2:"flex-1 justify-end mb-6",
-    containerInput: "flex-row bg-gray-200 h-12 rounded-lg  mx-4 items-center",
+    container2:"flex-1 justify-end mb-1",
+    containerInput: "flex-row bg-gray-200 h-12 rounded-lg  mx-4 items-center mt-2 mb-6",
     input: ' flex-1 pl-4',
     iconButton: "pr-2",
 
@@ -42,10 +42,10 @@ const stylesChat = {
     
 
     ////Comentarios
-    commentContainer: 'bg-gray-100 p-3 rounded-lg mb-2',
+    commentContainer: 'bg-gray-100 p-3 rounded-lg mb-2 mx-4 my-1',
     commentUser: 'font-semibold text-gray-700',
     commentText: 'text-gray-800',
-    commentDate: 'text-sm text-gray-500 mt-1',
+    commentDate: 'text-xs text-gray-500 mt-1',
 
     };
     

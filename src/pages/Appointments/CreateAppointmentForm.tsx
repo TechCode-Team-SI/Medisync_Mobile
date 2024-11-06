@@ -125,7 +125,7 @@ const CreateAppointmentForm = (props: CreateAppointmentFormProps) => {
               <FieldWrapper errorState={form.formState.errors.patientId}>
                 <DataPicker
                   modalTitle="Seleccione un paciente"
-                  placeholder="paciente"
+                  placeholder="Paciente"
                   options={patientsOptions}
                   onSelect={field.onChange}
                 />
