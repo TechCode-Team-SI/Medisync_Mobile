@@ -39,6 +39,7 @@ export const api = {
   //// REQUEST
 
   createRequest: API_URL + "/requests",
+  getRequest: API_URL + "/requests/made-by-me",
 
   //// SUPPORT
   tickets: API_URL + "/tickets",
