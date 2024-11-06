@@ -17,3 +17,19 @@ export const formatDate = (dateString: string) => {
     if (!text) return "";
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
+
+  export const formatStatus = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'Pendiente';
+      case 'attending':
+        return 'En atención';
+      case 'cancelled':
+        return 'Cancelada';
+      case 'completed':
+        return 'Completada';
+      default:
+        return 'Estado no especificado';
+    }
+  };
+  
