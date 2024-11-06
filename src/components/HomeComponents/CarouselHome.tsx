@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import styles from "@/src/components/HomeComponents/stylesHome";
-import { fetchArticles } from "@/src/services/board/boardServices";
+import { fetchArticles, Article } from "@/src/services/board/boardServices";
 import Loader from "../ui/Loader";
 
 interface CarouselHomeProps {
@@ -14,7 +14,7 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
   onUpdateHasPublications,
   searchText,
 }) => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
   const router = useRouter();
@@ -30,7 +30,7 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
     loadData();
   }, [onUpdateHasPublications]);
 
-  const handleReadMore = (item: any) => {
+  const handleReadMore = (item: Article) => {
     router.push({
       pathname: "/publication",
       params: { article: JSON.stringify(item) },
@@ -38,9 +38,7 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
   };
 
   const getImageSource = (imageUrl: string) => {
-    return typeof imageUrl === "string" && imageUrl.trim() !== ""
-      ? { uri: imageUrl }
-      : null;
+    return imageUrl ? { uri: imageUrl } : null; 
   };
 
   const filteredData = data.filter((item) =>
@@ -50,7 +48,7 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
   if (loading) {
     return (
       <View className={styles.loadingContainer}>
-          <Loader />
+        <Loader />
       </View>
     );
   }
@@ -71,7 +69,11 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         className="flex-1"
-        contentContainerStyle={{ paddingLeft: 10, paddingRight: 10, paddingTop:5 }}
+        contentContainerStyle={{
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingTop: 5,
+        }}
       >
         {(filteredData.length > 0 ? filteredData : data).map((item, index) => {
           const imageSource = getImageSource(item.image);
@@ -86,13 +88,18 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({
                 <Image source={imageSource} className={styles.carouselImage} />
               ) : (
                 <View className={styles.imagePlaceholder}>
-                  <Text className={styles.placeholderText}>Imagen no disponible</Text>
+                  <Text className={styles.placeholderText}>
+                    Imagen no disponible
+                  </Text>
                 </View>
               )}
               <View className={styles.carouselContent}>
                 <Text className={styles.carouselItemTitle}>{item.title}</Text>
                 <Text className={styles.carouselDate}>{formattedDate}</Text>
-                <Text numberOfLines={4} className={styles.carouselItemDescription}>
+                <Text
+                  numberOfLines={4}
+                  className={styles.carouselItemDescription}
+                >
                   {item.description}
                 </Text>
               </View>

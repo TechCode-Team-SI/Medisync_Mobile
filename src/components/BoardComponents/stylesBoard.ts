@@ -16,10 +16,10 @@ const stylesBoard = {
 
       ///////// PublicationPage
     publicationContainer: "flex-1 bg-terciary",
-    container2:"bg-principal w-full flex-1 rounded-t-3xl mt-44",
+    container2:"bg-principal w-full flex-1 rounded-t-3xl mt-72",
 
     publicationTitle: "text-2xl font-bold text-primary",
-    publicationImage: "w-full h-48 my-2",
+    publicationImage: "w-full h-60",
     publicationDescription: "text-base text-primary pt-6 text-justify",
 
     publicationDate: "text-gray-500 text-sm mb-2",

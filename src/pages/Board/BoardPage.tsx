@@ -15,7 +15,7 @@ const BoardPage: React.FC = () => {
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [articles, setArticles] = useState<Article[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
@@ -31,10 +31,10 @@ const BoardPage: React.FC = () => {
 
   useEffect(() => {
     const loadArticles = async () => {
-      setLoading(true); 
+      setLoading(true);
       const articlesData = await fetchArticles();
       setArticles(articlesData);
-      setLoading(false); 
+      setLoading(false);
     };
 
     const checkLoginStatus = async () => {
@@ -51,6 +51,15 @@ const BoardPage: React.FC = () => {
       pathname: "/publication",
       params: { article: JSON.stringify(article) },
     });
+  };
+
+  const getImageSource = (imageUrl: string) => {
+    if (!imageUrl) {
+      console.log("Image URL is invalid or empty");
+      return undefined; 
+    }
+    console.log("Image URL:", imageUrl); 
+    return { uri: imageUrl }; 
   };
 
   const filteredArticles = articles.filter((article) =>
@@ -92,7 +101,10 @@ const BoardPage: React.FC = () => {
               className={styles.container6}
             >
               {article.image && typeof article.image === "string" ? (
-                <Image source={{ uri: article.image }} className={styles.image} />
+                <Image
+                  source={getImageSource(article.image)} 
+                  style={{ width: "100%", height: 200, borderRadius: 10 }} 
+                />
               ) : (
                 <View className={styles.imagePlaceholder}>
                   <Text className={styles.description}>

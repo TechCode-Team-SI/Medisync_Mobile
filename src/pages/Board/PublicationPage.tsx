@@ -1,3 +1,5 @@
+///// ARREGLAR ESTILOS (BOTON BACK DEL TOPBAR)
+
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useLocalSearchParams } from "expo-router";
@@ -32,17 +34,20 @@ const PublicationPage: React.FC<{
     <View className={styles.publicationContainer}>
       <TopBarBack title="Publicación" />
 
-      <View className={styles.container2}>
+      {articleData.image && (
+        <Image source={{ uri: articleData.image }} className={styles.publicationImage} />
+      )}
 
-        <View style={{ padding: 20, flex: 1 }}>
-          <Text className={styles.publicationTitle}>{articleData.title}</Text>
-          <Text className={styles.publicationDate}>{formattedDate}</Text>
-          {articleData.image && (
-            <Image source={{ uri: articleData.image }} className={styles.publicationImage} />
-          )}
-          <Text className={styles.publicationDescription}>{articleData.description}</Text>
+      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }}>
+        <View className={styles.container2}>
+
+          <View style={{ padding: 20, flex: 1 }}>
+            <Text className={styles.publicationTitle}>{articleData.title}</Text>
+            <Text className={styles.publicationDate}>{formattedDate}</Text>
+            <Text className={styles.publicationDescription}>{articleData.description}</Text>
+          </View>
+
         </View>
-
       </View>
 
     </View>
@@ -50,3 +55,4 @@ const PublicationPage: React.FC<{
 };
 
 export default PublicationPage;
+
