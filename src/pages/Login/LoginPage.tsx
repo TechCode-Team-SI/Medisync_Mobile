@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity} from "react-native";
+import { View, Text} from "react-native";
 import styles from "@/src/components/LoginComponents/stylesLogin";
 import { Link, router } from "expo-router";
 import { useFocusEffect } from '@react-navigation/native';

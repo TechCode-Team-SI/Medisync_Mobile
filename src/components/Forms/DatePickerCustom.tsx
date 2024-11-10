@@ -112,7 +112,7 @@ const DatePickerCustom: React.FC<DatePickerCustomProps> = ({
             marginHorizontal: "auto",
           }}
         >
-          <Text className="font-montserrat text-primary text-lg mb-2">
+          <Text className="font-montserrat text-primary text-lg mb-2 ">
             Seleccione la fecha
           </Text>
 
@@ -143,7 +143,7 @@ const DatePickerCustom: React.FC<DatePickerCustomProps> = ({
             disableAllTouchEventsForDisabledDays={true}
             enableSwipeMonths={true}
           />
-          <View className="flex justify-center items-end mt-2">
+          <View className="flex justify-center mt-2 mx-20">
             <TouchableOpacity
               onPress={handleChange}
               className="px-4 py-3 items-center justify-center bg-primary rounded-md"

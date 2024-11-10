@@ -84,11 +84,11 @@ export default function RootLayout() {
       <PaperProvider>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="home/index" options={{ headerShown: false }} />
           <Stack.Screen
             name="homeuser/index"
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="home/index" options={{ headerShown: false }} />
           <Stack.Screen
             name="register/index"
             options={{ headerShown: false }}
