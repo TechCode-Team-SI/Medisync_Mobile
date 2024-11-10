@@ -1,4 +1,4 @@
 export const Constants = {
-  URL_WS: '',
+  URL_WS: 'wss://chengkev.online',
 }
 
