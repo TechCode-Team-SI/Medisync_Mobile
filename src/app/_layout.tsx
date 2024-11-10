@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
 import { LocaleConfig } from "react-native-calendars";
+import { WebSocketProvider } from "../components/WebSocketProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -81,88 +82,90 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <PaperProvider>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="homeuser/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="home/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="register/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="login/index" options={{ headerShown: false }} />
-          <Stack.Screen name="forgot/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="changepassword/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="codepassword/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="aboutus/index" options={{ headerShown: false }} />
-          <Stack.Screen name="profile/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="configprofile/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="updatepassword/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="search/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="searchdr/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="appointment/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="appointmentdetails/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="history/index" options={{ headerShown: false }} />
-          <Stack.Screen name="board/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="publication/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="family/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="userfamily/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="addfamily/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="supporthistory/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="chat/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="createappointment/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="support/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="suggestions/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="claims/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="notifications/index"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="contact/index" options={{ headerShown: false }} />
-        </Stack>
-      </PaperProvider>
+      <WebSocketProvider>
+        <PaperProvider>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="homeuser/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="home/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="register/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="login/index" options={{ headerShown: false }} />
+            <Stack.Screen name="forgot/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="changepassword/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="codepassword/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="aboutus/index" options={{ headerShown: false }} />
+            <Stack.Screen name="profile/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="configprofile/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="updatepassword/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="search/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="searchdr/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="appointment/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="appointmentdetails/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="history/index" options={{ headerShown: false }} />
+            <Stack.Screen name="board/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="publication/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="family/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="userfamily/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="addfamily/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="supporthistory/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="chat/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="createappointment/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="support/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="suggestions/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="claims/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="notifications/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="contact/index" options={{ headerShown: false }} />
+          </Stack>
+        </PaperProvider>
+      </WebSocketProvider>
     </QueryClientProvider>
   );
 }
