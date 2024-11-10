@@ -10,6 +10,7 @@ import { Link } from "expo-router";
 import { handleRegister } from '@/src/services/auth/authUtils';
 import { isDateValid } from '@/src/utils/validators';
 import InfoModal from '@/src/components/Modal/InfoModal';
+import CustomButton from '@/src/components/ui/CustomButton';
 
 const genderOptions = [
   { label: "Femenino", value: "F" },
@@ -120,14 +121,14 @@ const RegisterPage: React.FC = () => {
         value={password2}
         onChangeText={setPassword2}
       />
-      <TouchableOpacity
-        className={styles.button}
+
+      <CustomButton
         onPress={onRegister}
         disabled={isButtonDisabled}
-        style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
-      >
-        <Text className={styles.buttonText}>Crear Cuenta</Text>
-      </TouchableOpacity>
+        title="Crear Cuenta"
+      />
+
+
       <View className={styles.container5}>
         <Text>¿Ya tienes cuenta?</Text>
         <Link href="/login" className={styles.textButton2}>Inicia Sesión</Link>
@@ -152,15 +153,13 @@ const RegisterPage: React.FC = () => {
  
     <SafeAreaView className={styles.safeArea}>
     <StatusBar  backgroundColor="#539091" barStyle="light-content" />
-    <View className={styles.container2}>
+    <View className={styles.container}>
     <FlatList
       data={[{}]} 
       renderItem={renderItem}
       keyExtractor={(item, index) => index.toString()}
       ListHeaderComponent={
-        <View className={styles.containerTitle}>
           <Text className={styles.title4}>¡Regístrate!</Text>
-        </View>
       }
     />
     </View>

@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-nativ
 import stylesAppointments from '@/src/components/AppointmentsComponents/stylesAppointments';
 import { useLocalSearchParams } from "expo-router"; 
 import styles from "@/src/components/ProfileComponents/stylesProfile";
-import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
+import ButtonBack from '@/src/components/Navigation/ButtonBack';
 
 
 

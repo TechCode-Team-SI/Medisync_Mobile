@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
-import styles from '../LoginComponents/stylesLogin';
 
 interface PasswordFieldProps {
   placeholder: string;
@@ -13,10 +12,10 @@ const PasswordField: React.FC<PasswordFieldProps> = ({ placeholder, value, onCha
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View className={styles.inputContainer}>
+    <View className="flex-row items-center bg-bgInput w-full mb-5 p-3 h-12">
       <Entypo name="lock" size={24} color="#539091" />
       <TextInput
-        className={styles.input}
+        className='mx-1 w-4/5 h-full'
         placeholder={placeholder}
         placeholderTextColor="#539091"
         value={value}

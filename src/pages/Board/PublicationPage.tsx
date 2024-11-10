@@ -1,11 +1,9 @@
-///// ARREGLAR ESTILOS (BOTON BACK DEL TOPBAR)
-
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, ScrollView, SafeAreaView, StatusBar } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 
 import styles from "@/src/components/BoardComponents/stylesBoard";
-import { formatArticleDate } from "@/src/services/board/boardUtils"; 
+import { formatArticleDate } from "@/src/utils/board/articleUtils"; 
 import TopBarBack from "@/src/components/Navigation/TopBarBack";
 
 const PublicationPage: React.FC<{
@@ -22,7 +20,7 @@ const PublicationPage: React.FC<{
 
   if (!articleData) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View className="flex-1 justify-center items-center">
         <Text>Cargando artículo...</Text>
       </View>
     );
@@ -31,28 +29,34 @@ const PublicationPage: React.FC<{
   const formattedDate = formatArticleDate(articleData.createdAt); 
 
   return (
-    <View className={styles.publicationContainer}>
-      <TopBarBack title="Publicación" />
+    <SafeAreaView className={styles.safeArea}>
+      <StatusBar backgroundColor="#A8DCD9" barStyle="light-content" />
+      <ScrollView className={styles.publicationContainer} showsVerticalScrollIndicator={false}>
+        <TopBarBack title="Publicación" />
 
-      {articleData.image && (
-        <Image source={{ uri: articleData.image }} className={styles.publicationImage} />
-      )}
+        {articleData.image ? (
+          <Image source={{ uri: articleData.image }} className={styles.publicationImage} />
+        ) : (
+          <View className={styles.imagePlaceholder2}>
+            <Text className={styles.description}>Imagen no disponible</Text>
+          </View>
+        )}
 
-      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }}>
-        <View className={styles.container2}>
+        <View className="">
 
-          <View style={{ padding: 20, flex: 1 }}>
+          <View className={styles.container2}>
             <Text className={styles.publicationTitle}>{articleData.title}</Text>
             <Text className={styles.publicationDate}>{formattedDate}</Text>
             <Text className={styles.publicationDescription}>{articleData.description}</Text>
           </View>
 
         </View>
-      </View>
 
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default PublicationPage;
+
 

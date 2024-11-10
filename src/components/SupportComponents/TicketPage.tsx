@@ -6,6 +6,7 @@ import TopBarBack from "../Navigation/TopBarBack";
 import { createTicket } from "@/src/services/tickets/ticketsServices";
 import { getToken } from "@/src/services/auth/sessionServices"; 
 import AlertModal from '@/src/components/Modal/AlertModal';
+import CustomButton from "../ui/CustomButton";
 
 interface TicketPageProps {
   title: string;
@@ -90,9 +91,12 @@ const TicketPage: React.FC<TicketPageProps> = ({ title, icon, descriptionText, t
             />
           </View>
 
-          <TouchableOpacity className={styles.button1} onPress={handleCreateTicket}>
-            <Text className={styles.buttonText1}>Crear ticket</Text>
-          </TouchableOpacity>
+          <CustomButton
+          onPress={handleCreateTicket}
+          title="Crear Ticket"
+          />
+
+
         </View>
       </ScrollView>
 

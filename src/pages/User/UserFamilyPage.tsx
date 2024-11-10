@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { useLocalSearchParams } from "expo-router"; 
-import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
+import ButtonBack from '@/src/components/Navigation/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile";
 import { formatDate, formatGender, capitalizeFirstLetter } from '@/src/utils/changeFormat'; 
 import { calculateAge } from '@/src/utils/calculateAge';

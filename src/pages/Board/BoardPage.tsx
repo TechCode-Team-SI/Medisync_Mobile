@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
 import styles from "@/src/components/BoardComponents/stylesBoard";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 import TopBar from "@/src/components/Navigation/TopBar";
 import TopBarBack from "@/src/components/Navigation/TopBarBack";
-import SearchBar from "@/src/components/SearchBar";
+import SearchBar from "@/src/components/ui/SearchBar";
 import { useFocusEffect } from "@react-navigation/native";
-import { useRouter } from "expo-router";
-import { Article, fetchArticles } from "@/src/services/board/boardServices"; 
 import Loader from "@/src/components/ui/Loader";
 import { getToken } from "@/src/services/auth/sessionServices";
+import { useArticles } from "@/src/hooks/board/useArticles";
+import { useHandleReadMore } from "@/src/hooks/board/useHandleReadMore";
+import { getImageSource } from "@/src/utils/board/articleUtils";
 
 const BoardPage: React.FC = () => {
   const [isMenuVisible, setMenuVisible] = useState(false);
-  const [articles, setArticles] = useState<Article[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const router = useRouter();
+
+  const { loading, filteredArticles } = useArticles(searchText);
+  const handleReadMore = useHandleReadMore();
 
   const toggleMenu = () => {
     setMenuVisible((prev) => !prev);
@@ -26,44 +27,12 @@ const BoardPage: React.FC = () => {
   useFocusEffect(
     React.useCallback(() => {
       setMenuVisible(false);
+      const checkLoginStatus = async () => {
+        const token = await getToken();
+        setIsLoggedIn(!!token);
+      };
+      checkLoginStatus();
     }, [])
-  );
-
-  useEffect(() => {
-    const loadArticles = async () => {
-      setLoading(true);
-      const articlesData = await fetchArticles();
-      setArticles(articlesData);
-      setLoading(false);
-    };
-
-    const checkLoginStatus = async () => {
-      const token = await getToken();
-      setIsLoggedIn(!!token);
-    };
-
-    checkLoginStatus();
-    loadArticles();
-  }, []);
-
-  const handleReadMore = (article: Article) => {
-    router.push({
-      pathname: "/publication",
-      params: { article: JSON.stringify(article) },
-    });
-  };
-
-  const getImageSource = (imageUrl: string) => {
-    if (!imageUrl) {
-      console.log("Image URL is invalid or empty");
-      return undefined; 
-    }
-    console.log("Image URL:", imageUrl); 
-    return { uri: imageUrl }; 
-  };
-
-  const filteredArticles = articles.filter((article) =>
-    article.title?.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -71,23 +40,16 @@ const BoardPage: React.FC = () => {
       {isLoggedIn ? (
         <TopBar title="Cartelera informativa" onLeftPress={toggleMenu} />
       ) : (
-        <TopBarBack title="Cartelera informativa" 
-        backgroundColor="#539091"
-        textColor="#ffff"       
-        iconColor="#ffff"  />
+        <TopBarBack title="Cartelera informativa" backgroundColor="#539091" textColor="#ffff" iconColor="#ffff" />
       )}
       <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
 
       <ScrollView className={styles.container3} showsVerticalScrollIndicator={false}>
         <View className="items-center flex-row pt-5 pb-1 mx-3">
-          <SearchBar
-            placeholder="Buscar..."
-            value={searchText}
-            onChangeText={setSearchText}
-          />
+          <SearchBar placeholder="Buscar..." value={searchText} onChangeText={setSearchText} />
         </View>
 
-        {loading ? ( 
+        {loading ? (
           <View className={styles.loadingContainer}>
             <Loader />
           </View>
@@ -95,30 +57,17 @@ const BoardPage: React.FC = () => {
           <Text className={styles.noPublicationsText}>No hay publicaciones</Text>
         ) : (
           filteredArticles.map((article, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleReadMore(article)}
-              className={styles.container6}
-            >
-              {article.image && typeof article.image === "string" ? (
-                <Image
-                  source={getImageSource(article.image)} 
-                  style={{ width: "100%", height: 200, borderRadius: 10 }} 
-                />
+            <TouchableOpacity key={index} onPress={() => handleReadMore(article)} className={styles.containerArticle}>
+              {article.image ? (
+                <Image source={getImageSource(article.image)} style={{ width: "100%", height: 155, borderRadius: 10 }} />
               ) : (
                 <View className={styles.imagePlaceholder}>
-                  <Text className={styles.description}>
-                    La imagen no está disponible
-                  </Text>
+                  <Text className={styles.description}>Imagen no disponible</Text>
                 </View>
               )}
-              <Text className={styles.title}>{article.title || ""}</Text>
-              <Text className={styles.dateText}>
-                {new Date(article.createdAt).toLocaleDateString("es-ES")}
-              </Text>
-              <Text className={styles.description}>
-                {article.description || ""}
-              </Text>
+              <Text className={styles.title}>{article.title}</Text>
+              <Text className={styles.dateText}>{new Date(article.createdAt).toLocaleDateString("es-ES")}</Text>
+              <Text numberOfLines={4} className={styles.description}>{article.description}</Text>
             </TouchableOpacity>
           ))
         )}
@@ -128,4 +77,3 @@ const BoardPage: React.FC = () => {
 };
 
 export default BoardPage;
-

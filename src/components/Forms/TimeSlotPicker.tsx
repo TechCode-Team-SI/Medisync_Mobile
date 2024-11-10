@@ -41,7 +41,7 @@ const TimeSlotPicker: React.FC<TimeSlotPickerProps> = ({
           <Entypo name="calendar" size={24} color="#539091" />
           <TextInput
             className={styles.input}
-            placeholder="seleccione un horario"
+            placeholder="Seleccione"
             placeholderTextColor="#539091"
             value={selectedTimeSlot ? selectedTimeSlot : undefined}
             editable={false}

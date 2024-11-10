@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from "@/src/components/AboutUsComponents/stylesUs";
-import { Entypo } from '@expo/vector-icons'; 
-import { useNavigation } from '@react-navigation/native';
 import InfoHome from '@/src/components/HomeComponents/InfoHome';
+import ButtonBack from "@/src/components/Navigation/ButtonBack"
 
 const ContactPage: React.FC = () => {
 
-    const navigation = useNavigation();  
-
-    const handleBack = () => {
-        navigation.goBack();  
-    };
-
   return (
     <View className={styles.container}>
-
-      <TouchableOpacity className={styles.backButton} onPress={handleBack}>
-        <Entypo name="chevron-left" size={24} color="white" />
-      </TouchableOpacity>
+      
+      <ButtonBack buttonColor="#5DA9A3" />
 
       <Text className={styles.title1}>Información de contacto</Text>
 

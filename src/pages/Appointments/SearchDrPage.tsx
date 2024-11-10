@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import styles from "@/src/components/AppointmentsComponents/styleSearch";
-import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
+import ButtonBack from "@/src/components/Navigation/ButtonBack";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useRouter } from "expo-router";
 import { Dr } from "@/src/services/appointments/doctorsServices";
-import SearchBar from "@/src/components/SearchBar";
+import SearchBar from "@/src/components/ui/SearchBar";
 import Loader from "@/src/components/ui/Loader"; 
 
 const SearchDrPage: React.FC = () => {

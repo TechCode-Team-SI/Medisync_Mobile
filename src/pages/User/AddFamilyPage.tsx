@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
+import ButtonBack from '@/src/components/Navigation/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile";
 
 import { createUserPatient } from "@/src/services/familyGroup/familyServices";
@@ -11,6 +11,7 @@ import FormField from "@/src/components/Forms/FormField";
 import Dropdown from "@/src/components/Forms/Dropdown"; 
 import AlertModal from '@/src/components/Modal/AlertModal';
 import DatePicker from "@/src/components/Forms/DatePicker";
+import CustomButton from "@/src/components/ui/CustomButton";
 
 const genderOptions = [
     { label: "Femenino", value: "F" },
@@ -153,18 +154,12 @@ const AddFamilyPage: React.FC = () => {
                     onSelect={setSelectedRelationship}
                 />
 
-                <View className={styles.container4}>
-                    <TouchableOpacity
-                        className={styles.buttonFamily}
-                        onPress={handleSave}
-                        disabled={!isFormValid} 
-                        style={{
-                            opacity: isFormValid ? 1 : 0.5 
-                        }}
-                    >
-                        <Text className={styles.buttonText1}>Guardar</Text>
-                    </TouchableOpacity>
-                </View>
+                <CustomButton
+                onPress={handleSave}
+                disabled={!isFormValid}
+                title="Guardar"
+                />
+
             </ScrollView>
 
             <AlertModal
