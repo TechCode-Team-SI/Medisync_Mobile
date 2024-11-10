@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, TextInput, Text, Image, TouchableOpacity,ScrollView } from "react-native";
 import styles from "@/src/components/ProfileComponents/stylesProfile";
-import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
+import ButtonBack from "@/src/components/Navigation/ButtonBack";
 import Entypo from "@expo/vector-icons/Entypo";
 import { pickImage } from "@/src/utils/imagePicker";
 import { ImagePickerAsset } from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import AlertModal from '@/src/components/Modal/AlertModal';
 import FormField from "@/src/components/Forms/FormField";
+import CustomButton from "@/src/components/ui/CustomButton";
 
 import { getUser, updateUserProfile } from "@/src/services/user/userServices";
 import { uploadImage } from "@/src/services/files/filesServices";
@@ -124,11 +125,10 @@ const ConfigProfilePage: React.FC = () => {
             editable={false}
           />
 
-          <View className={styles.container4}>
-            <TouchableOpacity className={styles.button1} onPress={handleSave}>
-              <Text className={styles.buttonText1}>Guardar cambios</Text>
-            </TouchableOpacity>
-          </View>
+          <CustomButton
+            onPress={handleSave}
+            title="Guardar"
+          />
 
           </ScrollView>
         </View>

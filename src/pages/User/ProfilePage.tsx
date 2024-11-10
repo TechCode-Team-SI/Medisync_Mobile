@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
+import ButtonBack from '@/src/components/Navigation/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useFocusEffect, router } from "expo-router";

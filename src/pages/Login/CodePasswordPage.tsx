@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
-import Entypo from '@expo/vector-icons/Entypo';
+import { View, Text} from 'react-native';
 import styles from '@/src/components/LoginComponents/stylesLogin';
 import { Link, router } from "expo-router";
 
 import { confirmCode } from "@/src/services/auth/authServices";
 import AlertModal from '@/src/components/Modal/AlertModal';
 import FormField from "@/src/components/Forms/FormField";
+import CustomButton from '@/src/components/ui/CustomButton';
 
 
 const CodePasswordPage: React.FC = () => {
@@ -58,15 +58,11 @@ const CodePasswordPage: React.FC = () => {
           keyboardType="email-address"
         />
 
-        <View className={styles.container4}>
-          <TouchableOpacity 
-          onPress={handleconfirmCode} 
-          className={styles.button}
+        <CustomButton
+          onPress={handleconfirmCode}
           disabled={isButtonDisabled}
-          style={{ opacity: isButtonDisabled ? 0.5 : 1 }}>
-            <Text className={styles.buttonText}>Verificar</Text>
-          </TouchableOpacity>
-        </View>
+          title="Verificar"
+        />
 
         <View className={styles.container6}>
           <Link href="/login" className={styles.textButton2}>

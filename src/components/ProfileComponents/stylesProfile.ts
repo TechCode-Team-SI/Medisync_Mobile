@@ -37,11 +37,7 @@ const stylesProfile = {
     button1: 'w-full h-12 items-center justify-center bg-primary rounded-xl mt-6', //Config
     buttonText1: 'text-principal text-lg font-montserrat',
 
-    //Button back
-    buttonBack1: 'absolute top-8 left-4 z-10 w-[32px] h-[46px] bg-[#5DA9A3] items-center justify-center rounded',
-    containerBack: "flex justify-start w-3/12 p-7 mt-4",
-
-    //Family
+    //FAMILY
 
     ///ADD
     containerBgFamily: 'flex-1 w-full h-3/4 bg-principal rounded-t-3xl pt-3 px-6',

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
-import Entypo from '@expo/vector-icons/Entypo';
+import { View, Text} from 'react-native';
 import { Link, router } from "expo-router";
 import styles from "@/src/components/LoginComponents/stylesLogin";
 import { forgotPassword } from "@/src/services/auth/authServices";
 import AlertModal from '@/src/components/Modal/AlertModal';
 import FormField from "@/src/components/Forms/FormField";
+import CustomButton from '@/src/components/ui/CustomButton';
 
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState(''); 
@@ -56,15 +56,11 @@ const ForgotPasswordPage: React.FC = () => {
           keyboardType="email-address"
         />
 
-        <View className={styles.container4}>
-          <TouchableOpacity 
-          onPress={handleForgotPassword} 
-          className={styles.button}
+        <CustomButton
+          onPress={handleForgotPassword}
           disabled={isButtonDisabled}
-          style={{ opacity: isButtonDisabled ? 0.5 : 1 }}>
-            <Text className={styles.buttonText}>Enviar</Text>
-          </TouchableOpacity>
-        </View>
+          title="Enviar"
+        />
 
         <View className={styles.container6}>
           <Link href="/login" className={styles.textButton2}>

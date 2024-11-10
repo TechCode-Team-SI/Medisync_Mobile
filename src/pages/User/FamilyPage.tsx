@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
-import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
+import ButtonBack from '@/src/components/Navigation/ButtonBack';
 import styles from "@/src/components/ProfileComponents/stylesProfile";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import AddButton from "@/src/components/AddButton";
-import SearchBar from "@/src/components/SearchBar";
+import AddButton from "@/src/components/ui/AddButton";
+import SearchBar from "@/src/components/ui/SearchBar";
 import { router } from "expo-router";
 import { getUserPatients } from '@/src/services/familyGroup/familyServices';
 import Loader from "@/src/components/ui/Loader"; 

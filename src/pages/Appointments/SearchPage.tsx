@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import styles from "@/src/components/AppointmentsComponents/styleSearch";
-import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
+import ButtonBack from "@/src/components/Navigation/ButtonBack";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import { router } from "expo-router";
-import SearchBar from "@/src/components/SearchBar";
+import SearchBar from "@/src/components/ui/SearchBar";
 import { getspecialites } from "@/src/services/appointments/specialtiesServices";
 import { getDr } from "@/src/services/appointments/doctorsServices";
 import { Specialties } from "@/src/services/appointments/specialtiesServices";

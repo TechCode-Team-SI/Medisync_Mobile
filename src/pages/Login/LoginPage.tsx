@@ -8,6 +8,7 @@ import InfoModal from '@/src/components/Modal/InfoModal';
 import FormField from "@/src/components/Forms/FormField";
 import PasswordField from '@/src/components/Forms/PasswordField';
 import { login } from "@/src/services/auth/authServices"
+import CustomButton from "@/src/components/ui/CustomButton";
 
 const LoginPage: React.FC = () => {
 
@@ -70,16 +71,11 @@ const LoginPage: React.FC = () => {
           ¿Ha olvidado su contraseña?
         </Link>
 
-        <View className={styles.container4}>
-          <TouchableOpacity
-            className={styles.button}
-            onPress={handleLogin}
-            disabled={isButtonDisabled}
-            style={{ opacity: isButtonDisabled ? 0.5 : 1 }}
-          >
-            <Text className={styles.buttonText}>Iniciar Sesión</Text>
-          </TouchableOpacity>
-        </View>
+        <CustomButton
+          onPress={handleLogin}
+          disabled={isButtonDisabled}
+          title="Iniciar Sesión"
+        />
 
         <View className={styles.container3}>
           <Text>¿No tienes una cuenta?</Text>

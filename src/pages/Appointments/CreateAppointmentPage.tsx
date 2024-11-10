@@ -1,5 +1,5 @@
 import styles from "@/src/components/AppointmentsComponents/stylesCreate";
-import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
+import ButtonBack from "@/src/components/Navigation/ButtonBack";
 import { getUserPatients } from "@/src/services/familyGroup/familyServices";
 import { getRequestTemplateBySpecialty } from "@/src/services/requestTemplates/requestTemplates";
 import { UserPatient } from "@/src/types/types";

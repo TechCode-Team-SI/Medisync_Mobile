@@ -44,7 +44,7 @@ const stylesHome = {
     placeholderText: "text-gray-500",
     carouselContent: "flex-1 p-2",
     carouselItemTitle: "font-bold text-lg mb-1 text-primary",
-    carouselItemDescription: "text-base text-gray-600 mb-2",
+    carouselItemDescription: "text-sm text-gray-600 mb-2 text-justify",
     loadingContainer: "flex justify-center items-center",
     loadingText: "text-lg text-gray-600",
     carouselDate: "text-gray-400 text-sm mb-2",

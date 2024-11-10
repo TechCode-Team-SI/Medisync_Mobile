@@ -1,8 +1,6 @@
 import styles from "@/src/components/HomeComponents/stylesHome";
 import React, { useState, useEffect } from "react";
 import { Text, View, Modal, TouchableWithoutFeedback, Animated } from "react-native";
-import ButtonsHome from "../components/HomeComponents/ButtonsHome";
-import InfoHome from "../components/HomeComponents/InfoHome";
 import TopBar from "../components/Navigation/TopBar";
 import SideMenuModal from "../components/Navigation/SideMenuModal";
 import { useFocusEffect } from '@react-navigation/native'
