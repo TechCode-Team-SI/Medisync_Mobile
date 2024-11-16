@@ -73,7 +73,7 @@ const DataPicker = ({
               {options.map(({ label, value }, idx) => (
                 <TouchableOpacity
                   key={idx}
-                  className="w-full py-2 items-center justify-center border-b border-primary"
+                  className={`w-full py-2 items-center justify-center ${idx ! ==options.length-1?"border-b border-primary" : ""} `}
                   onPress={() => handleChange(value)}
                 >
                   <Text className="text-lg text-primary font-montserrat">
@@ -90,3 +90,4 @@ const DataPicker = ({
 };
 
 export default DataPicker;
+

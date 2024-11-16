@@ -81,17 +81,39 @@ const CreateAppointmentForm = (props: CreateAppointmentFormProps) => {
     control: form.control,
     name: "requestValues",
   });
-  const [patientsOptions, setPatientsOptions] = useState<
-    { label: string; value: string }[]
-  >([]);
+
+  interface PatientOption {
+    label: string;
+    value: string;
+    isMainPatient: boolean; // Agrega esta propiedad
+  }
+  
+  const [patientsOptions, setPatientsOptions] = useState<PatientOption[]>([]);
 
   useEffect(() => {
     const patients = props.userPatients.map((patient: any) => ({
       label: patient.fullName,
       value: patient.id,
+      isMainPatient: patient.familyRelationship === 'yo', // Marcar al paciente principal
+      relationship: patient.familyRelationship, // Relación del paciente con el usuario
     }));
-
-    setPatientsOptions(patients);
+  
+    // Primero el paciente principal
+    const mainPatient = patients.find(patient => patient.isMainPatient);
+    const familyPatients = patients.filter(patient => !patient.isMainPatient);
+  
+    // Establecemos la lista de opciones de pacientes
+    setPatientsOptions([
+      ...(mainPatient ? [{
+        ...mainPatient,
+        label: `${mainPatient.label} (Yo)`, // Mostrar al paciente principal con "(Yo)"
+      }] : []),
+      ...familyPatients.map((family, index) => ({
+        ...family,
+        label: `${family.label} (${family.relationship || 'Familiar'})`, // Especificamos la relación (hijo, hermano, etc.)
+        isLast: index === familyPatients.length - 1, // Indicamos si es el último familiar
+      })),
+    ]);
   }, [props.userPatients]);
 
   const onSubmit = (data: CreateAppointmentSchema) => {
