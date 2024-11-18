@@ -104,6 +104,10 @@ const AppointmentPage: React.FC = () => {
         <ScrollView contentContainerStyle={{ paddingBottom: 20, marginTop: 10 }} showsVerticalScrollIndicator={false}>
           {loading ? ( 
             <Loader />
+          ) : appointments.length === 0 ? (
+            <Text className="text-center text-primary mt-4 text-lg font-montserrat">
+              No tienes citas pendientes
+            </Text>
           ) : (
             appointments.map((appointment) => (
               <TouchableOpacity
@@ -149,4 +153,3 @@ const AppointmentPage: React.FC = () => {
 };
 
 export default AppointmentPage;
-
