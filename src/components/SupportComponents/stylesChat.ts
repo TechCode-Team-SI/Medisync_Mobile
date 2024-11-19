@@ -3,14 +3,14 @@ const stylesChat = {
     container: 'flex-1 bg-principal relative', 
 
     ///// Info del ticket (superior)
-    container1: "bg-gray-200 m-3 rounded-tr-xl mx-4 mt-8 rounded-tr-2xl rounded-bl-2xl rounded-br-2xl", 
+    container1: "bg-gray-200 m-3 rounded-tr-xl mx-4 mt-5 rounded-tr-2xl rounded-bl-2xl rounded-br-2xl", 
     containerRow: "flex-row my-4 ml-3",
     containerInfo: "mx-4 mb-4",
     containerImage: "w-full absolute",
     image: "w-11 h-11 rounded-full",
     iconImage: "w-11 h-11 rounded-full border-2 border-primary justify-center items-center bg-white",
-    title: "font-bold text-lg ml-14",
-    title2: "font-bold text-primary text-base pt-1",
+    title: "font-bold text-lg ml-14 mt-2",
+    title2: "font-bold text-primary text-base",
     text: "pt-1 text-justify",
 
     /////Input (inferior)

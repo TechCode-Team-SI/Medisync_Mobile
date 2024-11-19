@@ -4,10 +4,17 @@ const stylesModal = {
     title2: "text-2xl text-center font-montserrat text-primary",
     message: "text-base mb-6 text-center",
     
-    containerButton:"flex-row justify-around",
-    textButton:"text-white",
-    acceptButton:"bg-primary px-6 py-2 rounded-lg",
-    cancelButton:"bg-cancel px-6 py-2 rounded-lg"
+    containerButton:"flex-row justify-around  space-x-8",
+    textButton:"text-white text-center items-center",
+    
+    acceptButton: "bg-primary w-24 py-2 rounded-lg", // Ancho fijo
+    cancelButton: "bg-cancel w-24 py-2 rounded-lg", // Ancho fijo
+
+    ///RATING MODAL
+    starsContainer: "flex flex-row justify-center mb-4",
+    starFilled: "text-yellow-500 text-5xl",
+    starEmpty: "text-gray-300 text-5xl",
+
 };
 
 export default stylesModal;

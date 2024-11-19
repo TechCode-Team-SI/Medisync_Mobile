@@ -4,7 +4,7 @@ const stylesSupport = {
     button: ' flex-row w-full h-12 bg-terciary rounded-xl items-center',
     container2: "items-center justify-center pt-4 mb-5 mx-12 h-12",
     buttonText: ' text-primary text-sm font-montserrat mx-5',
-    container3: "items-center justify-center pt-8 mb-5 mx-6",
+    container3: "items-center justify-center pt-6 mb-3 mx-6",
     title1: "text-primary font-montserrat text-center  text-xl px-5 my-4",
     text: "text-primary ",
     icon: "ml-5",

@@ -12,6 +12,7 @@ import { formatDate, formatGender, formatStatus } from "@/src/utils/changeFormat
 import { calculateAge } from "@/src/utils/calculateAge";
 import AppointmentModal from '@/src/components/AppointmentsComponents/AppointmentModal'; 
 import Loader from "@/src/components/ui/Loader"; 
+import RatingModal from "@/src/components/AppointmentsComponents/RatingModal";
 
 interface Appointment {
   id: number;
@@ -56,7 +57,7 @@ const AppointmentPage: React.FC = () => {
         gender: formatGender(request.madeFor.gender),
         age: calculateAge(request.madeFor.birthday),
         specialization: request.requestedSpecialty.name, 
-        doctor: request.requestedMedic.fullName,
+        //doctor: request.requestedMedic.fullName,
         status: formatStatus(request.status), 
         date: formatDate(request.appointmentDate), 
         time: request.appointmentHour,
@@ -138,7 +139,7 @@ const AppointmentPage: React.FC = () => {
         </ScrollView>
       </View>
 
-      <AppointmentModal 
+      <RatingModal 
         visible={isModalVisible} 
         onClose={() => setModalVisible(false)} 
         title="ATENCIÓN" 

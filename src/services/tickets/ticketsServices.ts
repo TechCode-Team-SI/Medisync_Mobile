@@ -4,7 +4,12 @@ import { handleError } from "@/src/services/error/errorHandler";
 import { getToken } from "../auth/sessionServices";
 
 
-export const createTicket = async (token: string, ticketData: { title: string; description: string; type: string }): Promise<ApiResult<any>> => {
+export const createTicket = async (token: string, 
+  ticketData: { 
+    title: string; 
+    description: string; 
+    type: string; 
+    ticketTag: { id: string }; }): Promise<ApiResult<any>> => {
     try {
       const response = await axios.post(api.tickets, ticketData, {
         headers: {
@@ -18,7 +23,8 @@ export const createTicket = async (token: string, ticketData: { title: string; d
     }
   };
 
-  export const getTickets= async () => {
+
+  export const getTickets = async (page = 1) => {
     const token = await getToken();
     
     if (!token) {
@@ -27,7 +33,7 @@ export const createTicket = async (token: string, ticketData: { title: string; d
     }
   
     try {
-      const response = await axios.get(api.mytickets, {
+      const response = await axios.get(`${api.mytickets}?page=${page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,6 +45,32 @@ export const createTicket = async (token: string, ticketData: { title: string; d
       return { success: false, message: "Error al obtener los tickets." };
     }
   };
+  
+
+  export const getTicketTag= async () => {
+    const token = await getToken();
+    
+    if (!token) {
+      console.log("No se encontró el token de autenticación.");
+      return { success: false, message: "No se encontró el token de autenticación." };
+    }
+  
+    try {
+      const response = await axios.get(api.ticketTag, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      return { success: true, data: response.data };
+    } catch (error: any) {
+      console.log("Error al obtener los tipos de Reclamos:", error); 
+      return { success: false, message: "Error al obtener los tipos de Reclamos." };
+    }
+  };
+
+
+  ///////COMENTARIOS
 
   export const addCommentToTicket = async (ticketId: string, comment: string): Promise<ApiResult<any>> => {
     const token = await getToken();
@@ -83,3 +115,4 @@ export const getCommentsForTicket = async (ticketId: string): Promise<ApiResult<
       return handleError(error);
   }
 };
+
