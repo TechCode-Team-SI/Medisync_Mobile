@@ -76,7 +76,7 @@ const DataPicker = ({
                   className="w-full py-2 items-center justify-center border-b border-primary"
                   onPress={() => handleChange(value)}
                 >
-                  <Text className="text-lg text-primary font-montserrat">
+                  <Text className="text-base text-gray-500 font-montserrat">
                     {label}
                   </Text>
                 </TouchableOpacity>

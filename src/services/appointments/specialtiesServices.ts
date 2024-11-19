@@ -4,6 +4,14 @@ import { formatLink } from "@/src/utils/utils";
 import { NewApiResult, handleError } from "../error/errorHandler";
 import { transporterHTTP } from "../transporter";
 
+export interface Specialties {
+  id: string;
+  name: string;
+  description: string;
+  patch: string;
+  isGroup: boolean;
+}
+
 export const getspecialites = async (): Promise<NewApiResult<Specialty[]>> => {
   try {
     const link = formatLink(api.specialties, { page: "1", limit: "100" });

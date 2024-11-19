@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-  Image,
-} from "react-native";
+import TopBarBack from "@/src/components/Navigation/TopBarBack";
 import styles from "@/src/components/SupportComponents/stylesChat";
 import Entypo from "@expo/vector-icons/Entypo";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import TopBarBack from "@/src/components/Navigation/TopBarBack";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import React, { useEffect, useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import useFetchUser from "@/src/hooks/user/useFetchUser";
-import { useLocalSearchParams } from "expo-router";
-import { handleSendComment } from "@/src/services/tickets/ticketsUtils";
-import { getCommentsForTicket } from "@/src/services/tickets/ticketsServices";
+import CommentsTickets from "@/src/components/SupportComponents/CommentsTickets";
+import InfoTicket from "@/src/components/SupportComponents/InfoTickets";
 import { useWebScoket } from "@/src/hooks/socket/useSocket";
+import useFetchUser from "@/src/hooks/user/useFetchUser";
+import { getCommentsForTicket } from "@/src/services/tickets/ticketsServices";
+import { handleSendComment } from "@/src/services/tickets/ticketsUtils";
 import { SocketEnum, TicketChatMessage } from "@/src/types/types";
+import { useLocalSearchParams } from "expo-router";
 
 interface TicketComment {
   id: string;
@@ -32,54 +31,46 @@ interface TicketComment {
 }
 
 const SupportChatPage: React.FC = () => {
+  const [comments, setComments] = useState<TicketComment[]>([]);
+  const [inputTex, setInputTex] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>("");
-  const [inputTex, setInputTex] = useState("");
+  const { user } = useFetchUser();
+  const { id } = useLocalSearchParams();
   const { socket } = useWebScoket();
 
-  const [comments, setComments] = useState<TicketComment[]>([]);
-  const { user, selectedImage } = useFetchUser();
-  const { id, title, description } = useLocalSearchParams();
   const onSendComment = async () => {
-    if (typeof id === "string") {
-      const newComment: TicketComment = {
-        id: Math.random().toString(),
-        comment: inputTex,
-        createdBy: {
-          fullName: user.fullName,
-        },
-        createdAt: new Date().toISOString(),
-      };
-
-      setComments((prevComments) => [newComment, ...prevComments]);
-      setInputTex("");
-
-      try {
-        const comment = await handleSendComment(
-          id,
-          inputTex,
-          setModalMessage,
-          setModalVisible,
-          setInputTex
-        );
-        if (comment?.data) {
-          setComments((prevComments) =>
-            prevComments.filter((comment) => comment.id !== newComment.id)
-          );
-          setComments((prevComments) => [newComment, ...prevComments]);
-          socket?.emit(SocketEnum.TICKET_CHANNEL, comment.data);
-        }
-      } catch (error) {
-        console.error("Error al enviar el comentario:", error);
-        setModalMessage("Error al enviar el comentario.");
-        setModalVisible(true);
-        setComments((prevComments) =>
-          prevComments.filter((comment) => comment.id !== newComment.id)
-        );
-      }
-    } else {
-      setModalMessage("ID de ticket no válido.");
+    if (!inputTex.trim()) {
+      setModalMessage("El comentario no puede estar vacío.");
       setModalVisible(true);
+      return;
+    }
+
+    const newComment: TicketComment = {
+      id: Math.random().toString(),
+      comment: inputTex,
+      createdBy: { fullName: user.fullName },
+      createdAt: new Date().toISOString(),
+    };
+
+    setComments((prev) => [newComment, ...prev]);
+    setInputTex("");
+
+    try {
+      const comment = await handleSendComment(
+        id as string,
+        inputTex,
+        setModalMessage,
+        setModalVisible,
+        setInputTex
+      );
+      socket?.emit(SocketEnum.TICKET_CHANNEL, comment?.data);
+    } catch {
+      setModalMessage("Error al enviar el comentario.");
+      setModalVisible(true);
+      setComments((prev) =>
+        prev.filter((comment) => comment.id !== newComment.id)
+      );
     }
   };
 
@@ -103,22 +94,16 @@ const SupportChatPage: React.FC = () => {
 
   useEffect(() => {
     const fetchComments = async () => {
-      if (typeof id === "string") {
-        const result = await getCommentsForTicket(id);
-        console.log("Resultado de obtener comentarios:", result);
-        if (result.success) {
-          if (Array.isArray(result.data.data)) {
-            setComments(result.data.data);
-          } else {
-            setModalMessage("Error: Los comentarios no son un array.");
-            setModalVisible(true);
-          }
+      try {
+        const result = await getCommentsForTicket(id as string);
+        if (result.success && Array.isArray(result.data.data)) {
+          setComments(result.data.data);
         } else {
-          setModalMessage(result.message ?? "Error al obtener comentarios.");
+          setModalMessage(result.message || "Error al obtener comentarios.");
           setModalVisible(true);
         }
-      } else {
-        setModalMessage("ID de ticket no válido.");
+      } catch {
+        setModalMessage("Error al obtener comentarios.");
         setModalVisible(true);
       }
     };
@@ -129,33 +114,12 @@ const SupportChatPage: React.FC = () => {
   return (
     <View className={styles.container}>
       <TopBarBack title="Agente de Soporte" />
-
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
       >
-        <View className={styles.container1}>
-          <View className={styles.containerRow}>
-            <View className={styles.containerImage}>
-              {selectedImage ? (
-                <Image
-                  source={{ uri: selectedImage }}
-                  className={styles.image}
-                />
-              ) : (
-                <FontAwesome name="user-circle" size={40} color="#539091" />
-              )}
-            </View>
-
-            <Text className={styles.title}>{user.fullName}</Text>
-          </View>
-
-          <View className={styles.containerInfo}>
-            <Text className={styles.title2}>{title}</Text>
-            <Text className={styles.text}>{description}</Text>
-          </View>
-        </View>
+        <InfoTicket />
 
         <TouchableOpacity
           className={styles.container5}
@@ -165,21 +129,8 @@ const SupportChatPage: React.FC = () => {
           <Text className={styles.title3}>Respuestas</Text>
         </TouchableOpacity>
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <View className={styles.container2}>
-            {comments.map((comment) => (
-              <View key={comment.id} className={styles.commentContainer}>
-                <Text className={styles.commentUser}>
-                  {comment.createdBy.fullName}
-                </Text>
-                <Text className={styles.commentDate}>
-                  {new Date(comment.createdAt).toLocaleString()}
-                </Text>
-                <Text className={styles.commentText}>{comment.comment}</Text>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+        <CommentsTickets comments={comments} />
+
         <View className={styles.containerInput}>
           <TextInput
             className={styles.input}

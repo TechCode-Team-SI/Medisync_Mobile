@@ -45,6 +45,9 @@ export const api = {
   tickets: API_URL + "/tickets",
   mytickets: API_URL + "/tickets/me",
 
+  ticketTag: API_URL + "/ticket-types",
+
+
   //// AGENDA
 
   agendaByMedic: API_URL + "/agendas/:type/:id",
