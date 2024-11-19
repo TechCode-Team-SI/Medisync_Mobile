@@ -9,6 +9,7 @@ export interface Specialties {
   name: string;
   description: string;
   patch: string;
+  isGroup: boolean; 
 }
 
 export const getspecialites = async (): Promise<

@@ -16,20 +16,35 @@ const SearchPage: React.FC = () => {
   const [loading, setLoading] = useState(true); 
 
   const handleSelect = async (specialtyId: string, specialtyName: string) => {
-    const result = await getDr(specialtyId);
-    if (result.success && Array.isArray(result.data)) {
-      router.push({
-        pathname: "/searchdr",
-        params: {
-          doctors: JSON.stringify(result.data),
-          specialtyName: specialtyName,
-          specialtyId: specialtyId,
-        },
-      });
-    } else {
-      console.log("Error inesperado:");
+    const selectedSpecialty = specialties.find(specialty => specialty.id === specialtyId);
+    
+    if (selectedSpecialty) {
+      if (selectedSpecialty.isGroup) {
+        router.push({
+          pathname: "/createappointment",
+          params: {
+            specialtyId: specialtyId,
+            requestedDrId: undefined, 
+          },
+        });
+      } else {
+        const result = await getDr(specialtyId);
+        if (result.success && Array.isArray(result.data)) {
+          router.push({
+            pathname: "/searchdr",
+            params: {
+              doctors: JSON.stringify(result.data),
+              specialtyName: specialtyName,
+              specialtyId: specialtyId,
+            },
+          });
+        }
+      }
     }
   };
+  
+  
+  
 
   useEffect(() => {
     const fetchUser = async () => {
