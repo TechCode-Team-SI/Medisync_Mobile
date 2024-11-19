@@ -71,6 +71,19 @@ export interface httpErrorProps {
   status: number;
 }
 
+export interface Specialty {
+  id: string;
+  name: string;
+  description: string;
+  isGroup: boolean;
+  isPublic: boolean;
+  isDisabled: boolean;
+  requestTemplate?: RequestTemplate;
+  image: Image;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export enum FieldQuestionTypeEnum {
   SELECTION = "selection",
   TEXT = "text",

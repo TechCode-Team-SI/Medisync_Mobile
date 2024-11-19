@@ -7,21 +7,22 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useRouter } from "expo-router";
 import { Dr } from "@/src/services/appointments/doctorsServices";
 import SearchBar from "@/src/components/ui/SearchBar";
-import Loader from "@/src/components/ui/Loader"; 
+import Loader from "@/src/components/ui/Loader";
 
 const SearchDrPage: React.FC = () => {
   const router = useRouter();
-  const { doctors, specialtyName, specialtyId } = useLocalSearchParams();
+  const { doctors, specialtyName, specialtyId, specialtyIsGroup } =
+    useLocalSearchParams();
 
   const [drs, setdrs] = useState<Dr[]>([]);
-  const [searchText, setSearchText] = useState('');
-  const [loading, setLoading] = useState(true); 
+  const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (doctors) {
-      setdrs(JSON.parse(doctors as string)); 
+      setdrs(JSON.parse(doctors as string));
     }
-    setLoading(false); 
+    setLoading(false);
   }, [doctors]);
 
   const handleSelect = (drId: string) => {
@@ -30,11 +31,12 @@ const SearchDrPage: React.FC = () => {
       params: {
         requestedDrId: drId,
         requestedSpecialtyId: specialtyId,
+        specialtyIsGroup,
       },
     });
   };
 
-  const filteredDrs = drs.filter(dr => 
+  const filteredDrs = drs.filter((dr) =>
     dr.fullName.toLowerCase().includes(searchText.toLowerCase())
   );
 
@@ -48,13 +50,10 @@ const SearchDrPage: React.FC = () => {
           <Text className={styles.title2}>Especialistas Disponibles</Text>
 
           <View className={styles.containerSearch}>
-            <SearchBar
-              value={searchText}
-              onChangeText={setSearchText}
-            />
+            <SearchBar value={searchText} onChangeText={setSearchText} />
           </View>
 
-          {loading ? ( 
+          {loading ? (
             <View className={styles.loadingContainer}>
               <Loader />
             </View>
@@ -81,4 +80,3 @@ const SearchDrPage: React.FC = () => {
 };
 
 export default SearchDrPage;
-
