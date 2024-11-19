@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Text } from 'react-native';
-import styles from '@/src/components/SupportComponents/stylesChat';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import TopBarBack from '@/src/components/Navigation/TopBarBack';
-import InfoTicket from '@/src/components/SupportComponents/InfoTickets';
-import CommentsTickets from '@/src/components/SupportComponents/CommentsTickets';
+import TopBarBack from "@/src/components/Navigation/TopBarBack";
+import styles from "@/src/components/SupportComponents/stylesChat";
+import Entypo from "@expo/vector-icons/Entypo";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import React, { useEffect, useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+import CommentsTickets from "@/src/components/SupportComponents/CommentsTickets";
+import InfoTicket from "@/src/components/SupportComponents/InfoTickets";
+import { useWebScoket } from "@/src/hooks/socket/useSocket";
+import useFetchUser from "@/src/hooks/user/useFetchUser";
+import { getCommentsForTicket } from "@/src/services/tickets/ticketsServices";
+import { handleSendComment } from "@/src/services/tickets/ticketsUtils";
+import { SocketEnum, TicketChatMessage } from "@/src/types/types";
 import { useLocalSearchParams } from "expo-router";
-import { getCommentsForTicket } from '@/src/services/tickets/ticketsServices';
-import { handleSendComment } from '@/src/services/tickets/ticketsUtils';
-import useFetchUser from '@/src/hooks/user/useFetchUser';
-import { Entypo } from '@expo/vector-icons';
 
 interface TicketComment {
   id: string;
@@ -22,11 +32,12 @@ interface TicketComment {
 
 const SupportChatPage: React.FC = () => {
   const [comments, setComments] = useState<TicketComment[]>([]);
-  const [inputTex, setInputTex] = useState('');
+  const [inputTex, setInputTex] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState<string>('');
+  const [modalMessage, setModalMessage] = useState<string>("");
   const { user } = useFetchUser();
   const { id } = useLocalSearchParams();
+  const { socket } = useWebScoket();
 
   const onSendComment = async () => {
     if (!inputTex.trim()) {
@@ -34,32 +45,52 @@ const SupportChatPage: React.FC = () => {
       setModalVisible(true);
       return;
     }
-  
+
     const newComment: TicketComment = {
       id: Math.random().toString(),
       comment: inputTex,
       createdBy: { fullName: user.fullName },
       createdAt: new Date().toISOString(),
     };
-  
-    setComments(prev => [newComment, ...prev]);
-    setInputTex('');
-  
+
+    setComments((prev) => [newComment, ...prev]);
+    setInputTex("");
+
     try {
-      await handleSendComment(
+      const comment = await handleSendComment(
         id as string,
         inputTex,
         setModalMessage,
         setModalVisible,
         setInputTex
       );
+      socket?.emit(SocketEnum.TICKET_CHANNEL, comment?.data);
     } catch {
       setModalMessage("Error al enviar el comentario.");
       setModalVisible(true);
-      setComments(prev => prev.filter(comment => comment.id !== newComment.id));
+      setComments((prev) =>
+        prev.filter((comment) => comment.id !== newComment.id)
+      );
     }
   };
-  
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit(SocketEnum.JOIN_ROOM, id);
+
+      socket.on(SocketEnum.TICKET_CHANNEL, (data: TicketChatMessage) => {
+        const newComment: TicketComment = {
+          id: data.id,
+          comment: data.message,
+          createdBy: {
+            fullName: data.sender.fullName,
+          },
+          createdAt: data.createdAt,
+        };
+        setComments((prevComments) => [...prevComments, newComment]);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -85,14 +116,17 @@ const SupportChatPage: React.FC = () => {
       <TopBarBack title="Agente de Soporte" />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
       >
         <InfoTicket />
 
-        <TouchableOpacity className={styles.container5} onPress={() => alert("")}> 
-          <Entypo name="chevron-down" size={25} color="#539091" /> 
-          <Text className={styles.title3}>Respuestas</Text> 
+        <TouchableOpacity
+          className={styles.container5}
+          onPress={() => alert("")}
+        >
+          <Entypo name="chevron-down" size={25} color="#539091" />
+          <Text className={styles.title3}>Respuestas</Text>
         </TouchableOpacity>
 
         <CommentsTickets comments={comments} />
@@ -105,11 +139,13 @@ const SupportChatPage: React.FC = () => {
             value={inputTex}
             onChangeText={setInputTex}
           />
-          <TouchableOpacity onPress={onSendComment} className={styles.iconButton}>
+          <TouchableOpacity
+            onPress={onSendComment}
+            className={styles.iconButton}
+          >
             <Ionicons name="send-sharp" size={28} color="#539091" />
           </TouchableOpacity>
         </View>
-
       </KeyboardAvoidingView>
     </View>
   );

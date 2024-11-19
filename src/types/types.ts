@@ -71,11 +71,61 @@ export interface httpErrorProps {
   status: number;
 }
 
+export interface Specialty {
+  id: string;
+  name: string;
+  description: string;
+  isGroup: boolean;
+  isPublic: boolean;
+  isDisabled: boolean;
+  requestTemplate?: RequestTemplate;
+  image: Image;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export enum FieldQuestionTypeEnum {
   SELECTION = "selection",
   TEXT = "text",
   NUMBER = "number",
 }
+
+export enum SocketEnum {
+  JOIN_ROOM = "joinRoom",
+  JOIN_USER_ROOM = "joinUserRoom",
+  LEAVE_ROOM = "leaveRoom",
+  SEND_MESSAGE = "sendMessage",
+  TICKET_CHANNEL = "ticketChannel",
+}
+
+export interface Image {
+  file: { id: string; path: string };
+}
+
+export interface User {
+  id: string;
+  email: string;
+  fullName: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: null;
+  phone: string;
+  image: Image;
+}
+
+export type TicketChatMessage = {
+  id: string;
+  message: string;
+  sender: User;
+  createdAt: string;
+};
+
+export type TicketComment = {
+  id: string;
+  comment: string;
+  createdBy: User;
+  createdAt: string;
+};
 
 export enum WeekDayEnum {
   LUNES = 1,

@@ -4,9 +4,12 @@ import { HTTPError } from "../error/httpError";
 import { transporterHTTP } from "../transporter";
 import { formatLink } from "@/src/utils/utils";
 
-export const getMedicTimeSlots = async (userId: string): Promise<string[]> => {
+export const getMedicTimeSlots = async (
+  id: string,
+  type: "user" | "specialty"
+): Promise<string[]> => {
   try {
-    const link = formatLink(api.medicTimeSlot, { userId });
+    const link = formatLink(api.medicTimeSlot, { id, type });
     const data = await transporterHTTP.get<string[]>(link);
     return data;
   } catch (error) {

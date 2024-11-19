@@ -14,7 +14,8 @@ import { getMedicAgenda } from "@/src/services/agenda/agendaServices";
 import Loader from "@/src/components/ui/Loader";
 
 const CreateAppointmentPage: React.FC = () => {
-  const { requestedDrId, requestedSpecialtyId } = useLocalSearchParams();
+  const { requestedDrId, requestedSpecialtyId, specialtyIsGroup } =
+    useLocalSearchParams();
 
   const { data: requestTemplate } = useQuery({
     queryKey: [requestedSpecialtyId],
@@ -27,13 +28,27 @@ const CreateAppointmentPage: React.FC = () => {
   });
 
   const { data: timeSlots } = useQuery({
-    queryKey: ["timeSlots"],
-    queryFn: () => getMedicTimeSlots(requestedDrId as string),
+    queryKey: ["timeSlots", requestedSpecialtyId, requestedDrId],
+    queryFn: () => {
+      switch (specialtyIsGroup) {
+        case "true":
+          return getMedicTimeSlots(requestedSpecialtyId as string, "specialty");
+        default:
+          return getMedicTimeSlots(requestedDrId as string, "user");
+      }
+    },
   });
 
   const { data: agenda } = useQuery({
-    queryKey: ["agenda"],
-    queryFn: () => getMedicAgenda(requestedDrId as string),
+    queryKey: ["agenda", requestedSpecialtyId, requestedDrId],
+    queryFn: () => {
+      switch (specialtyIsGroup) {
+        case "true":
+          return getMedicAgenda(requestedSpecialtyId as string, "specialty");
+        default:
+          return getMedicAgenda(requestedDrId as string, "user");
+      }
+    },
   });
 
   const { data: daysOffs } = useQuery({

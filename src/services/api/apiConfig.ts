@@ -51,8 +51,8 @@ export const api = {
 
   //// AGENDA
 
-  agendaByMedic: API_URL + "/agendas/user/:userId",
-  medicTimeSlot: API_URL + "/agendas/slot/user/:userId",
+  agendaByMedic: API_URL + "/agendas/:type/:id",
+  medicTimeSlot: API_URL + "/agendas/slot/:type/:id",
 
   //// DAYS OFFS
 

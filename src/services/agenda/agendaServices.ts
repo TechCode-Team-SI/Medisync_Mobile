@@ -5,10 +5,12 @@ import { transporterHTTP } from "../transporter";
 import { formatLink } from "@/src/utils/utils";
 import { Agenda } from "@/src/types/types";
 
-export const getMedicAgenda = async (userId: string): Promise<Agenda> => {
+export const getMedicAgenda = async (
+  id: string,
+  type: "user" | "specialty"
+): Promise<Agenda> => {
   try {
-    const link = formatLink(api.agendaByMedic, { userId }, { limit: 100 });
-    console.log(link);
+    const link = formatLink(api.agendaByMedic, { id, type }, { limit: 100 });
     const data = await transporterHTTP.get<Agenda>(link);
     return data;
   } catch (error) {
