@@ -31,6 +31,7 @@ export const api = {
 
   //// ARTICLES
   articles: API_URL + "/articles",
+  articlesCategories: API_URL + "/article-categories",
 
   //// REQUEST TEMPLATE
 

@@ -10,9 +10,9 @@ import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 import { getRequestsMadeByMe } from "@/src/services/request/requestServices";
 import { formatDate, formatGender, formatStatus } from "@/src/utils/changeFormat";
 import { calculateAge } from "@/src/utils/calculateAge";
-import AppointmentModal from '@/src/components/AppointmentsComponents/AppointmentModal'; 
 import Loader from "@/src/components/ui/Loader"; 
 import RatingModal from "@/src/components/AppointmentsComponents/RatingModal";
+import AskModal from "@/src/components/Modal/AskModal";
 
 interface Appointment {
   id: number;
@@ -139,12 +139,20 @@ const AppointmentPage: React.FC = () => {
         </ScrollView>
       </View>
 
-      <RatingModal 
-        visible={isModalVisible} 
-        onClose={() => setModalVisible(false)} 
-        title="ATENCIÓN" 
-        message="¿Seguro que desea cancelar su cita?"
+      <AskModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        title="Cancelar Cita"
+        message="¿Estás seguro que desea cancelar su cita?"
+        onAccept={() => setModalVisible(false)}
+        onCancel={() => setModalVisible(false)}
       />
+
+      <RatingModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+      />
+
     </View>
   );
 };

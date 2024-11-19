@@ -46,6 +46,11 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({ onUpdateHasPublications, se
         <View className={styles.carouselContent}>
           <Text className={styles.carouselItemTitle}>{item.title}</Text>
           <Text className={styles.carouselDate}>{formattedDate}</Text>
+          {item.categories && item.categories.length > 0 && (
+            <Text className={styles.carouselDate}>
+              {item.categories.map((cat) => cat.name).join(", ")}.
+            </Text>
+          )}
           <Text numberOfLines={4} className={styles.carouselItemDescription}>
             {item.description}
           </Text>
@@ -82,4 +87,5 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({ onUpdateHasPublications, se
 };
 
 export default CarouselHome;
+
 

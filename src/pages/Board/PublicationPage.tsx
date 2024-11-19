@@ -43,20 +43,23 @@ const PublicationPage: React.FC<{
         )}
 
         <View className="">
-
           <View className={styles.container2}>
             <Text className={styles.publicationTitle}>{articleData.title}</Text>
             <Text className={styles.publicationDate}>{formattedDate}</Text>
+              {articleData.categories && articleData.categories.length > 0 && (
+                <Text className={styles.publicationDate}>
+                  Categorías: {articleData.categories.map((cat: { name: string }) => cat.name).join(", ")}.
+                </Text>
+            )}
+
             <Text className={styles.publicationDescription}>{articleData.description}</Text>
+
+
           </View>
-
         </View>
-
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default PublicationPage;
-
-

@@ -5,11 +5,9 @@ import styles from '../Modal/stylesModal';
 interface RatingModalProps {
   visible: boolean;
   onClose: () => void;
-  title: string; 
-  message: string; 
 }
 
-const RatingModal: React.FC<RatingModalProps> = ({ visible, onClose, title, message }) => {
+const RatingModal: React.FC<RatingModalProps> = ({ visible, onClose }) => {
   const [rating, setRating] = useState<number | null>(null);
 
   useEffect(() => {
@@ -39,8 +37,8 @@ const RatingModal: React.FC<RatingModalProps> = ({ visible, onClose, title, mess
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
         <View className={styles.container}>
-          <Text className={styles.title}>{title}</Text>
-          <Text className={styles.message}>{message}</Text>
+          <Text className={styles.title}>Califica el Servicio</Text>
+          <Text className={styles.message}>¡Ayudanos a mejorar!</Text>
           <View className={styles.starsContainer}>
             {[...Array(5)].map((_, index) => (
               <TouchableOpacity key={index} onPress={() => handleStarPress(index)}>
