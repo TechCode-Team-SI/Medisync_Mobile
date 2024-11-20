@@ -84,7 +84,7 @@ export const getTicketTag = async () => {
 export const addCommentToTicket = async (
   ticketId: string,
   comment: string
-): Promise<ApiResult<any>> => {
+): Promise<ApiResult<TicketComment>> => {
   const token = await getToken();
 
   if (!token) {
