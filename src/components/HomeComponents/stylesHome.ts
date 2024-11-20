@@ -62,6 +62,10 @@ const stylesHome = {
 
     spacingBetweenSections: "my-4",
 
+    //////// Notificaciones
+    containerN: "flex-1 bg-principal",
+
+
     };
     
     export default stylesHome;

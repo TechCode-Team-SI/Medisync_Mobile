@@ -4,6 +4,19 @@ import { api } from "@/src/services/api/apiConfig";
 import { handleError } from "@/src/services/error/errorHandler";
 import { getToken } from "../auth/sessionServices";
 
+export interface Appointment {
+  id: number;
+  name: string;
+  dni: string;
+  specialization: string;
+  status: string;
+  date: string;
+  time: string;
+  doctor: string;
+  gender: string;
+  age: string;
+}
+
 export const getRequestsMadeByMe = async () => {
   const token = await getToken();
   

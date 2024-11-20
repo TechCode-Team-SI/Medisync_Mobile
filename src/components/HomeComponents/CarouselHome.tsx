@@ -48,7 +48,7 @@ const CarouselHome: React.FC<CarouselHomeProps> = ({ onUpdateHasPublications, se
           <Text className={styles.carouselDate}>{formattedDate}</Text>
           {item.categories && item.categories.length > 0 && (
             <Text className={styles.carouselDate}>
-              {item.categories.map((cat) => cat.name).join(", ")}.
+              {item.categories.map((cat) => cat.name).join(", ")}
             </Text>
           )}
           <Text numberOfLines={4} className={styles.carouselItemDescription}>

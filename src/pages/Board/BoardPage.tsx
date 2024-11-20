@@ -153,7 +153,7 @@ const BoardPage: React.FC = () => {
               </Text>
               {article.categories && article.categories.length > 0 && (
                 <Text className={styles.dateText}>
-                  {article.categories.map((cat) => cat.name).join(", ")}.
+                  {article.categories.map((cat) => cat.name).join(", ")}
                 </Text>
               )}
               <Text numberOfLines={4} className={styles.description}>

@@ -1,12 +1,11 @@
 import styles from "@/src/components/HomeComponents/stylesHome";
 import React, { useState, useEffect } from "react";
-import { Text, View, Modal, TouchableWithoutFeedback, Animated } from "react-native";
+import { Text, View, Modal, TouchableWithoutFeedback, Animated, FlatList } from "react-native";
 import TopBar from "../components/Navigation/TopBar";
 import SideMenuModal from "../components/Navigation/SideMenuModal";
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect } from '@react-navigation/native';
 
 const NotificationsPage: React.FC = () => {
-
   const [isMenuVisible, setMenuVisible] = useState(false);
 
   const toggleMenu = () => {
@@ -15,9 +14,10 @@ const NotificationsPage: React.FC = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      setMenuVisible(false); 
+      setMenuVisible(false);
     }, [])
   );
+
 
   return (
     <View className={styles.container}>
@@ -25,6 +25,9 @@ const NotificationsPage: React.FC = () => {
 
       <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
 
+      <View className={styles.containerN}>
+
+      </View>
     </View>
   );
 };

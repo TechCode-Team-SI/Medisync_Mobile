@@ -42,6 +42,10 @@ export const api = {
   createRequest: API_URL + "/requests",
   getRequest: API_URL + "/requests/made-by-me",
 
+  rateRequest: API_URL + "/requests/rate/:id",           ///CALIFICAR CITAS
+  cancelRequest: API_URL + "/requests/cancel/:id",           ///CANCELAR CITAS
+
+
   //// SUPPORT
   tickets: API_URL + "/tickets",
   mytickets: API_URL + "/tickets/me",
