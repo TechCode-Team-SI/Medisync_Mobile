@@ -81,18 +81,46 @@ const CreateAppointmentForm = (props: CreateAppointmentFormProps) => {
     control: form.control,
     name: "requestValues",
   });
-  const [patientsOptions, setPatientsOptions] = useState<
-    { label: string; value: string }[]
-  >([]);
 
+  interface PatientOption {
+    label: string;
+    value: string;
+    isMainPatient: boolean; 
+    relationship?: string;
+  }
+  
+  const [patientsOptions, setPatientsOptions] = useState<PatientOption[]>([]);
+  
   useEffect(() => {
+    // Función para capitalizar la primera letra
+    const capitalizeFirstLetter = (str: string | undefined) => {
+      if (!str) return 'Familiar'; // Valor por defecto
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+  
     const patients = props.userPatients.map((patient: any) => ({
       label: patient.fullName,
       value: patient.id,
+      isMainPatient: patient.familyRelationship === 'yo', 
+      relationship: patient.familyRelationship, 
     }));
-
-    setPatientsOptions(patients);
+  
+    const mainPatient = patients.find(patient => patient.isMainPatient);
+    const familyPatients = patients.filter(patient => !patient.isMainPatient);
+  
+    setPatientsOptions([
+      ...(mainPatient ? [{
+        ...mainPatient,
+        label: `${mainPatient.label} (Yo)`, 
+      }] : []),
+      ...familyPatients.map((family, index) => ({
+        ...family,
+        label: `${family.label} (${capitalizeFirstLetter(family.relationship)})`, 
+        isLast: index === familyPatients.length - 1, 
+      })),
+    ]);
   }, [props.userPatients]);
+  
 
   const onSubmit = (data: CreateAppointmentSchema) => {
     createRequest.mutate({

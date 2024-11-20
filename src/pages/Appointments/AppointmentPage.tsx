@@ -52,6 +52,7 @@ const AppointmentPage: React.FC = () => {
         gender: formatGender(request.madeFor.gender),
         age: calculateAge(request.madeFor.birthday),
         specialization: request.requestedSpecialty.name,
+        doctor: request.requestedMedic ? request.requestedMedic.fullName : 'De turno',
         status: formatStatus(request.status),
         date: formatDate(request.appointmentDate),
         time: request.appointmentHour,
