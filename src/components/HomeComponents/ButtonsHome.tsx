@@ -30,7 +30,7 @@ const ButtonsHome: React.FC = () => {
             onPress={handleSearch}
         >
             <Ionicons name="calendar" size={48} color="white" />
-            <Text className={styles.text}>Agenda tu cita</Text>
+            <Text className={styles.text}>Agenda una cita</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

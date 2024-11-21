@@ -1,34 +1,52 @@
 const stylesChat = {
-    /////General////
+    /////General
     container: 'flex-1 bg-principal relative', 
-    
-    container6: "bg-primaryDisable flex-row mb-6 p-2",
-    container7: "bg-gray-300 border-gray-300 h-45 borderRadius-2 m-3 rounded-lg p-3 mt-1",
-    container13: "bg-gray-300 border-gray-300 h-16 -m-1 p-3 ml-1 -mt-1 ",
-    container8: "bg-principal  flex-row left-1  -mt-3 ",
-    container9: "bg-terciary h-16 borderRadius-2 m-1 rounded-lg p-5 left-9 -mt-7 w-80 ml-2",
-    container15: "bg-terciary h-11  m-2 p-1 mt-5 -ml-3 ",
-    container10: "bg-withe h-3/8 borderRadius-2 m-0 rounded-lg p-3 -mt-5 w-full",
-    container11: " bg-gray-100 border-black-300 h-12 borderRadius-2 m-5 ml-2 mt-1 rounded-lg -p-1 ",
-    container12: "flex flex-reverse   left-80  mt-3 ml-6",
-    container16:"bg-Principal border-y-4 border-principal w-fll h-40 w-full",
 
-     ////Titulo del primer Cuadro de information
-    title1:"text-black text-xl  ml-12 -mt-9 left-11 font-bold ",
-    title2:"text-secondary text-xl ml-2 mt-1 left-0 font-bold ",
-    title8:"text-black text-1x3  left-10 -ml-11 -mt-3 font-bold ",
-    ///Titulo del Topbar
-    title3:"text-secondary text-xl ml-8 mt-8",
-    ///Titulo del boton de Respuestas
-    title4:"text-secondary text-2 -ml-1 mt-2",
-    ///Fecha y hora 
-    title5:"text-secondary text-1 -mb-4 -mt-5 left-40 -ml-8",
-    title9:"text-secondary text-1 -mb-6 -mt-1 left-60 -ml-3",
-    ///Titulo de Agente de soporte, Nombre de usaurio y Informcaion
-    title6:"text-black text-1x3 ml-11 mt-4 left-2 font-bold ",
-    title10:"text-primary text-1 -mb-6 -mt-1 ml-1 font-bold",
-    ///Imput 
-    input: ' mx-1 w-64 h-full -mt-9 h-10 ml-3',
+    ///// Info del ticket (superior)
+    container1: "bg-gray-200 m-3 rounded-tr-xl mx-4 mt-5 rounded-tr-2xl rounded-bl-2xl rounded-br-2xl", 
+    containerRow: "flex-row my-4 ml-3",
+    containerInfo: "mx-4 mb-4",
+    containerImage: "w-full absolute",
+    image: "w-11 h-11 rounded-full",
+    iconImage: "w-11 h-11 rounded-full border-2 border-primary justify-center items-center bg-white",
+    title: "font-bold text-lg ml-14 mt-2",
+    title2: "font-bold text-primary text-base",
+    text: "pt-1 text-justify",
+
+    /////Input (inferior)
+
+    container2:"flex-1 justify-end mb-1",
+    containerInput: "flex-row bg-gray-200 h-12 rounded-lg  mx-4 items-center mt-2 mb-6",
+    input: ' flex-1 pl-4',
+    iconButton: "pr-2",
+
+    ////Bloque de mensajes
+    container3:"flex-grow mb-4",
+    
+    container4:"mr-11 ml-4",
+    containerInfo2: "bg-terciary h-16 m-1 rounded-tr-2xl rounded-bl-2xl rounded-br-2xl left-7 -mt-7 w-auto ",
+
+    containerDate:"flex-row justify-end mr-4 mt-2",
+    containerMessage:"mx-4",
+
+    //// texto
+
+        title4:"text-black text-1x3 ml-9 mt-4 font-bold ", ///titulo de Usuario o Soporte
+        textDate:"text-secondary mx-2", //fecha
+        textHour:"text-secondary ", //hora
+        textMessage:"text-primary", //mensaje
+
+    //// Botón de respuestas
+    container5: "flex-row items-center ml-4",
+    title3:"text-primary text-2 ml-1",
+    
+
+    ////Comentarios
+    commentContainer: 'bg-gray-100 p-3 rounded-lg mb-2 mx-4 my-1',
+    commentUser: 'font-semibold text-gray-700',
+    commentText: 'text-gray-800',
+    commentDate: 'text-xs text-gray-500 mt-1',
+
     };
     
     export default stylesChat;

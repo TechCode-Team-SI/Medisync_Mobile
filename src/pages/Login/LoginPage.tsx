@@ -1,19 +1,50 @@
-import React, { useState } from "react";
-import { View, TextInput, Text, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text} from "react-native";
 import styles from "@/src/components/LoginComponents/stylesLogin";
-import Entypo from "@expo/vector-icons/Entypo";
 import { Link, router } from "expo-router";
+import { useFocusEffect } from '@react-navigation/native';
+import AlertModal from '@/src/components/Modal/AlertModal';
+import InfoModal from '@/src/components/Modal/InfoModal';
+import FormField from "@/src/components/Forms/FormField";
+import PasswordField from '@/src/components/Forms/PasswordField';
+import { login } from "@/src/services/auth/authServices"
+import CustomButton from "@/src/components/ui/CustomButton";
 
 const LoginPage: React.FC = () => {
-  const [inputEmail, setInputEmail] = useState(""); 
-  const [inputPassword, setInputPassword] = useState(""); 
-  const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = () => {
-    router.push("/home");
+  const [email, setEmail] = useState(""); 
+  const [password, setPassword] = useState(""); 
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false); 
+  const [showErrorModal, setShowErrorModal] = useState(false); 
+  const [modalMessage, setModalMessage] = useState(''); 
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const allFieldsFilled = email !== '' && password !== '';
+    setIsButtonDisabled(!allFieldsFilled); 
+  }, [email, password]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setEmail('');
+      setPassword('');
+    }, [])
+  );
+
+  const handleLogin = async () => {
+    const result = await login(email, password);
+
+    if (result.success) {
+      setShowSuccessModal(true);
+      
+      router.replace('/homeuser'); 
+    } else {
+      setModalMessage(result.message || "Error al iniciar sesión." );
+      setShowErrorModal(true);
+    }
   };
-
-  const isButtonDisabled = inputEmail === "" || inputPassword === "";
 
   return (
     <View className={styles.container}>
@@ -22,52 +53,29 @@ const LoginPage: React.FC = () => {
       <View className={styles.containerBelow}>
         <Text className={styles.title2}>Inicia sesión para continuar</Text>
 
-        <View className={styles.inputContainer}>
-          <Entypo name="mail" size={24} color="#539091" />
-          <TextInput
-            className={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#539091"
-            value={inputEmail}
-            onChangeText={setInputEmail}
-          />
-        </View>
+        <FormField
+          icon="mail"
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
 
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091" />
-          <TextInput
-            className={styles.input}
-            placeholder="Contraseña"
-            placeholderTextColor="#539091"
-            value={inputPassword}
-            onChangeText={setInputPassword}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Entypo
-              name={showPassword ? "eye-with-line" : "eye"}
-              size={24}
-              color="#539091"
-            />
-          </TouchableOpacity>
-        </View>
+        <PasswordField
+          placeholder="Contraseña"
+          value={password}
+          onChangeText={setPassword}
+        />
 
         <Link href="/forgot" className={styles.textButton}>
           ¿Ha olvidado su contraseña?
         </Link>
 
-        <View className={styles.container4}>
-          <TouchableOpacity
-            className={styles.button}
-            onPress={handleLogin}
-            disabled={isButtonDisabled} 
-            style={{ 
-              backgroundColor: isButtonDisabled ? "#cccccc" : "#539091" 
-            }}
-          >
-            <Text className={styles.buttonText}>Iniciar Sesión</Text>
-          </TouchableOpacity>
-        </View>
+        <CustomButton
+          onPress={handleLogin}
+          disabled={isButtonDisabled}
+          title="Iniciar Sesión"
+        />
 
         <View className={styles.container3}>
           <Text>¿No tienes una cuenta?</Text>
@@ -75,6 +83,20 @@ const LoginPage: React.FC = () => {
             Registrate
           </Link>
         </View>
+
+        <InfoModal
+          visible={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          title="¡Bienvenido!"
+        />
+
+        <AlertModal
+          visible={showErrorModal}
+          onClose={() => setShowErrorModal(false)}
+          title="ATENCIÓN"
+          message={modalMessage}
+        />
+
       </View>
     </View>
   );

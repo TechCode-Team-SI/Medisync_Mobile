@@ -1,82 +1,113 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Image } from 'react-native';
-import styles from "@/src/components/ProfileComponents/stylesProfile"
-import Entypo from '@expo/vector-icons/Entypo';
-import ButtonBack from '@/src/components/ProfileComponents/ButtonBack';
+import { View, Text } from 'react-native';
+import styles from "@/src/components/ProfileComponents/stylesProfile";
+import ButtonBack from '@/src/components/Navigation/ButtonBack';
+import { validatePasswordLength, validatePasswordsMatch } from '@/src/utils/validators'; 
+import { changePassword, verifyCurrentPassword } from '@/src/services/password/updatePassword';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import PasswordField from '@/src/components/Forms/PasswordField';
+import AlertModal from '@/src/components/Modal/AlertModal';
+import CustomButton from '@/src/components/ui/CustomButton';
 
 const UpdatePasswordPage: React.FC = () => {
+  const [inputPassword, setInputPassword] = useState('');
+  const [inputNewPassword, setInputNewPassword] = useState('');
+  const [inputRepeatPassword, setInputRepeatPassword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
-    const [inputPassword, setInputPassword] = useState('');
-    const [inputNewPassword, setInputNewPassword] = useState('');
-    const [inputRepeatPassword, setInputRepeatPassword] = useState('');
+  const showModal = (message: string) => {
+    setModalMessage(message);
+    setModalVisible(true);
+  };
 
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const validateInputs = async (): Promise<boolean> => {
+    if (!inputPassword || !inputNewPassword || !inputRepeatPassword) {
+      showModal('Por favor, completa todos los campos.');
+      return false;
+    }
 
-    const handleBack = () => {
-    };
+    if (!validatePasswordLength(inputNewPassword)) {
+      showModal('La nueva contraseña debe tener al menos 8 caracteres.');
+      return false;
+    }
 
-    return (
-        <View className={styles.container}>
+    if (!validatePasswordsMatch(inputNewPassword, inputRepeatPassword)) {
+      showModal('La nueva contraseña y la confirmación no coinciden.');
+      return false;
+    }
 
-          <ButtonBack/>
+    const isCurrentPasswordValid = await verifyCurrentPassword(inputPassword);
+    if (!isCurrentPasswordValid) {
+      showModal('La contraseña actual no es correcta.');
+      return false;
+    }
 
-          <View className={styles.containerBg1}>
-            
-            <View className={styles.containerImage}>
-            {selectedImage ? (
-                <Image source={{ uri: selectedImage }} className={styles.image} />
-              ) : (
-                <View className={styles.iconImage}>
-                  <Entypo name="camera" size={24} color="#539091" />
-                </View>
-              )}
-            </View>
+    return true;
+  };
 
-              <Text className={styles.title}> Actualizar Contraseña</Text>
+  const handleChangePassword = async () => {
+    const isValid = await validateInputs();
+    if (!isValid) return;
 
-              <View className={styles.inputContainer}>
-            <Entypo name="lock" size={24} color="#539091"/>
-            <TextInput
-            className={styles.input}
-            placeholder="Contraseña actual"
-            placeholderTextColor="#539091"
-            value={inputPassword}
-            onChangeText={setInputPassword}
-            />
-          </View>
-          <View className={styles.inputContainer}>
-            <Entypo name="lock" size={24} color="#539091"/>
-            <TextInput
-            className={styles.input}
-            placeholder="Nueva contraseña"
-            placeholderTextColor="#539091"
-            value={inputNewPassword}
-            onChangeText={setInputNewPassword}
-            />
-          </View>
-          <View className={styles.inputContainer}>
-            <Entypo name="lock" size={24} color="#539091"/>
-            <TextInput
-            className={styles.input}
-            placeholder="Confirmar contraseña"
-            placeholderTextColor="#539091"
-            value={inputRepeatPassword}
-            onChangeText={setInputRepeatPassword}
-            />
-          </View>
+    try {
+      const result = await changePassword(inputPassword, inputNewPassword);
+      if (result.success) {
+        await AsyncStorage.setItem('userPassword', inputNewPassword);
+        showModal('La contraseña ha sido cambiada correctamente.');
+        setInputPassword('');
+        setInputNewPassword('');
+        setInputRepeatPassword('');
+      } else {
+        showModal(result.message || 'Hubo un problema al cambiar la contraseña.');
+      }
+    } catch (error) {
+      console.error('Error en handleChangePassword:', error);
+      showModal('Hubo un problema al cambiar la contraseña. Por favor, inténtalo de nuevo.');
+    }
+  };
 
-          <View className={styles.container4}>
-            <TouchableOpacity
-              className={styles.button1}
-              onPress={handleBack}
-            >
-              <Text className={styles.buttonText1}>Guardar cambios</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-    
+  return (
+    <View className={styles.container}>
+      <ButtonBack />
+      <Text className={styles.title4}>Actualizar Contraseña</Text>
+
+      <View className={styles.containerBg1}>
+        <Text className={styles.title2}>Ingresa la información requerida</Text>
+
+        <PasswordField
+          placeholder="Contraseña actual"
+          value={inputPassword}
+          onChangeText={setInputPassword}
+        />
+
+        <PasswordField
+          placeholder="Nueva contraseña"
+          value={inputNewPassword}
+          onChangeText={setInputNewPassword}
+        />
+
+        <PasswordField
+          placeholder="Confirmar contraseña"
+          value={inputRepeatPassword}
+          onChangeText={setInputRepeatPassword}
+        />
+
+        <CustomButton
+          onPress={handleChangePassword}
+          title="Guardar"
+        />
       </View>
-      );
+
+      <AlertModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        title="ATENCIÓN"
+        message={modalMessage}
+      />
+    </View>
+  );
 };
 
 export default UpdatePasswordPage;
+

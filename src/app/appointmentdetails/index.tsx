@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import AppointmentDetailsPage from "@/src/pages/Appointments/AppointmentDetailsPage";
-import styles from "@/src/components/styles/styles";
+import styles from "@/src/components/Styles/styles";
 
 export default function AppointmentDetailsScreen() {
   return (

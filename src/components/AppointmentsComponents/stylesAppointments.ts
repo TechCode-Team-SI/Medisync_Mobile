@@ -22,7 +22,7 @@ const stylesAppointments = {
     button1Color:'bg-primary w-8 h-8 rounded-full items-center  justify-center',
 
     //// boton de eliminar cita 
-    button2: 'absolute top-2 right-4 bg-terciary w-8 h-8 rounded-full items-center justify-center -m-2',
+    button2:"absolute top-3 right-3 bg-terciary w-8 h-8 rounded-full items-center justify-center -m-2",
 
    //// Titulo en la  pantalla de Citas
     title:'text-2xl text-primary ml-4 font-montserrat',
@@ -34,7 +34,7 @@ const stylesAppointments = {
    itemDate:'text-sm text-black ml-1.5',
    item:'text-sm text-bgImput mr-1.5',
    item2:'text-sm text-bgImput  font-montserrat',
-   item3:'text-sm text-statusColor font-montserrat',
+   item3:'text-base text-primary font-montserrat',
     
    //// Fecha y Hora en la pantalla de Detalle , Items de la tarjetas de Historial
     textTitle:'text-primary font-montserrat mb-1 pt-3',
@@ -54,6 +54,8 @@ const stylesAppointments = {
     separation:'flex flex-row justify-between mt-2 mb-6 space-x-20',
        //// Separa la fecha y hora
     separation2:'flex-1 flex flex-row items-center ',
+
+    loadingContainer: "flex justify-center items-center pt-20",
     
    
 

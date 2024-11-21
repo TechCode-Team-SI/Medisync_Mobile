@@ -1,40 +1,60 @@
-import styles from "@/src/components/HomeComponents/stylesHome";
-import React, { useState, useEffect } from "react";
-import { Text, View, Modal, TouchableWithoutFeedback, Animated } from "react-native";
-import ButtonsHome from "../components/HomeComponents/ButtonsHome";
-import InfoHome from "../components/HomeComponents/InfoHome";
-import TopBar from "../components/navigation/TopBar";
-import SideMenuModal from "../components/navigation/SideMenuModal";
-import { useFocusEffect } from '@react-navigation/native'
+import React from "react";
+import { Text, View, TouchableOpacity, Image } from "react-native";
+import styles from "../components/HomeComponents/stylesHome";
+import { router } from "expo-router";
+import Entypo from '@expo/vector-icons/Entypo';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const HomePage: React.FC = () => {
-
-  const [isMenuVisible, setMenuVisible] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuVisible(prev => !prev);
+  const navigateTo = (path: string) => {
+    router.push(path);
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setMenuVisible(false); 
-    }, [])
-  );
+  const buttons = [
+    { label: "Iniciar Sesión", onPress: () => navigateTo("/login"), style: styles.button, textStyle: styles.buttonText },
+    
+    { label: "Regístrate", onPress: () => navigateTo("/register"), style: styles.buttonBorder, textStyle: styles.buttonText2 }
+  ];
+
+  const icons = [
+    { icon: <Entypo name="images" size={26} color="#539091" />, 
+    label: "Cartelera Informativa", onPress: () => navigateTo("/board") },
+
+    { icon: <FontAwesome name="users" size={24} color="#539091" />, 
+    label: "Nuestros valores", onPress: () => navigateTo("/aboutus") },
+
+    { icon: <Entypo name="info" size={26} color="#539091" />, 
+    label: "Información de contacto", onPress: () => navigateTo("/contact") }
+  ];
 
   return (
-    <View className={styles.container}>
-      <TopBar title="Inicio" onLeftPress={toggleMenu} />
-
-      <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
-
-      <View className={styles.container2}>
-        <Text className={styles.title}>Hola</Text>
-        <Text className={styles.title2}>Usuario</Text>
+    <View className={styles.containerHome}>
+      <View className={styles.mainContent}>
+        <Image
+          source={require('@/assets/images/logoCentroMedico.png')}
+          className={styles.logo}
+          resizeMode="contain"
+        />
+        {buttons.map((button, index) => (
+          <View key={index} className={styles.containerbuttons}>
+            <TouchableOpacity className={button.style} onPress={button.onPress}>
+              <Text className={button.textStyle}>{button.label}</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
       </View>
 
-      <View className={styles.container3}>
-        <ButtonsHome />
-        <InfoHome />
+      <View className={styles.containerBelow}>
+        <View className={styles.iconContainer}>
+          {icons.map((icon, index) => (
+            <View key={index} className={styles.iconButtonWrapper}>
+              <TouchableOpacity className={styles.iconButton} onPress={icon.onPress}>
+                {icon.icon}
+              </TouchableOpacity>
+              <Text className={styles.iconText}>{icon.label}</Text>
+            </View>
+          ))}
+        </View>
       </View>
     </View>
   );

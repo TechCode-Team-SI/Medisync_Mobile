@@ -1,112 +1,148 @@
-import React, { useState } from 'react';
-import { View, TextInput, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, TextInput, Text, Image, TouchableOpacity,ScrollView } from "react-native";
 import styles from "@/src/components/ProfileComponents/stylesProfile";
-import ButtonBack from "@/src/components/ProfileComponents/ButtonBack";
-import Entypo from '@expo/vector-icons/Entypo';
-import * as ImagePicker from 'expo-image-picker';
+import ButtonBack from "@/src/components/Navigation/ButtonBack";
+import Entypo from "@expo/vector-icons/Entypo";
+import { pickImage } from "@/src/utils/imagePicker";
+import { ImagePickerAsset } from "expo-image-picker";
+import { useNavigation } from "@react-navigation/native";
+import AlertModal from '@/src/components/Modal/AlertModal';
+import FormField from "@/src/components/Forms/FormField";
+import CustomButton from "@/src/components/ui/CustomButton";
+
+import { getUser, updateUserProfile } from "@/src/services/user/userServices";
+import { uploadImage } from "@/src/services/files/filesServices";
+
+type UserImage = string | ImagePickerAsset | null;
 
 const ConfigProfilePage: React.FC = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [selectedImage, setSelectedImage] = useState<UserImage>(null);
 
-    const [inputName, setInputName] = useState('');
-    const [inputEmail, setInputEmail] = useState('');
-    const [inputPhone, setInputPhone] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const navigation = useNavigation();
 
-    const handleSave = () => {};
-
-    const pickImage = async () => {
-      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  
-      if (permissionResult.granted === false) {
-        alert('Permission to access gallery is required!');
-        return;
-      }
-  
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-  
-      if (!result.canceled) {
-        setSelectedImage(result.assets[0].uri);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const result = await getUser();
+      if (result.success) {
+        const userData = result.data;
+        if (userData) {
+          setName(userData.fullName);
+          setEmail(userData.email);
+          setPhone(userData.phone);
+          setSelectedImage(userData?.photo?.path ?? ''); 
+        }
+      } else {
+        console.error(result.message);
       }
     };
-    return (
-        <View className={styles.container}>
 
-          <ButtonBack/>
+    fetchUserData();
+  }, []);
 
-          <View className={styles.containerBg1}>
+  const handlePicture = async () => {
+    const image = await pickImage();
+    setSelectedImage(image);
+  };
 
-            <TouchableOpacity onPress={pickImage} className={styles.containerImage}>
-              {selectedImage ? (
-                <Image source={{ uri: selectedImage }} className={styles.image} />
-              ) : (
-                <View className={styles.iconImage}>
-                  <Entypo name="camera" size={24} color="#539091" />
-                </View>
-              )}
-            </TouchableOpacity>
+  const handleSave = async () => {
+    let imageId = null;
+  
+    if (selectedImage && typeof selectedImage !== 'string') {
+      imageId = await uploadImage(selectedImage as ImagePickerAsset);
+    }
+  
+    const updateUserResult = await updateUserProfile({
+      fullName: name,
+      phone: phone,
+      ...(imageId && { photo: { id: imageId } }), 
+    });
+  
+    if (updateUserResult.success) {
+      setModalMessage("Perfil actualizado con éxito!");
+      setModalVisible(true);
+    } else {
+      setModalMessage(updateUserResult.message || "Error al actualizar el perfil.");
+      setModalVisible(true);
+    }
+  };
 
-            <View className={styles.containerData}>
-                       
-              <Text className={styles.title3}> Nombre </Text>
-
-              <View className={styles.inputContainer}>
-                <Entypo name="lock" size={24} color="#539091"/>
-                <TextInput
-                className={styles.input}
-                placeholder="Usuario"
-                placeholderTextColor="#539091"
-                value={inputName}
-                onChangeText={setInputName}
-                />
-              </View>
-
-              <Text className={styles.title3}> Correo</Text>
-
-              <View className={styles.inputContainer}>
-                <Entypo name="lock" size={24} color="#539091"/>
-                <TextInput
-                className={styles.input}
-                placeholder="usuario@gmail.com"
-                placeholderTextColor="#539091"
-                value={inputEmail}
-                onChangeText={setInputEmail}
-                />
-              </View>
-
-              <Text className={styles.title3}> Teléfono</Text>
-
-              <View className={styles.inputContainer}>
-                <Entypo name="lock" size={24} color="#539091"/>
-                <TextInput
-                className={styles.input}
-                placeholder="0412-XXXXXXX"
-                placeholderTextColor="#539091"
-                value={inputPhone}
-                onChangeText={setInputPhone}
-                />
-              </View>
-
-              <View className={styles.container4}>
-                <TouchableOpacity
-                  className={styles.button1}
-                  onPress={handleSave}>
-                  <Text className={styles.buttonText1}>Guardar cambios</Text>
-                </TouchableOpacity>
-              </View>
-
+  return (
+    <View className={styles.container}>
+      <ButtonBack />
+      <View className={styles.containerBg1}>
+        <TouchableOpacity
+          onPress={handlePicture}
+          className={styles.containerImage}
+        >
+          {selectedImage ? (
+            <Image
+              source={{ uri: typeof selectedImage === 'string' ? selectedImage : selectedImage.uri }}
+              className={styles.image}
+            />
+          ) : (
+            <View className={styles.iconImage}>
+              <Entypo name="camera" size={24} color="#539091" />
             </View>
-        
+          )}
+        </TouchableOpacity>
+       
+        <View className={styles.containerData}>
 
-          </View>
-    
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text className={styles.title3}> Nombres </Text>
+          <FormField
+            icon="user"
+            placeholder="Nombre completo"
+            value={name}
+            onChangeText={setName}
+            maxLength={100}
+          />
+
+          
+          <Text className={styles.title3}> Teléfono</Text>
+          <FormField
+            icon="phone"
+            placeholder="xxxx-xxxxxxx"
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad" 
+            maxLength={20}
+          />
+
+          <Text className={styles.title3}> Correo</Text>
+          <FormField
+            icon="mail"
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            editable={false}
+          />
+
+          <CustomButton
+            onPress={handleSave}
+            title="Guardar"
+          />
+
+          </ScrollView>
         </View>
-      );
+
+      </View>
+
+    <AlertModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        title="ATENCIÓN"
+        message={modalMessage}
+    />
+    </View>
+  );
 };
 
 export default ConfigProfilePage;

@@ -1,31 +1,24 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import TopBar from '@/src/components/navigation/TopBar';
+import TopBar from '@/src/components/Navigation/TopBar';
 import stylesAppointments from '@/src/components/AppointmentsComponents/stylesAppointments';
-import SideMenuModal from '@/src/components/navigation/SideMenuModal';
-import { useFocusEffect } from '@react-navigation/native'
+import SideMenuModal from '@/src/components/Navigation/SideMenuModal';
+import { useFocusEffect } from '@react-navigation/native';
+import SearchBar from "@/src/components/ui/SearchBar";
 
-interface Appointment {
-  id: number;
-  specialization: string;
-  code: string;
-  date: string;
-  time: string;
-  rating: number;
-}
-
-const appointments: Appointment[] = [
-  { id: 1, specialization: 'Especialidad', code: 'as2d4hjk', date: '12/10/2023', time: '12:00 PM', rating: 1 },
-  { id: 2, specialization: 'Especialidad', code: 'as2d4hjk', date: '12/10/2023', time: '12:00 PM', rating: 5 },
-  { id: 3, specialization: 'Especialidad', code: 'as2d4hjk', date: '12/10/2023', time: '12:00 PM', rating: 3 },
-  { id: 4, specialization: 'Especialidad', code: 'as2d4hjk', date: '12/10/2023', time: '12:00 PM', rating: 2 },
-];
+import { Appointment } from "@/src/services/request/requestServices";
+import { formatDate, formatGender, formatStatus } from "@/src/utils/changeFormat";
+import { getRequestsMadeByMe } from "@/src/services/request/requestServices";
+import { calculateAge } from "@/src/utils/calculateAge";
+import Loader from "@/src/components/ui/Loader";
+import { router } from "expo-router";
 
 const AppointmentsHistoryPage: React.FC = () => {
-
   const [isMenuVisible, setMenuVisible] = useState(false);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
 
   const toggleMenu = () => {
     setMenuVisible(prev => !prev);
@@ -34,67 +27,101 @@ const AppointmentsHistoryPage: React.FC = () => {
   useFocusEffect(
     React.useCallback(() => {
       setMenuVisible(false); 
+      fetchRequests();
     }, [])
+  );
+
+  const fetchRequests = async () => {
+    setLoading(true);
+    const result = await getRequestsMadeByMe();
+    if (result.success) {
+      const formattedAppointments: Appointment[] = result.data.map((request: any) => ({
+        id: request.id,
+        name: request.patientFullName,
+        dni: request.patientDNI,
+        gender: formatGender(request.madeFor.gender),
+        age: calculateAge(request.madeFor.birthday),
+        specialization: request.requestedSpecialty.name,
+        doctor: request.requestedMedic ? request.requestedMedic.fullName : 'De turno',
+        status: formatStatus(request.status),
+        date: formatDate(request.appointmentDate),
+        time: request.appointmentHour,
+      }));
+
+      const filteredAppointments = formattedAppointments.filter((appointment: Appointment) => 
+        appointment.status === "Cancelada" || appointment.status === "Completada"
+      );
+
+      setAppointments(filteredAppointments);
+    } else {
+      console.log(result.message);
+    }
+    setLoading(false);
+  };
+
+  const handleAppointmentPress = (appointment: Appointment) => {
+    router.push(
+      `/appointmentdetails?name=${encodeURIComponent(appointment.name)}&age=${encodeURIComponent(
+        appointment.age
+      )}&gender=${encodeURIComponent(appointment.gender)}&doctor=${encodeURIComponent(
+        appointment.doctor
+      )}&specialization=${encodeURIComponent(appointment.specialization)}&date=${encodeURIComponent(
+        appointment.date
+      )}&time=${encodeURIComponent(appointment.time)}&status=${encodeURIComponent(
+        appointment.status
+      )}&dni=${encodeURIComponent(appointment.dni)}`
+    );
+  };
+
+  const filteredAppointments = appointments.filter(appointment => 
+    appointment.name.toLowerCase().includes(searchText.toLowerCase()) ||
+    appointment.specialization.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
     <View className={stylesAppointments.container}>
-    
-    <TopBar title="Historial de citas" onLeftPress={toggleMenu} />
+      <TopBar title="Historial de citas" onLeftPress={toggleMenu} />
+      <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
 
-    <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+        <View className="items-center flex-row pt-6 mx-5">
+          <SearchBar 
+            placeholder="Buscar por paciente o servicio"
+            onChangeText={setSearchText}
+            value={searchText}
+          /> 
+        </View>
 
-      {/* Search Bar */}
-      <View className={stylesAppointments.searchBar}>
-        <TextInput
-          placeholder=""
-          placeholderTextColor="primary"
-          className={stylesAppointments.searchInput}
-        />
-        <TouchableOpacity>
-          <Ionicons name="search" size={20} color="#539091" />
-        </TouchableOpacity>
-      </View>
 
-      {/* Appointments List */}
-      <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-        {appointments.map((appointment) => (
-          <View
-            key={appointment.id}
-            className={stylesAppointments.cardHistory}
-          >
-            <FontAwesome6 name="stethoscope" size={30} color='#539091'/>
-            <View className="ml-4 flex-1">
-              <Text className={stylesAppointments.textTitle3}>{appointment.specialization}</Text>
-              <View className="flex-row justify-between">
-                <Text className={stylesAppointments.textTitleItems}>Código:</Text>
-                <Text className="text-sm text-black ml-2">{appointment.code}</Text>
-              </View>
-              <View className="flex-row justify-between">
-                <Text className={stylesAppointments.textTitleItems}>Fecha:</Text>
-                <Text className="text-sm text-black ml-2">{appointment.date}</Text>
-              </View>
-              <View className="flex-row justify-between">
-                <Text className={stylesAppointments.textTitleItems}>Hora:</Text>
-                <Text className="text-sm text-black ml-2">{appointment.time}</Text>
-              </View>
-              <View className="flex-row justify-between items-center">
-                <Text className={stylesAppointments.textTitleItems}>Calificación:</Text>
-                <View className="flex-row ml-2">
-                  {[...Array(5)].map((_, index) => (
-                    <Ionicons
-                      key={index}
-                      name={index < appointment.rating ? "star" : "star-outline"}
-                      size={18}
-                      color={index < appointment.rating ? "#539091" : "#539091"}
-                    />
-                  ))}
+      <View className={stylesAppointments.card}>
+
+        <ScrollView contentContainerStyle={{ paddingBottom: 20, marginTop: 10 }} showsVerticalScrollIndicator={false}>
+          {loading ? (
+            <Loader />
+          ) : (
+            filteredAppointments.map((appointment) => (
+              <TouchableOpacity
+                key={appointment.id}
+                className={stylesAppointments.cardcolor}
+                activeOpacity={0.7}
+                onPress={() => handleAppointmentPress(appointment)}
+              >
+                <View className="flex-row items-center">
+                  <FontAwesome6 name="file-medical" size={30} color="#539091" />
+                  <View className="ml-4 flex-1">
+                    <Text className={stylesAppointments.textTitle3}>{appointment.name}</Text>
+                    <View className="flex-row justify-between">
+                      <Text className={stylesAppointments.item}>Fecha: {appointment.date}</Text>
+                      <Text className={stylesAppointments.item}>Hora: {appointment.time}</Text>
+                    </View>
+                    <Text className={stylesAppointments.item2}>{appointment.specialization}</Text>
+                    <Text className={stylesAppointments.item3}>{appointment.status}</Text>
+                  </View>
                 </View>
-              </View>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+              </TouchableOpacity>
+            ))
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };

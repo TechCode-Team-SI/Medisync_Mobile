@@ -1,18 +1,45 @@
-import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
-import Entypo from '@expo/vector-icons/Entypo';
+import React, { useState, useEffect } from 'react';
+import { View, Text} from 'react-native';
 import styles from '@/src/components/LoginComponents/stylesLogin';
 import { Link, router } from "expo-router";
 
+import { confirmCode } from "@/src/services/auth/authServices";
+import AlertModal from '@/src/components/Modal/AlertModal';
+import FormField from "@/src/components/Forms/FormField";
+import CustomButton from '@/src/components/ui/CustomButton';
+
+
 const CodePasswordPage: React.FC = () => {
-  const [password, setPassword] = useState('');
 
-  const handleForgotPassword = () => {
-    router.push("/changepassword");
-  };
+  const [code, setCode] = useState('');
+  const [showModal, setShowModal] = useState(false); 
+  const [modalMessage, setModalMessage] = useState(''); 
 
-  const handleLoginNavigation = () => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const allFieldsFilled = code !== '';
+    setIsButtonDisabled(!allFieldsFilled); 
+  }, [code]);
+
+  const handleconfirmCode = async () => {
+    const result = await confirmCode(code);  
+  
+    if (result.success) {
+      console.log('Código válido');
+      router.push("/changepassword"); 
+    } else {
+      console.log('Error:', result.message);
+      setModalMessage(result.message || "Error. Código invalido." );
+      setShowModal(true);
+    }
   };
+  
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+  
 
   return (
     <View className={styles.container}>
@@ -22,30 +49,33 @@ const CodePasswordPage: React.FC = () => {
         <Text className={styles.title2}>
            Por favor, ingrese el código que le hemos enviado a su correo electrónico.
         </Text>
+        
+        <FormField
+          icon="lock"
+          placeholder="Código"
+          value={code}
+          onChangeText={setCode}
+          keyboardType="email-address"
+        />
 
-        <View className={styles.inputContainer}>
-          <Entypo name="lock" size={24} color="#539091" />
-          <TextInput
-            className={styles.input}
-            placeholder="Código"
-            placeholderTextColor="#539091"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true} 
-          />
-        </View>
-
-        <View className={styles.container4}>
-          <TouchableOpacity onPress={handleForgotPassword} className={styles.button}>
-            <Text className={styles.buttonText}>Verificar</Text>
-          </TouchableOpacity>
-        </View>
+        <CustomButton
+          onPress={handleconfirmCode}
+          disabled={isButtonDisabled}
+          title="Verificar"
+        />
 
         <View className={styles.container6}>
           <Link href="/login" className={styles.textButton2}>
             Iniciar Sesión
           </Link>
         </View>
+
+        <AlertModal
+          visible={showModal}
+          onClose={handleModalClose}
+          title="ATENCIÓN"
+          message={modalMessage}
+        />
 
       </View>
 

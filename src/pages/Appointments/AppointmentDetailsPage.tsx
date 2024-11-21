@@ -1,81 +1,74 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import stylesAppointments from '@/src/components/AppointmentsComponents/stylesAppointments';
+import { useLocalSearchParams } from "expo-router"; 
+import styles from "@/src/components/ProfileComponents/stylesProfile";
+import ButtonBack from '@/src/components/Navigation/ButtonBack';
 
-interface FieldProps {
-  label: string;
-  value: string;
-  editable?: boolean;
-  extraClass?: string;
-}
+
 
 const AppointmentDetailsPage = () => {
-  const [patologia] = useState("Patologia");
+
+  const { name, specialization, date, time, status, dni, doctor, gender, age} = useLocalSearchParams(); 
+  console.log("userLocalSearchParams:", useLocalSearchParams());  
+
 
   return (
-    <ScrollView className={stylesAppointments.containerDetail2}>
-      
-      <View className={stylesAppointments.headerDetail}>
-        <TouchableOpacity className="ml-3 rounded-md ">
-        <AntDesign name="left" size={24} color="white" />
-        </TouchableOpacity>
-        <Text className={stylesAppointments.titleDetail}>Detalles</Text>
-        <View className="w-6" />
+    <View className={styles.container}>
+    <ButtonBack />
+    <Text className={styles.title4}>Detalles de la cita</Text>
+
+    <View className={styles.containerBg1}>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+
+      <View className='flex-row space-x-28 pb-2 '>
+        <Text className='text-gray-500'>Fecha:  {date}</Text>
+        <Text className='text-gray-500'>Hora:  {time}</Text>
       </View>
 
-      <View className={stylesAppointments.containerDetail}>
-        {/* Fecha y Hora */}
-        <View className={stylesAppointments.separation}>
-          <View className={stylesAppointments.separation2}>
-            <Text className={stylesAppointments.textTitleItems}>Fecha:</Text>
-            <Text className={stylesAppointments.textDate}>{`xx/xx/xxxx`}</Text>
-            <Text className={stylesAppointments.textTitleItems }>Hora:</Text>
-            <Text className={stylesAppointments.textDate}>{`00:00 xx`}</Text>
-          </View>
-          
-        </View>
-
-        {/* Form Fields */}
-        <View className="space-y-4">
-          <Field label="Nombre" value="Nombre y Apellido" />
-          <Field label="Cédula" value="11.111.111" />
-          <Field label="Edad" value="Años" />
-          <Field label="Género" value="Alguno" />
-          <Field label="Tipo de sangre" value="A+" />
-          <Field 
-            label="Patologías" 
-            value={patologia} 
-            editable 
-            extraClass="bg-terciary" 
-          />
-          <Field label="Especialidad" value="Especialidad" />
-          <Field label="Médico" value="Nombre y Apellido" />
-          <Field label="Estatus" value="Pendiente" />
-        </View>
+      <Text className={styles.title3}>Nombre del paciente</Text>
+      <View className={styles.containerData2}>
+          <Text>{name}</Text>
       </View>
-    </ScrollView>
-  );
-};
 
-const Field: React.FC<FieldProps> = ({ label, value, editable = false, extraClass = "" }) => (
-  <View className="px-2">
-    <Text className={stylesAppointments.textTitle}>{label}</Text>
-    {editable ? (
-     
-     
-     /* Cajitas imput */
-     <TextInput 
-        className={`p-3 rounded-md ${extraClass}`} 
-        value={value} 
-        onChangeText={() => {}}
-      />
-    ) : (
-      <View className={`bg-bgMenu p-3 rounded-md ${extraClass}`}>
-        <Text className="text-bg-cancel">{value}</Text>
+      <Text className={styles.title3}>Cédula</Text>
+      <View className={styles.containerData2}>
+          <Text>{dni}</Text>
       </View>
-    )}
+
+      <Text className={styles.title3}>Sexo</Text>
+      <View className={styles.containerData2}>
+          <Text>{gender}</Text>
+      </View>
+
+      <Text className={styles.title3}>Edad</Text>
+      <View className={styles.containerData2}>
+          <Text>{age}</Text>
+      </View>
+
+      <Text className={styles.title3}>Especialidad</Text>
+      <View className={styles.containerData2}>
+          <Text>{specialization}</Text>
+      </View>
+
+      <Text className={styles.title3}>Médico</Text>
+      <View className={styles.containerData2}>
+          <Text>{doctor}</Text>
+      </View>
+
+      <Text className={styles.title3}>Estatus</Text>
+      <View className={styles.containerData2}>
+          <Text>{status}</Text>
+      </View>
+
+      </ScrollView>
+
+
+    </View>
   </View>
+ 
 );
+}
 
 export default AppointmentDetailsPage;
