@@ -8,7 +8,11 @@ import { router } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 import { getRequestsMadeByMe } from "@/src/services/request/requestServices";
-import { formatDate, formatGender, formatStatus } from "@/src/utils/changeFormat";
+import {
+  formatDate,
+  formatGender,
+  formatStatus,
+} from "@/src/utils/changeFormat";
 import { calculateAge } from "@/src/utils/calculateAge";
 import Loader from "@/src/components/ui/Loader";
 import RatingModal from "@/src/components/AppointmentsComponents/RatingModal";
@@ -18,15 +22,13 @@ import { cancelRequest } from "@/src/services/appointments/cancelServices";
 
 import { Appointment } from "@/src/services/request/requestServices";
 
-
 const AppointmentPage: React.FC = () => {
-
-
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isAskModalVisible, setAskModalVisible] = useState(false);
   const [isRatingModalVisible, setRatingModalVisible] = useState(false);
-  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<Appointment | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAlertModalVisible, setAlertModalVisible] = useState(false);
 
@@ -49,17 +51,22 @@ const AppointmentPage: React.FC = () => {
         id: request.id,
         name: request.patientFullName,
         dni: request.patientDNI,
-        gender: formatGender(request.madeFor.gender),
-        age: calculateAge(request.madeFor.birthday),
+        gender: formatGender(request.patientGender),
+        age: calculateAge(request.patientBirthday),
         specialization: request.requestedSpecialty.name,
-        doctor: request.requestedMedic ? request.requestedMedic.fullName : 'De turno',
+        doctor: request.requestedMedic
+          ? request.requestedMedic.fullName
+          : "De turno",
         status: formatStatus(request.status),
         date: formatDate(request.appointmentDate),
         time: request.appointmentHour,
       }));
 
-      const filteredAppointments = formattedAppointments.filter((appointment: Appointment) => 
-        appointment.status === "Pendiente" || appointment.status === "Completada" || appointment.status === "Completada"
+      const filteredAppointments = formattedAppointments.filter(
+        (appointment: Appointment) =>
+          appointment.status === "Pendiente" ||
+          appointment.status === "Completada" ||
+          appointment.status === "Completada"
       );
 
       setAppointments(filteredAppointments);
@@ -84,13 +91,17 @@ const AppointmentPage: React.FC = () => {
 
   const handleAppointmentPress = (appointment: Appointment) => {
     router.push(
-      `/appointmentdetails?name=${encodeURIComponent(appointment.name)}&age=${encodeURIComponent(
-        appointment.age
-      )}&gender=${encodeURIComponent(appointment.gender)}&doctor=${encodeURIComponent(
+      `/appointmentdetails?name=${encodeURIComponent(
+        appointment.name
+      )}&age=${encodeURIComponent(appointment.age)}&gender=${encodeURIComponent(
+        appointment.gender
+      )}&doctor=${encodeURIComponent(
         appointment.doctor
-      )}&specialization=${encodeURIComponent(appointment.specialization)}&date=${encodeURIComponent(
-        appointment.date
-      )}&time=${encodeURIComponent(appointment.time)}&status=${encodeURIComponent(
+      )}&specialization=${encodeURIComponent(
+        appointment.specialization
+      )}&date=${encodeURIComponent(appointment.date)}&time=${encodeURIComponent(
+        appointment.time
+      )}&status=${encodeURIComponent(
         appointment.status
       )}&dni=${encodeURIComponent(appointment.dni)}`
     );
@@ -115,14 +126,17 @@ const AppointmentPage: React.FC = () => {
 
   const handleRatingSubmit = (rating: number) => {
     console.log(`Calificación enviada: ${rating} estrellas`);
-    setAlertModalVisible(true); 
+    setAlertModalVisible(true);
   };
 
   return (
     <View className={stylesAppointments.container}>
       <TopBar title="Citas" onLeftPress={toggleMenu} />
 
-      <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
+      <SideMenuModal
+        isVisible={isMenuVisible}
+        onClose={() => setMenuVisible(false)}
+      />
 
       <View className={stylesAppointments.card}>
         <View className={stylesAppointments.button1}>
@@ -136,7 +150,10 @@ const AppointmentPage: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        <ScrollView contentContainerStyle={{ paddingBottom: 20, marginTop: 10 }} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 20, marginTop: 10 }}
+          showsVerticalScrollIndicator={false}
+        >
           {loading ? (
             <Loader />
           ) : (
@@ -147,26 +164,41 @@ const AppointmentPage: React.FC = () => {
                 activeOpacity={0.7}
                 onPress={() => handleAppointmentPress(appointment)}
               >
-                {(appointment.status === "Pendiente" || appointment.status === "Completada") && (
+                {(appointment.status === "Pendiente" ||
+                  appointment.status === "Completada") && (
                   <TouchableOpacity
                     className={stylesAppointments.button2}
                     activeOpacity={0.7}
                     onPress={() => handleOptionPress(appointment)}
                   >
-                    <Ionicons name="ellipsis-vertical-circle-sharp" size={32} color="#539091" />
+                    <Ionicons
+                      name="ellipsis-vertical-circle-sharp"
+                      size={32}
+                      color="#539091"
+                    />
                   </TouchableOpacity>
                 )}
 
                 <View className="flex-row items-center">
                   <FontAwesome6 name="file-medical" size={30} color="#539091" />
                   <View className="ml-4 flex-1">
-                    <Text className={stylesAppointments.textTitle3}>{appointment.name}</Text>
+                    <Text className={stylesAppointments.textTitle3}>
+                      {appointment.name}
+                    </Text>
                     <View className="flex-row justify-between">
-                      <Text className={stylesAppointments.item}>Fecha: {appointment.date}</Text>
-                      <Text className={stylesAppointments.item}>Hora: {appointment.time}</Text>
+                      <Text className={stylesAppointments.item}>
+                        Fecha: {appointment.date}
+                      </Text>
+                      <Text className={stylesAppointments.item}>
+                        Hora: {appointment.time}
+                      </Text>
                     </View>
-                    <Text className={stylesAppointments.item2}>{appointment.specialization}</Text>
-                    <Text className={stylesAppointments.item3}>{appointment.status}</Text>
+                    <Text className={stylesAppointments.item2}>
+                      {appointment.specialization}
+                    </Text>
+                    <Text className={stylesAppointments.item3}>
+                      {appointment.status}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -184,13 +216,12 @@ const AppointmentPage: React.FC = () => {
         onCancel={() => setAskModalVisible(false)}
       />
 
-        <RatingModal
-          visible={isRatingModalVisible}
-          onClose={() => setRatingModalVisible(false)}
-          appointmentId={selectedAppointment ? selectedAppointment.id : 0} 
-          onRatingSubmit={handleRatingSubmit}
-        />
-
+      <RatingModal
+        visible={isRatingModalVisible}
+        onClose={() => setRatingModalVisible(false)}
+        appointmentId={selectedAppointment ? selectedAppointment.id : 0}
+        onRatingSubmit={handleRatingSubmit}
+      />
 
       <AlertModal
         visible={isAlertModalVisible}

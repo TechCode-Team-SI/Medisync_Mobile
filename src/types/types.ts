@@ -137,4 +137,9 @@ export enum WeekDayEnum {
   DOMINGO = 7,
 }
 
+export enum genderEnum {
+  MALE = "M",
+  FEMALE = "F",
+}
+
 export type appErrorProps = Pick<httpErrorProps, "error" | "message">;
