@@ -1,11 +1,15 @@
 import { api } from "@/src/services/api/apiConfig";
-import { RequestTemplate } from "@/src/types/types";
+import { genderEnum, RequestTemplate } from "@/src/types/types";
 import { AppError } from "../error/appError";
 import { HTTPError } from "../error/httpError";
 import { transporterHTTP } from "../transporter";
 
 interface createRequestServiceProps {
-  patientId: string;
+  patientFullName: string;
+  patientDNI: string;
+  patientAddress?: string;
+  patientGender: genderEnum;
+  patientBirthday: Date;
   requestTemplateId: string;
   medicId: string;
   specialtyId: string;
@@ -36,11 +40,13 @@ export const createRequestService = async (
     const data = await transporterHTTP.post<RequestTemplate>(
       api.createRequest,
       {
+        patientFullName: props.patientFullName,
+        patientDNI: props.patientDNI,
+        patientAddress: props.patientAddress,
+        patientGender: props.patientGender,
+        patientBirthday: props.patientBirthday,
         appointmentHour: props.appointmentHour,
         appointmentDate: props.appointmentDate,
-        madeFor: {
-          id: props.patientId,
-        },
         requestTemplate: {
           id: props.requestTemplateId,
         },
@@ -72,8 +78,3 @@ export const createRequestService = async (
     );
   }
 };
-
-
-
-
-

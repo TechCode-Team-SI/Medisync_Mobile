@@ -8,6 +8,7 @@ import { createRequestService } from "@/src/services/request/requestService";
 import {
   FieldQuestion,
   FieldQuestionTypeEnum,
+  genderEnum,
   RequestTemplate,
   UserPatient,
 } from "@/src/types/types";
@@ -85,46 +86,62 @@ const CreateAppointmentForm = (props: CreateAppointmentFormProps) => {
   interface PatientOption {
     label: string;
     value: string;
-    isMainPatient: boolean; 
+    isMainPatient: boolean;
     relationship?: string;
   }
-  
+
   const [patientsOptions, setPatientsOptions] = useState<PatientOption[]>([]);
-  
+
   useEffect(() => {
     // Función para capitalizar la primera letra
     const capitalizeFirstLetter = (str: string | undefined) => {
-      if (!str) return 'Familiar'; // Valor por defecto
+      if (!str) return "Familiar"; // Valor por defecto
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     };
-  
+
     const patients = props.userPatients.map((patient: any) => ({
       label: patient.fullName,
       value: patient.id,
-      isMainPatient: patient.familyRelationship === 'yo', 
-      relationship: patient.familyRelationship, 
+      isMainPatient: patient.familyRelationship === "yo",
+      relationship: patient.familyRelationship,
     }));
-  
-    const mainPatient = patients.find(patient => patient.isMainPatient);
-    const familyPatients = patients.filter(patient => !patient.isMainPatient);
-  
+
+    const mainPatient = patients.find((patient) => patient.isMainPatient);
+    const familyPatients = patients.filter((patient) => !patient.isMainPatient);
+
     setPatientsOptions([
-      ...(mainPatient ? [{
-        ...mainPatient,
-        label: `${mainPatient.label} (Yo)`, 
-      }] : []),
+      ...(mainPatient
+        ? [
+            {
+              ...mainPatient,
+              label: `${mainPatient.label} (Yo)`,
+            },
+          ]
+        : []),
       ...familyPatients.map((family, index) => ({
         ...family,
-        label: `${family.label} (${capitalizeFirstLetter(family.relationship)})`, 
-        isLast: index === familyPatients.length - 1, 
+        label: `${family.label} (${capitalizeFirstLetter(
+          family.relationship
+        )})`,
+        isLast: index === familyPatients.length - 1,
       })),
     ]);
   }, [props.userPatients]);
-  
 
   const onSubmit = (data: CreateAppointmentSchema) => {
+    const { patientId, ...rest } = data;
+    const selectedPatient = props.userPatients.find(
+      (patient) => patient.id === patientId
+    );
+    if (!selectedPatient) {
+      return;
+    }
     createRequest.mutate({
-      ...data,
+      ...rest,
+      patientFullName: selectedPatient.fullName,
+      patientDNI: selectedPatient.dni,
+      patientGender: selectedPatient.gender as genderEnum,
+      patientBirthday: selectedPatient.birthday,
       medicId: props.requestedDrId,
       specialtyId: props.requestedSpecialtyId,
       requestTemplateId: props.requestTemplate.id,
