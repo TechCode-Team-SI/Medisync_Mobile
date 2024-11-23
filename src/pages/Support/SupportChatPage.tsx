@@ -53,7 +53,7 @@ const SupportChatPage: React.FC = () => {
       createdAt: new Date().toISOString(),
     };
 
-    setComments((prev) => [newComment, ...prev]);
+    setComments((prev) => [...prev, newComment]);
     setInputTex("");
 
     try {
@@ -64,7 +64,13 @@ const SupportChatPage: React.FC = () => {
         setModalVisible,
         setInputTex
       );
-      socket?.emit(SocketEnum.TICKET_CHANNEL, comment?.data);
+      socket?.emit(SocketEnum.TICKET_CHANNEL, {
+        roomId: id,
+        id: comment?.data?.id,
+        message: comment?.data?.comment,
+        sender: comment?.data?.createdBy,
+        createdAt: comment?.data?.createdAt,
+      });
     } catch {
       setModalMessage("Error al enviar el comentario.");
       setModalVisible(true);
@@ -76,7 +82,7 @@ const SupportChatPage: React.FC = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.emit(SocketEnum.JOIN_ROOM, id);
+      socket.emit(SocketEnum.JOIN_ROOM, { roomId: id });
 
       socket.on(SocketEnum.TICKET_CHANNEL, (data: TicketChatMessage) => {
         const newComment: TicketComment = {
@@ -87,9 +93,13 @@ const SupportChatPage: React.FC = () => {
           },
           createdAt: data.createdAt,
         };
+        console.log("Nuevo comentario:", newComment);
         setComments((prevComments) => [...prevComments, newComment]);
       });
     }
+    return () => {
+      socket?.emit(SocketEnum.LEAVE_ROOM, { roomId: id });
+    };
   }, []);
 
   useEffect(() => {
@@ -97,7 +107,7 @@ const SupportChatPage: React.FC = () => {
       try {
         const result = await getCommentsForTicket(id as string);
         if (result.success && Array.isArray(result.data.data)) {
-          setComments(result.data.data);
+          setComments(result.data.data.reverse());
         } else {
           setModalMessage(result.message || "Error al obtener comentarios.");
           setModalVisible(true);
