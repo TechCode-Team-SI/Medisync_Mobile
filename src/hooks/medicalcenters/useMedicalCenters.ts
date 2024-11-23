@@ -6,7 +6,8 @@ const useMedicalCenters = () => {
     name: string,
     mission: string,
     vision: string,
-  }>({ vision: '', mission: "", name: "" });
+    description: string,
+  }>({ vision: '', mission: "", name: "" , description: "" });
 
   const [error, setError] = useState<string | null>(null);
 

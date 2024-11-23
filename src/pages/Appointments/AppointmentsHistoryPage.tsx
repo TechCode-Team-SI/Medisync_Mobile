@@ -6,17 +6,10 @@ import stylesAppointments from "@/src/components/AppointmentsComponents/stylesAp
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
 import { useFocusEffect } from "@react-navigation/native";
 import SearchBar from "@/src/components/ui/SearchBar";
-
-import { Appointment } from "@/src/services/request/requestServices";
-import {
-  formatDate,
-  formatGender,
-  formatStatus,
-} from "@/src/utils/changeFormat";
-import { getRequestsMadeByMe } from "@/src/services/request/requestServices";
-import { calculateAge } from "@/src/utils/calculateAge";
 import Loader from "@/src/components/ui/Loader";
 import { router } from "expo-router";
+import { fetchAppointments } from "@/src/services/appointments/appointmentUtils"; 
+import { Appointment } from "@/src/services/request/requestServices";
 
 const AppointmentsHistoryPage: React.FC = () => {
   const [isMenuVisible, setMenuVisible] = useState(false);
@@ -37,35 +30,10 @@ const AppointmentsHistoryPage: React.FC = () => {
 
   const fetchRequests = async () => {
     setLoading(true);
-    const result = await getRequestsMadeByMe();
-    if (result.success) {
-      const formattedAppointments: Appointment[] = result.data.map(
-        (request: any) => ({
-          id: request.id,
-          name: request.patientFullName,
-          dni: request.patientDNI,
-          gender: formatGender(request.patientGender),
-          age: calculateAge(request.patientBirthday),
-          specialization: request.requestedSpecialty.name,
-          doctor: request.requestedMedic
-            ? request.requestedMedic.fullName
-            : "De turno",
-          status: formatStatus(request.status),
-          date: formatDate(request.appointmentDate),
-          time: request.appointmentHour,
-        })
-      );
+    const statuses = ["Cancelada", "Completada"]; 
+    const appointmentsData = await fetchAppointments(statuses); 
 
-      const filteredAppointments = formattedAppointments.filter(
-        (appointment: Appointment) =>
-          appointment.status === "Cancelada" ||
-          appointment.status === "Completada"
-      );
-
-      setAppointments(filteredAppointments);
-    } else {
-      console.log(result.message);
-    }
+    setAppointments(appointmentsData);
     setLoading(false);
   };
 

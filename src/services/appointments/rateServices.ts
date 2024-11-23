@@ -4,6 +4,7 @@ import { handleError } from "@/src/services/error/errorHandler";
 import { getToken } from '@/src/services/auth/sessionServices';
 
 export interface CreateRatingDto {
+    review: string,
     stars: number;  
 }
 

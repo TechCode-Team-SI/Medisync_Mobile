@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, TextInput } from 'react-native';
 import styles from '../Modal/stylesModal';
 import { rateRequest, CreateRatingDto } from "@/src/services/appointments/rateServices";
 import AlertModal from '../Modal/AlertModal';
@@ -13,6 +13,7 @@ interface RatingModalProps {
 
 const RatingModal: React.FC<RatingModalProps> = ({ visible, onClose, appointmentId }) => {
   const [rating, setRating] = useState<number | null>(null);
+  const [review, setReview] = useState<string>(''); 
   const [alertVisible, setAlertVisible] = useState(false); 
   const [alertMessage, setAlertMessage] = useState(''); 
 
@@ -22,13 +23,16 @@ const RatingModal: React.FC<RatingModalProps> = ({ visible, onClose, appointment
 
   const handleSubmitRating = async () => {
     if (rating !== null) {
-      const ratingData: CreateRatingDto = { stars: rating };
+      const ratingData: CreateRatingDto = { 
+        stars: rating, 
+        review: review 
+      };
       const result = await rateRequest(appointmentId, ratingData);
 
       if (result.success) {
         setAlertMessage('La calificación se envió con éxito');
         setAlertVisible(true);
-        console.log(`Calificación enviada: ${rating} estrellas`);
+        console.log(`Calificación enviada: ${rating} estrellas con reseña: ${review}`);
       } else {
         setAlertMessage('Hubo un problema al enviar la calificación');
         setAlertVisible(true);
@@ -55,6 +59,15 @@ const RatingModal: React.FC<RatingModalProps> = ({ visible, onClose, appointment
             ))}
           </View>
 
+          <TextInput
+            className="flex-row items-center bg-bgInput w-full p-2 h-11 mb-6 rounded-lg" 
+            placeholder="Realiza un comentario..."
+            value={review}
+            onChangeText={setReview}
+            multiline
+            numberOfLines={4}
+          />
+
           <View className={styles.containerButton}>
             <TouchableOpacity
               className={styles.acceptButton}
@@ -72,7 +85,6 @@ const RatingModal: React.FC<RatingModalProps> = ({ visible, onClose, appointment
           </View>
         </View>
       </View>
-
 
       <AlertModal
         visible={alertVisible}

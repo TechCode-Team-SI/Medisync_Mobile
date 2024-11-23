@@ -15,14 +15,21 @@ const UsPage: React.FC = () => {
         <Text className={styles.title2}>{error}</Text>
       ) : (
         <>
+        
           <Text className={styles.title1}>{medicalCenters.name}</Text>
           <View className={styles.containerBg}>
-            <Text className={styles.title2}>MISIÓN</Text>
+
+            <Text className={styles.title2}>¿Quiénes somos?</Text>
+            <Text className={styles.description}>
+              {medicalCenters.description}
+            </Text>
+
+            <Text className={styles.title2}>Misión</Text>
             <Text className={styles.description}>
               {medicalCenters.mission}
             </Text>
 
-            <Text className={styles.title2}>VISIÓN</Text>
+            <Text className={styles.title2}>Visión</Text>
             <Text className={styles.description}>
               {medicalCenters.vision}
             </Text>

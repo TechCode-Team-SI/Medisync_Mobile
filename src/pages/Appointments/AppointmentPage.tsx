@@ -7,19 +7,12 @@ import stylesAppointments from "@/src/components/AppointmentsComponents/stylesAp
 import { router } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import SideMenuModal from "@/src/components/Navigation/SideMenuModal";
-import { getRequestsMadeByMe } from "@/src/services/request/requestServices";
-import {
-  formatDate,
-  formatGender,
-  formatStatus,
-} from "@/src/utils/changeFormat";
-import { calculateAge } from "@/src/utils/calculateAge";
 import Loader from "@/src/components/ui/Loader";
 import RatingModal from "@/src/components/AppointmentsComponents/RatingModal";
 import AskModal from "@/src/components/Modal/AskModal";
 import AlertModal from "@/src/components/Modal/AlertModal";
 import { cancelRequest } from "@/src/services/appointments/cancelServices";
-
+import { fetchAppointments } from "@/src/services/appointments/appointmentUtils"; 
 import { Appointment } from "@/src/services/request/requestServices";
 
 const AppointmentPage: React.FC = () => {
@@ -45,34 +38,10 @@ const AppointmentPage: React.FC = () => {
 
   const fetchRequests = async () => {
     setLoading(true);
-    const result = await getRequestsMadeByMe();
-    if (result.success) {
-      const formattedAppointments = result.data.map((request: any) => ({
-        id: request.id,
-        name: request.patientFullName,
-        dni: request.patientDNI,
-        gender: formatGender(request.patientGender),
-        age: calculateAge(request.patientBirthday),
-        specialization: request.requestedSpecialty.name,
-        doctor: request.requestedMedic
-          ? request.requestedMedic.fullName
-          : "De turno",
-        status: formatStatus(request.status),
-        date: formatDate(request.appointmentDate),
-        time: request.appointmentHour,
-      }));
+    const statuses = ["Pendiente", "Completada"]; 
+    const appointmentsData = await fetchAppointments(statuses); 
 
-      const filteredAppointments = formattedAppointments.filter(
-        (appointment: Appointment) =>
-          appointment.status === "Pendiente" ||
-          appointment.status === "Completada" ||
-          appointment.status === "Completada"
-      );
-
-      setAppointments(filteredAppointments);
-    } else {
-      console.log(result.message);
-    }
+    setAppointments(appointmentsData);
     setLoading(false);
   };
 
@@ -141,6 +110,7 @@ const AppointmentPage: React.FC = () => {
       <View className={stylesAppointments.card}>
         <View className={stylesAppointments.button1}>
           <Text className={stylesAppointments.title}>Tus citas</Text>
+          
           <TouchableOpacity
             className={stylesAppointments.button1Color}
             activeOpacity={0.7}
@@ -148,6 +118,7 @@ const AppointmentPage: React.FC = () => {
           >
             <Ionicons name="add" size={30} color="white" />
           </TouchableOpacity>
+          
         </View>
 
         <ScrollView
@@ -180,7 +151,10 @@ const AppointmentPage: React.FC = () => {
                 )}
 
                 <View className="flex-row items-center">
-                  <FontAwesome6 name="file-medical" size={30} color="#539091" />
+                  <View className="mt-6">
+                     <FontAwesome6 name="file-medical" size={30} color="#539091" />
+                  </View>
+
                   <View className="ml-4 flex-1">
                     <Text className={stylesAppointments.textTitle3}>
                       {appointment.name}
@@ -211,7 +185,7 @@ const AppointmentPage: React.FC = () => {
         visible={isAskModalVisible}
         onClose={() => setAskModalVisible(false)}
         title="Cancelar Cita"
-        message="¿Estás seguro que desea cancelar su cita?"
+        message="¿Está seguro que desea cancelar su cita?"
         onAccept={handleCancelAppointment}
         onCancel={() => setAskModalVisible(false)}
       />
