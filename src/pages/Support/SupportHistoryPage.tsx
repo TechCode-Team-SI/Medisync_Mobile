@@ -79,6 +79,12 @@ const SupportHistoryPage: React.FC = () => {
           onScroll={handleScroll}
           scrollEventThrottle={16} 
         >
+          {tickets.length === 0 && !isLoading && (
+            <View className="py-8">
+              <Text className="text-center text-lg text-primary">No hay tickets creados.</Text>
+            </View>
+          )}
+
           {tickets.map(ticket => {
             const { date, time } = formatDate(ticket.createdAt);
             return (
@@ -110,6 +116,7 @@ const SupportHistoryPage: React.FC = () => {
               </TouchableOpacity>
             );
           })}
+
           {isLoading && (
             <View className="py-4">
               <Loader /> 
@@ -122,7 +129,5 @@ const SupportHistoryPage: React.FC = () => {
 };
 
 export default SupportHistoryPage;
-
-
 
 

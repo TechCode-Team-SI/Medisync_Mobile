@@ -30,12 +30,20 @@ const AppointmentsHistoryPage: React.FC = () => {
 
   const fetchRequests = async () => {
     setLoading(true);
+  
     const statuses = ["Cancelada", "Completada"]; 
-    const appointmentsData = await fetchAppointments(statuses); 
-
-    setAppointments(appointmentsData);
+  
+    const appointmentsData = await fetchAppointments(statuses);
+  
+    const filteredAppointments = appointmentsData.filter(
+      (appointment: Appointment) =>
+        appointment.rating && appointment.rating.stars
+    );
+  
+    setAppointments(filteredAppointments);
     setLoading(false);
   };
+  
 
   const handleAppointmentPress = (appointment: Appointment) => {
     router.push(

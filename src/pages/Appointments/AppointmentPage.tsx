@@ -20,8 +20,7 @@ const AppointmentPage: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isAskModalVisible, setAskModalVisible] = useState(false);
   const [isRatingModalVisible, setRatingModalVisible] = useState(false);
-  const [selectedAppointment, setSelectedAppointment] =
-    useState<Appointment | null>(null);
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAlertModalVisible, setAlertModalVisible] = useState(false);
 
@@ -38,12 +37,19 @@ const AppointmentPage: React.FC = () => {
 
   const fetchRequests = async () => {
     setLoading(true);
-    const statuses = ["Pendiente", "Completada"]; 
-    const appointmentsData = await fetchAppointments(statuses); 
-
-    setAppointments(appointmentsData);
+  
+    const statuses = ["Pendiente", "Completada", "En atención"]; 
+    const appointmentsData = await fetchAppointments(statuses);
+  
+    const filteredAppointments = appointmentsData.filter(
+      (appointment: Appointment) =>
+        !appointment.rating || !appointment.rating.stars 
+    );
+  
+    setAppointments(filteredAppointments);
     setLoading(false);
   };
+  
 
   const handleOptionPress = (appointment: Appointment) => {
     setSelectedAppointment(appointment);
@@ -52,6 +58,11 @@ const AppointmentPage: React.FC = () => {
     } else if (appointment.status === "Completada") {
       setRatingModalVisible(true);
     }
+  };
+
+  const handleCloseRatingModal = () => {
+    setRatingModalVisible(false);
+    setSelectedAppointment(null); 
   };
 
   const handleAddAppointment = () => {
@@ -79,6 +90,8 @@ const AppointmentPage: React.FC = () => {
   const handleCancelAppointment = async () => {
     if (!selectedAppointment) return;
 
+    console.log("ID de la cita a cancelar:", selectedAppointment.id);
+
     setLoading(true);
     const result = await cancelRequest(selectedAppointment.id);
 
@@ -93,11 +106,11 @@ const AppointmentPage: React.FC = () => {
     setLoading(false);
   };
 
-  const handleRatingSubmit = (rating: number) => {
-    console.log(`Calificación enviada: ${rating} estrellas`);
-    setAlertModalVisible(true);
+  const handleRatingSubmit = (rating: number, review: string) => {
   };
 
+
+  
   return (
     <View className={stylesAppointments.container}>
       <TopBar title="Citas" onLeftPress={toggleMenu} />
@@ -192,9 +205,12 @@ const AppointmentPage: React.FC = () => {
 
       <RatingModal
         visible={isRatingModalVisible}
-        onClose={() => setRatingModalVisible(false)}
-        appointmentId={selectedAppointment ? selectedAppointment.id : 0}
-        onRatingSubmit={handleRatingSubmit}
+        onClose={handleCloseRatingModal}
+        appointmentId={selectedAppointment?.id || ""}
+        onRatingSubmit={(rating, review) => {
+          handleRatingSubmit(rating, review);
+          fetchRequests(); 
+        }}
       />
 
       <AlertModal

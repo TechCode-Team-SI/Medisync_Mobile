@@ -3,12 +3,12 @@ import { api } from "@/src/services/api/apiConfig";
 import { handleError } from "@/src/services/error/errorHandler";
 import { getToken } from '@/src/services/auth/sessionServices';
 
-export interface CreateRatingDto {
+export interface CreateRating {
     review: string,
     stars: number;  
 }
 
-export const rateRequest = async (id: number, rating: CreateRatingDto) => {
+export const rateRequest = async (id: string, rating: CreateRating) => {
     try {
       const token = await getToken();
       if (!token) {

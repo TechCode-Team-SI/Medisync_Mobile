@@ -24,6 +24,7 @@ export const fetchAppointments = async (statuses: string[]) => {
       status: formatStatus(request.status),
       date: formatDate(request.appointmentDate),
       time: request.appointmentHour,
+      rating: request.rating, 
     }))
     .filter((appointment: any) => statuses.includes(appointment.status));
 };
