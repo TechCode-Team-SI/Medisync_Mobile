@@ -39,7 +39,8 @@ const AppointmentsHistoryPage: React.FC = () => {
 
   const handleAppointmentPress = (appointment: Appointment) => {
     router.push(
-      `/appointmentdetails?name=${encodeURIComponent(
+      `/appointmentdetails?id=${encodeURIComponent(
+        appointment.id)}&name=${encodeURIComponent(
         appointment.name
       )}&age=${encodeURIComponent(appointment.age)}&gender=${encodeURIComponent(
         appointment.gender
