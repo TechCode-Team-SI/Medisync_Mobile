@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, ScrollView} from "react-native";
+import { Text, View,  BackHandler, ScrollView} from "react-native";
 import { useFocusEffect } from '@react-navigation/native'
 
 import styles from "@/src/components/HomeComponents/stylesHome";
@@ -27,13 +27,23 @@ const HomeUserPage: React.FC = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      setMenuVisible(false); 
+      setMenuVisible(false);
+
+      const onBackPress = () => {
+        BackHandler.exitApp() ;
+          
+        return true; 
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
     }, [])
   );
-
-    const [hasPublications, setHasPublications] = useState(true);
-    const [searchText, setSearchText] = useState("");
-
+  const [hasPublications, setHasPublications] = useState(true);
+  const [searchText, setSearchText] = useState("");
   return (
     <View className={styles.container}>
       <TopBar title="Inicio" onLeftPress={toggleMenu} />
