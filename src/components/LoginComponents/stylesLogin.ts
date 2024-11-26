@@ -24,7 +24,7 @@ const stylesLogin = {
     //// FORGOT
 
     container6: "flex-row items-center justify-center space-x-2 pt-32", //Container inferior para Iniciar sesión
-    container7: "flex-row items-center justify-center space-x-2 pt-24", //Change
+    container7: "flex-row items-center justify-center space-x-2 pt-20", //Change
 
 
     ////REGISTER
