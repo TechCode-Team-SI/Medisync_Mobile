@@ -81,7 +81,7 @@ const SupportHistoryPage: React.FC = () => {
         >
           {tickets.length === 0 && !isLoading && (
             <View className="py-8">
-              <Text className="text-center text-lg text-primary">No hay tickets creados.</Text>
+              <Text className="text-center text-lg text-gray-400 font-bold">No hay tickets creados</Text>
             </View>
           )}
 

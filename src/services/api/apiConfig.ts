@@ -13,7 +13,10 @@ export const api = {
   codePassword: API_URL + "/auth/forgot/password-code",
   resetPassword: API_URL + "/auth/reset/password",
 
-  expiredCode: API_URL + "/auth/confirm/email", // PENDIENTE
+
+  confirmEmail: API_URL + "/auth/confirm/email",   //generar el codigo
+  confirmCode: API_URL + "/auth/confirm",          //confirmar elc odigo
+  
 
   //// FILES
 
@@ -70,4 +73,7 @@ export const api = {
 
   //// SPECIALTIES
   specialties: API_URL + "/specialties/active",
+
+  //// NOTIFICATIONS
+  notifications: API_URL + "/notifications/me",
 };

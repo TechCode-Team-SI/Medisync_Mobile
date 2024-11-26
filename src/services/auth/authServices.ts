@@ -72,7 +72,7 @@ export const forgotPassword = async (
 ): Promise<NewApiResult<any>> => {
   try {
     const response = await axios.post(api.forgotPassword, { email });
-    console.log("Respuesta de la API:", response.data);
+    console.log("Respuesta de la API al enviar el código:", response.data);
 
     if (response.data.success) {
       await AsyncStorage.setItem("forgotPasswordEmail", email);
@@ -155,28 +155,3 @@ export const resetPassword = async (
     return handleError(error);
   }
 };
-
-////////////////
-
-export const generateNewCode = async (
-  email: string
-): Promise<NewApiResult<any>> => {
-  try {
-    const response = await axios.post(api.expiredCode, { email });
-    console.log("Respuesta de la API:", response.data);
-
-    if (response.data.success) {
-      return { success: true, data: response.data };
-    } else {
-      return {
-        success: false,
-        message:
-          response.data.message || "Ocurrió un error. Inténtalo de nuevo.",
-      };
-    }
-  } catch (error: any) {
-    return handleError(error);
-  }
-};
-
-/////////////////////

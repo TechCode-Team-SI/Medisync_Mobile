@@ -84,12 +84,6 @@ const LoginPage: React.FC = () => {
           </Link>
         </View>
 
-        <InfoModal
-          visible={showSuccessModal}
-          onClose={() => setShowSuccessModal(false)}
-          title="¡Bienvenido!"
-        />
-
         <AlertModal
           visible={showErrorModal}
           onClose={() => setShowErrorModal(false)}

@@ -1,7 +1,9 @@
 import { logout,login } from './authServices'; 
+import { confirmEmail } from './confirmEmailServices';
 import { router } from 'expo-router';
 import { register } from '@/src/services/auth/authServices'; 
 import { validateEmail, validatePasswordLength, validatePasswordsMatch } from '@/src/utils/validators'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface HandleRegisterParams {
   email: string;
@@ -30,7 +32,6 @@ export const handleRegister = async ({
   setModalMessage,
   setModalVisible,
 }: HandleRegisterParams) => {
-
   if (!validateEmail(email)) {
     setModalMessage('El email no es válido.');
     setModalVisible(true);
@@ -64,26 +65,34 @@ export const handleRegister = async ({
     const registerResponse = await register(registerData);
     console.log('Registro exitoso:', registerResponse);
 
-    const loginResponse = await login(email, password);
+    const token = registerResponse.token; 
+    if (token) {
+      await AsyncStorage.setItem('authToken', token);
+      await AsyncStorage.setItem('userPassword', password);
 
-    if (loginResponse.success) {
-      setShowSuccessModal(true);
+      const confirmResponse = await confirmEmail(email);
 
-      setTimeout(() => {
-        router.replace("/homeuser");
-      }, 150);
-
-
+      if (confirmResponse.success) {
+        setModalMessage(
+          'Se ha enviado un código a su correo electrónico para confirmar su correo.'
+        );
+        setModalVisible(true);
+      } else {
+        setModalMessage(
+          confirmResponse.message || 'Error al enviar el código de confirmación.'
+        );
+        setModalVisible(true);
+      }
     } else {
-      setModalMessage('Error al iniciar sesión después del registro.');
+      setModalMessage('No se pudo obtener el token después del registro.');
       setModalVisible(true);
     }
-    
   } catch (error: any) {
     if (error.response && error.response.status === 422) {
-      const message = error.response.data.message || 'Error de validación. Intenta de nuevo.';
+      const message =
+        error.response.data.message || 'Error de validación. Intenta de nuevo.';
       console.log('Error de validación:', message);
-      setModalMessage(message); 
+      setModalMessage(message);
     } else {
       console.log('Error al registrar usuario:', error);
       setModalMessage('Error al registrar usuario. Intenta de nuevo.');
@@ -91,6 +100,7 @@ export const handleRegister = async ({
     setModalVisible(true);
   }
 };
+
 
 export const handleLogout = async () => {
   try {

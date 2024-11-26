@@ -6,7 +6,7 @@ import Dropdown from "@/src/components/Forms/Dropdown";
 import DatePicker from "@/src/components/Forms/DatePicker";
 import PasswordField from '@/src/components/Forms/PasswordField';
 import AlertModal from '@/src/components/Modal/AlertModal';
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { handleRegister } from '@/src/services/auth/authUtils';
 import { isDateValid } from '@/src/utils/validators';
 import InfoModal from '@/src/components/Modal/InfoModal';
@@ -60,6 +60,14 @@ const RegisterPage: React.FC = () => {
       setShowSuccessModal
     });
   };
+
+    const handleModalClose = () => {
+      setModalVisible(false);
+      if (modalMessage.includes("Se ha enviado un código a su correo electrónico para confirmar su correo")) {
+        router.replace("/confirmemail"); 
+      }
+    };
+  
 
   const renderItem = ({ item }: any) => (
     <View className={styles.containerRegister}>
@@ -134,15 +142,9 @@ const RegisterPage: React.FC = () => {
         <Link href="/login" className={styles.textButton2}>Inicia Sesión</Link>
       </View>
 
-      <InfoModal
-          visible={showSuccessModal}
-          onClose={() => setShowSuccessModal(false)}
-          title="¡Bienvenido!"
-        />
-
       <AlertModal
           visible={modalVisible}
-          onClose={() => setModalVisible(false)}
+          onClose={handleModalClose}
           title="ATENCIÓN"
           message={modalMessage}
         />
