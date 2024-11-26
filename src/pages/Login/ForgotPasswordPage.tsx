@@ -35,7 +35,7 @@ const ForgotPasswordPage: React.FC = () => {
   const handleModalClose = () => {
     setShowModal(false);
     if (modalMessage.includes("instrucciones para restablecer la contraseña")) {
-      router.push("/codepassword"); 
+      router.replace("/codepassword"); 
     }
   };
 

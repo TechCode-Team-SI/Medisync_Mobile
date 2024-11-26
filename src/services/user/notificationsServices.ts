@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../auth/sessionServices'; 
 import { api } from '../api/apiConfig';
 
-export const getNotifications = async () => {
+export const getNotifications = async (page: number) => {
   const token = await getToken(); 
   
   if (!token) {
@@ -11,7 +11,7 @@ export const getNotifications = async () => {
   }
 
   try {
-    const response = await axios.get(api.notifications, {
+    const response = await axios.get(`${api.notifications}?page=${page}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -23,6 +23,7 @@ export const getNotifications = async () => {
     return { success: false, message: "Error al obtener las notificaciones." };
   }
 };
+
 
 
 export const markAllAsRead = async () => {

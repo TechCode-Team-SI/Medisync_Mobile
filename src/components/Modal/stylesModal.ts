@@ -3,7 +3,7 @@ const stylesModal = {
     title: "text-xl mb-4 text-center font-montserrat text-primary",
     title2: "text-xl text-center font-montserrat text-primary",
     message: "text-base mb-6 text-center",
-    message2: "text-lg mb-5 text-center text-gray-600 mt-2",
+    message2: "text-lg mb-5 text-center text-gray-600 mt-2 font-bold",
     
     containerButton:"flex-row justify-around  space-x-8",
     textButton:"text-white text-center items-center",
