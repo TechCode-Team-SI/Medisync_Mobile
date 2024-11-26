@@ -35,20 +35,23 @@ const AppointmentPage: React.FC = () => {
     }, [])
   );
 
-  const fetchRequests = async () => {
+  const fetchRequests = async () => { 
     setLoading(true);
   
-    const statuses = ["Pendiente", "Completada", "En atención"]; 
+    const statuses = ["Pendiente", "Completada", "En atención"];
     const appointmentsData = await fetchAppointments(statuses);
   
     const filteredAppointments = appointmentsData.filter(
       (appointment: Appointment) =>
-        !appointment.rating || !appointment.rating.stars 
+        (appointment.status === "Pendiente" || 
+         appointment.status === "En atención" ||
+         (appointment.status === "Completada" && (!appointment.rating || !appointment.rating.stars)))
     );
   
     setAppointments(filteredAppointments);
     setLoading(false);
   };
+  
   
 
   const handleOptionPress = (appointment: Appointment) => {
@@ -70,8 +73,11 @@ const AppointmentPage: React.FC = () => {
   };
 
   const handleAppointmentPress = (appointment: Appointment) => {
+    const stars = appointment.rating?.stars || "Sin calificar" ; 
+
     router.push(
-      `/appointmentdetails?name=${encodeURIComponent(
+      `/appointmentdetails?id=${encodeURIComponent(
+        appointment.id)}&name=${encodeURIComponent(
         appointment.name
       )}&age=${encodeURIComponent(appointment.age)}&gender=${encodeURIComponent(
         appointment.gender
@@ -83,7 +89,8 @@ const AppointmentPage: React.FC = () => {
         appointment.time
       )}&status=${encodeURIComponent(
         appointment.status
-      )}&dni=${encodeURIComponent(appointment.dni)}`
+      )}&dni=${encodeURIComponent(appointment.dni)}&stars=${encodeURIComponent(stars)}`
+      
     );
   };
 

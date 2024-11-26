@@ -31,23 +31,29 @@ const AppointmentsHistoryPage: React.FC = () => {
   const fetchRequests = async () => {
     setLoading(true);
   
-    const statuses = ["Cancelada", "Completada"]; 
+    const statuses = ["Completada", "Cancelada"];
   
     const appointmentsData = await fetchAppointments(statuses);
   
     const filteredAppointments = appointmentsData.filter(
       (appointment: Appointment) =>
-        appointment.rating && appointment.rating.stars
+        appointment.status === "Cancelada" ||
+        (appointment.status === "Completada" && appointment.rating && appointment.rating.stars)
     );
   
     setAppointments(filteredAppointments);
     setLoading(false);
   };
   
+  
 
   const handleAppointmentPress = (appointment: Appointment) => {
+    const stars = appointment.rating?.stars || 0 ; 
+    const review = appointment.rating?.review || "";
+    
     router.push(
-      `/appointmentdetails?name=${encodeURIComponent(
+      `/appointmentdetails?id=${encodeURIComponent(
+        appointment.id)}&name=${encodeURIComponent(
         appointment.name
       )}&age=${encodeURIComponent(appointment.age)}&gender=${encodeURIComponent(
         appointment.gender
@@ -59,10 +65,12 @@ const AppointmentsHistoryPage: React.FC = () => {
         appointment.time
       )}&status=${encodeURIComponent(
         appointment.status
-      )}&dni=${encodeURIComponent(appointment.dni)}`
+      )}&dni=${encodeURIComponent(appointment.dni)}&stars=${encodeURIComponent(stars)}
+      &review=${encodeURIComponent(review)}` 
     );
   };
 
+  
   const filteredAppointments = appointments.filter(
     (appointment) =>
       appointment.name.toLowerCase().includes(searchText.toLowerCase()) ||
