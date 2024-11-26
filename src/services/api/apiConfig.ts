@@ -76,4 +76,6 @@ export const api = {
 
   //// NOTIFICATIONS
   notifications: API_URL + "/notifications/me",
+  notificationsReadAll: API_URL + "/notifications/me/read-all",
+  notificationsRead: API_URL + "/notifications/me/read",
 };
