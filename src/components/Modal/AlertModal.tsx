@@ -5,11 +5,12 @@ import styles from './stylesModal';
 interface AlertModalProps {
   visible: boolean;
   onClose: () => void;
-  title: string; 
-  message: string; 
+  title: string;
+  message: string;
+  onAccept?: () => void;  
 }
 
-const AlertModal: React.FC<AlertModalProps> = ({ visible, onClose, title, message }) => {
+const AlertModal: React.FC<AlertModalProps> = ({ visible, onClose, title, message, onAccept }) => {
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState: string) => {
@@ -25,6 +26,13 @@ const AlertModal: React.FC<AlertModalProps> = ({ visible, onClose, title, messag
     };
   }, [visible, onClose]);
 
+  const handleAccept = () => {
+    if (onAccept) {
+      onAccept();  
+    }
+    onClose();  
+  };
+
   return (
     <Modal
       transparent={true}
@@ -39,7 +47,7 @@ const AlertModal: React.FC<AlertModalProps> = ({ visible, onClose, title, messag
           <View className={styles.containerButton}>
             <TouchableOpacity
               className={styles.acceptButton}
-              onPress={onClose}
+              onPress={handleAccept}  
             >
               <Text className={styles.textButton}>Aceptar</Text>
             </TouchableOpacity>
@@ -52,11 +60,3 @@ const AlertModal: React.FC<AlertModalProps> = ({ visible, onClose, title, messag
 
 export default AlertModal;
 
-
-//USO
-//<AlertModal
-  //visible={modalVisible}
-  //onClose={handleCloseModal}
-  //title="TITULO"
-  //message="MENSAJE"
-///>

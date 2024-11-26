@@ -46,6 +46,12 @@ const LoginPage: React.FC = () => {
     }
   };
 
+  const handleRedirectToConfirmEmail = () => {
+    if (modalMessage === "Debe confirmar su correo eléctronico para iniciar sesión.") {
+      router.replace('/confirmemail'); 
+    }
+  };
+
   return (
     <View className={styles.container}>
       <Text className={styles.title1}>¡Bienvenido de vuelta!</Text>
@@ -89,6 +95,7 @@ const LoginPage: React.FC = () => {
           onClose={() => setShowErrorModal(false)}
           title="ATENCIÓN"
           message={modalMessage}
+          onAccept={handleRedirectToConfirmEmail}
         />
 
       </View>
