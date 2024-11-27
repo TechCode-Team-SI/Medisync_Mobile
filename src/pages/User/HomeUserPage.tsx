@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Text, View,  BackHandler, ScrollView} from "react-native";
-import { useFocusEffect } from '@react-navigation/native'
+import React, { useState } from "react"; 
+import { Text, View, BackHandler, ScrollView } from "react-native";
+import { useFocusEffect } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 import styles from "@/src/components/HomeComponents/stylesHome";
 import ButtonsHome from "@/src/components/HomeComponents/ButtonsHome";
@@ -12,9 +13,34 @@ import useFetchUser from "@/src/hooks/user/useFetchUser";
 import useReloadUser from "@/src/hooks/user/useReloadUser";
 
 import CarouselHome from "@/src/components/HomeComponents/CarouselHome";
-
+import { getToken } from '@/src/services/auth/sessionServices';
 
 const HomeUserPage: React.FC = () => {
+  const router = useRouter();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const checkToken = async () => {
+        const token = await getToken();
+        if (!token) {
+          router.replace('/home');
+        }
+      };
+
+      checkToken();
+
+      const onBackPress = () => {
+        BackHandler.exitApp();
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
+    }, [router])
+  );
 
   const { user, reloadUser } = useFetchUser();
   useReloadUser(reloadUser);
@@ -25,25 +51,9 @@ const HomeUserPage: React.FC = () => {
     setMenuVisible(prev => !prev);
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setMenuVisible(false);
-
-      const onBackPress = () => {
-        BackHandler.exitApp() ;
-          
-        return true; 
-      };
-
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-      };
-    }, [])
-  );
   const [hasPublications, setHasPublications] = useState(true);
   const [searchText, setSearchText] = useState("");
+
   return (
     <View className={styles.container}>
       <TopBar title="Inicio" onLeftPress={toggleMenu} />
@@ -51,28 +61,25 @@ const HomeUserPage: React.FC = () => {
       <SideMenuModal isVisible={isMenuVisible} onClose={() => setMenuVisible(false)} />
         
       <ScrollView showsVerticalScrollIndicator={false}>
+        <View className={styles.container2}>
+          <Text className={styles.title}>Hola,</Text>
+          <Text className={styles.title2}>{user.fullName}</Text>
+        </View>
 
-      <View className={styles.container2}>
-        <Text className={styles.title}>Hola,</Text>
-        <Text className={styles.title2}>{user.fullName}</Text>
-      </View>
+        <View className={styles.container3}>
+          <ButtonsHome />
 
-      <View className={styles.container3}>
+          <View className={styles.spacingBetweenSections} />
 
-        <ButtonsHome />
+          {hasPublications && (
+            <CarouselHome
+              onUpdateHasPublications={setHasPublications}
+              searchText={searchText}
+            />
+          )}
 
-        <View className={styles.spacingBetweenSections} />
-
-        {hasPublications && (
-          <CarouselHome
-            onUpdateHasPublications={setHasPublications}
-            searchText={searchText}
-          />
-        )}
-
-        <InfoHome />
-        
-      </View>
+          <InfoHome />
+        </View>
       </ScrollView>
     </View>
   );
