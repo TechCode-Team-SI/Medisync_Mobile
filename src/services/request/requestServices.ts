@@ -25,7 +25,7 @@ export interface Appointment {
 }
 
 
-export const getRequestsMadeByMe = async () => {
+export const getRequestsMadeByMe = async (page: number = 1) => {
   const token = await getToken();
   
   if (!token) {
@@ -34,13 +34,20 @@ export const getRequestsMadeByMe = async () => {
   }
 
   try {
-    const response = await axios.get(api.getRequest, {
+    const response = await axios.get(`${api.getRequest}?page=${page}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("totalPages", response.data.totalPages);
+    return {
+      success: true,
+      data: response.data,         
+      currentPage: response.data.currentPage, 
+      totalPages: response.data.totalPages,  
+      
+    };
     
-    return { success: true, data: response.data.data };
   } catch (error: any) {
     console.log("Error al obtener las solicitudes:", error); 
     return { success: false, message: "Error al obtener las solicitudes." };

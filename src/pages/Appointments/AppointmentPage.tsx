@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import TopBar from "@/src/components/Navigation/TopBar";
@@ -13,7 +13,9 @@ import AskModal from "@/src/components/Modal/AskModal";
 import AlertModal from "@/src/components/Modal/AlertModal";
 import { cancelRequest } from "@/src/services/appointments/cancelServices";
 import { fetchAppointments } from "@/src/services/appointments/appointmentUtils"; 
-import { Appointment } from "@/src/services/request/requestServices";
+import { Appointment, getRequestsMadeByMe } from "@/src/services/request/requestServices";
+import { calculateAge } from "@/src/utils/calculateAge";
+import { formatDate, formatGender, formatStatus } from "@/src/utils/changeFormat";
 
 const AppointmentPage: React.FC = () => {
   const [isMenuVisible, setMenuVisible] = useState(false);
@@ -24,6 +26,11 @@ const AppointmentPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isAlertModalVisible, setAlertModalVisible] = useState(false);
 
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
   const toggleMenu = () => {
     setMenuVisible((prev) => !prev);
   };
@@ -31,29 +38,46 @@ const AppointmentPage: React.FC = () => {
   useFocusEffect(
     React.useCallback(() => {
       setMenuVisible(false);
-      fetchRequests();
     }, [])
   );
 
-  const fetchRequests = async () => { 
-    setLoading(true);
-  
-    const statuses = ["Pendiente", "Completada", "En atención"];
-    const appointmentsData = await fetchAppointments(statuses);
-  
-    const filteredAppointments = appointmentsData.filter(
-      (appointment: Appointment) =>
-        (appointment.status === "Pendiente" || 
-         appointment.status === "En atención" ||
-         (appointment.status === "Completada" && (!appointment.rating || !appointment.rating.stars)))
-    );
-  
-    setAppointments(filteredAppointments);
-    setLoading(false);
-  };
-  
-  
+  const fetchRequests = async (page: number) => {
+    if (isLoading) return;
+    setIsLoading(true);
 
+    const response = await getRequestsMadeByMe(page);
+    console.log("Respuesta de getRequestsMadebyme:", response.data);
+    if (response.success && response.data && Array.isArray(response.data.data)) {
+      const ticketsList = response.data.data.map((request: any) => ({
+        id: request.id,
+        name: request.patientFullName,
+        dni: request.patientDNI,
+        gender: formatGender(request.patientGender),
+        age: calculateAge(request.patientBirthday),
+        specialization: request.requestedSpecialty.name,
+        doctor: request.requestedMedic
+          ? request.requestedMedic.fullName
+          : "De turno",
+        status: formatStatus(request.status),
+        date: formatDate(request.appointmentDate),
+        time: request.appointmentHour,
+        rating: request.rating, 
+      }));
+      setAppointments(prevTickets => [...prevTickets, ...ticketsList]);
+      setCurrentPage(response.data.currentPage);
+      setTotalPages(response.data.totalPages);
+      console.log(totalPages);
+    } else {
+      console.error("Error al obtener citas:", response.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchRequests(currentPage);
+  }, []);
+  
   const handleOptionPress = (appointment: Appointment) => {
     setSelectedAppointment(appointment);
     if (appointment.status === "Pendiente") {
@@ -107,7 +131,7 @@ const AppointmentPage: React.FC = () => {
     } else if (result.success) {
       setAskModalVisible(false);
       setAlertModalVisible(true);
-      fetchRequests();
+      fetchRequests(1);
     }
 
     setLoading(false);
@@ -116,6 +140,16 @@ const AppointmentPage: React.FC = () => {
   const handleRatingSubmit = (rating: number, review: string) => {
   };
 
+  const handleScroll = ({ nativeEvent }: any) => {
+    const isCloseToBottom =
+      nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >=
+      nativeEvent.contentSize.height - 20;
+
+    if (isCloseToBottom && currentPage < totalPages && !isLoading) {
+      console.log(`Cargando más citas: Página ${currentPage + 1}`);
+ fetchRequests(currentPage + 1);
+    }
+  };
 
   
   return (
@@ -142,13 +176,17 @@ const AppointmentPage: React.FC = () => {
         </View>
 
         <ScrollView
-          contentContainerStyle={{ paddingBottom: 20, marginTop: 10 }}
-          showsVerticalScrollIndicator={false}
+            className="flex-1"
+            showsVerticalScrollIndicator={false}
+            onScroll={handleScroll}
+            scrollEventThrottle={16} 
         >
-          {loading ? (
-            <Loader />
-          ) : (
-            appointments.map((appointment) => (
+          {appointments.length === 0 && !isLoading && (
+            <View className="py-8">
+              <Text className="text-center text-lg text-gray-400 font-bold">No hay citas registradas</Text>
+            </View>
+          )}
+          { (appointments.map((appointment) => (
               <TouchableOpacity
                 key={appointment.id}
                 className={stylesAppointments.cardcolor}
@@ -198,6 +236,11 @@ const AppointmentPage: React.FC = () => {
               </TouchableOpacity>
             ))
           )}
+          {isLoading && (
+            <View className="py-4">
+              <Loader /> 
+            </View>
+          )}
         </ScrollView>
       </View>
 
@@ -216,7 +259,7 @@ const AppointmentPage: React.FC = () => {
         appointmentId={selectedAppointment?.id || ""}
         onRatingSubmit={(rating, review) => {
           handleRatingSubmit(rating, review);
-          fetchRequests(); 
+          fetchRequests(1); 
         }}
       />
 

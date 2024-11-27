@@ -2,7 +2,7 @@ import { getRequestsMadeByMe } from "@/src/services/request/requestServices";
 import { calculateAge } from "@/src/utils/calculateAge";
 import { formatDate, formatGender, formatStatus } from "@/src/utils/changeFormat";
 
-export const fetchAppointments = async (statuses: string[]) => {
+export const fetchAppointments = async (statuses: string[], page: number) => {
   const result = await getRequestsMadeByMe();
 
   if (!result.success) {
