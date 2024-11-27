@@ -36,7 +36,7 @@ const ChangePasswordPage: React.FC = () => {
     if (result.success) {
       setModalMessage("Tu contraseña ha sido cambiada con éxito.");
       setShowModal(true);
-      router.push("/login");
+      router.replace("/login");
     } else {
       setModalMessage(result.message || "Error al cambiar la contraseña.");
       setShowModal(true);

@@ -3,7 +3,7 @@ import { api } from "@/src/services/api/apiConfig";
 import { handleError } from "@/src/services/error/errorHandler";
 import { getToken } from '@/src/services/auth/sessionServices';
 
-export const cancelRequest = async (id: number) => {
+export const cancelRequest = async (id: string) => {
   try {
     const token = await getToken();
     if (!token) {

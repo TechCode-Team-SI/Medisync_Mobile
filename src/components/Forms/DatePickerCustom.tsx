@@ -10,7 +10,7 @@ import styles from "../Styles/styles";
 const formatToDisabledDays = (disabledDays: Date[]) => {
   const disabledDaysMap: MarkedDates = {};
   const formattedDays =
-    disabledDays?.map((day) => format(day, "yyy-MM-dd")) || [];
+    disabledDays?.map((day) => format(day, "yyyy-MM-dd")) || [];
   for (const day of formattedDays) {
     if (!disabledDaysMap[day]) {
       disabledDaysMap[day] = { disabled: true, disableTouchEvent: true };
@@ -42,7 +42,7 @@ const DatePickerCustom: React.FC<DatePickerCustomProps> = ({
   const [daysOfCurrentMonth, setDaysOfCurrentMonth] = useState<Date[]>([]);
 
   const today = useMemo(
-    () => format(new Date().toISOString(), "yyyy-MM-dd"),
+    () => format(new Date(), "yyyy-MM-dd"),
     []
   );
 
@@ -131,7 +131,7 @@ const DatePickerCustom: React.FC<DatePickerCustomProps> = ({
               ...disabledDaysFormatted,
               ...getDisabledRowDays(),
             }}
-            minDate={minDate}
+            minDate={today} 
             maxDate={maxDate}
             initialDate={today}
             onDayPress={(day) => {

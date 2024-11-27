@@ -13,7 +13,10 @@ export const api = {
   codePassword: API_URL + "/auth/forgot/password-code",
   resetPassword: API_URL + "/auth/reset/password",
 
-  expiredCode: API_URL + "/auth/confirm/email", // PENDIENTE
+
+  confirmEmail: API_URL + "/auth/confirm/email",   //generar el codigo
+  confirmCode: API_URL + "/auth/confirm",          //confirmar elc odigo
+  
 
   //// FILES
 
@@ -41,9 +44,11 @@ export const api = {
 
   createRequest: API_URL + "/requests",
   getRequest: API_URL + "/requests/made-by-me",
+  getRequestbyId: API_URL + "/requests",
 
   rateRequest: API_URL + "/requests/rate/:id",           ///CALIFICAR CITAS
   cancelRequest: API_URL + "/requests/cancel/:id",           ///CANCELAR CITAS
+
 
 
   //// SUPPORT
@@ -68,4 +73,9 @@ export const api = {
 
   //// SPECIALTIES
   specialties: API_URL + "/specialties/active",
+
+  //// NOTIFICATIONS
+  notifications: API_URL + "/notifications/me",
+  notificationsReadAll: API_URL + "/notifications/me/read-all",
+  notificationsRead: API_URL + "/notifications/me/read",
 };

@@ -163,6 +163,10 @@ export default function RootLayout() {
               options={{ headerShown: false }}
             />
             <Stack.Screen name="contact/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="confirmemail/index"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </SocketProvider>
       </PaperProvider>

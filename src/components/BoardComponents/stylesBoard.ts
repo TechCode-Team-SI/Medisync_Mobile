@@ -13,7 +13,7 @@ const stylesBoard = {
     imagePlaceholder: 'w-full h-40 justify-center items-center bg-gray-300 rounded-lg',
     description: 'text-gray-600 my-2 text-sm text-justify ml-1  ',
     title: 'text-primary text-xl font-bold pt-3 ml-1',
-    noPublicationsText: 'text-[#818F8F] text-center mt-5 text-lg font-bold',
+    noPublicationsText: 'text-gray-400 text-center mt-5 text-lg font-bold',
     dateText: 'text-[#818F8F] text-sm my-1.25 ml-1',
 
     //// PUBLICATION

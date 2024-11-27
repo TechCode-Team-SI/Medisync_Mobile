@@ -5,6 +5,7 @@ import { handleError } from "@/src/services/error/errorHandler"
 type MedicalCenter = {
   id: number;
   name: string;
+  description: string;
   address: string;
   state: string;
   municipality: string;

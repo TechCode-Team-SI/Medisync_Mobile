@@ -27,7 +27,7 @@ const CodePasswordPage: React.FC = () => {
   
     if (result.success) {
       console.log('Código válido');
-      router.push("/changepassword"); 
+      router.replace("/changepassword"); 
     } else {
       console.log('Error:', result.message);
       setModalMessage(result.message || "Error. Código invalido." );

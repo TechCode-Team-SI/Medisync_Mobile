@@ -13,7 +13,7 @@ const ContactPage: React.FC = () => {
 
       <Text className={styles.title1}>Información de contacto</Text>
 
-      <View className={styles.containerBg}>
+      <View className={styles.containerBg2}>
 
         <InfoHome />
 

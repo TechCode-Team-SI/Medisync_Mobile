@@ -71,19 +71,19 @@ const InfoHome: React.FC = () => {
 
             <View className={styles.containerInfo2}>
 
-                <TouchableOpacity className={styles.containerInfo3}>
+                <View className={styles.containerInfo3}>
                     <Entypo name="location" size={23} color="#539091" />
                     <View className={styles.containerText}>
                       <Text className={styles.textInfo}>{medicalCenters.parish}, {medicalCenters.municipality}, {medicalCenters.state}</Text>
                     </View>
-                </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity className={styles.containerInfo3}>
+                <View className={styles.containerInfo3}>
                     <Entypo name="location-pin" size={24} color="#539091" />
                     <View className={styles.containerText}>
                       <Text className={styles.textInfo}>{medicalCenters.address}</Text>
                     </View>
-                </TouchableOpacity>
+                </View>
 
                 <TouchableOpacity className={styles.containerInfo3} onPress={() => handlePhonePress(medicalCenters.mobilePhone || '')}>
                     <Entypo name="phone" size={24} color="#539091" />

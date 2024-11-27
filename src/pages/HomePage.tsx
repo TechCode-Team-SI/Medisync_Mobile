@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
     label: "Cartelera Informativa", onPress: () => navigateTo("/board") },
 
     { icon: <FontAwesome name="users" size={24} color="#539091" />, 
-    label: "Nuestros valores", onPress: () => navigateTo("/aboutus") },
+    label: "¿Quienes somos?", onPress: () => navigateTo("/aboutus") },
 
     { icon: <Entypo name="info" size={26} color="#539091" />, 
     label: "Información de contacto", onPress: () => navigateTo("/contact") }
@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
     <View className={styles.containerHome}>
       <View className={styles.mainContent}>
         <Image
-          source={require('@/assets/images/logoCentroMedico.png')}
+          source={require('@/assets/images/vitalcare.png')}
           className={styles.logo}
           resizeMode="contain"
         />

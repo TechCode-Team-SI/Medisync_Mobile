@@ -8,6 +8,31 @@ import {
   saveSession,
 } from "@/src/services/auth/sessionServices";
 
+interface Role {
+  slug: string;
+  id: string;
+  name: string;
+  description: string;
+  permissions: any[];
+  isMutable: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface User {
+  id: string;
+  email: string;
+  fullName: string;
+  photo: string;
+  roles: Role[];  
+  userPatients: any[];
+  employeeProfile: any;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+}
+
+
 export const login = async (
   email: string,
   password: string
@@ -15,9 +40,16 @@ export const login = async (
   try {
     const response = await axios.post(api.login, { email, password });
 
-    console.log("Inicio de sesión exitoso:", response.data);
-
     const { token, refreshToken, tokenExpires, user } = response.data;
+
+
+    const hasMobileUserRole = user.roles.some((role: Role) => role.slug === 'mobile_user');
+    
+    if (!hasMobileUserRole) {
+
+      return { success: false, message: "Debe confirmar su correo eléctronico para iniciar sesión." };
+    }
+
 
     await saveSession({
       token,
@@ -25,7 +57,8 @@ export const login = async (
       tokenExpires,
       user,
     });
-    // Guardar la contraseña en AsyncStorage
+    
+
     await AsyncStorage.setItem("userPassword", password);
 
     return { success: true, data: response.data };
@@ -33,6 +66,7 @@ export const login = async (
     return handleError(error);
   }
 };
+
 
 export const logout = async (): Promise<NewApiResult<any>> => {
   try {
@@ -72,7 +106,7 @@ export const forgotPassword = async (
 ): Promise<NewApiResult<any>> => {
   try {
     const response = await axios.post(api.forgotPassword, { email });
-    console.log("Respuesta de la API:", response.data);
+    console.log("Respuesta de la API al enviar el código:", response.data);
 
     if (response.data.success) {
       await AsyncStorage.setItem("forgotPasswordEmail", email);
@@ -155,28 +189,3 @@ export const resetPassword = async (
     return handleError(error);
   }
 };
-
-////////////////
-
-export const generateNewCode = async (
-  email: string
-): Promise<NewApiResult<any>> => {
-  try {
-    const response = await axios.post(api.expiredCode, { email });
-    console.log("Respuesta de la API:", response.data);
-
-    if (response.data.success) {
-      return { success: true, data: response.data };
-    } else {
-      return {
-        success: false,
-        message:
-          response.data.message || "Ocurrió un error. Inténtalo de nuevo.",
-      };
-    }
-  } catch (error: any) {
-    return handleError(error);
-  }
-};
-
-/////////////////////
