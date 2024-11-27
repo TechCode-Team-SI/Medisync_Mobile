@@ -39,8 +39,6 @@ export const getRequestsMadeByMe = async (page: number = 1) => {
       },
     });
 
-    console.log("Respuesta de la API:", response);
-
     return {
       success: true,
       data: response.data.data,         
