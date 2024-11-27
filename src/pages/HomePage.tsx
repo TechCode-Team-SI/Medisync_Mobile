@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
     <View className={styles.containerHome}>
       <View className={styles.mainContent}>
         <Image
-          source={require('@/assets/images/logoCentroMedico.png')}
+          source={require('@/assets/images/vitalcare.png')}
           className={styles.logo}
           resizeMode="contain"
         />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import styles from "@/src/components/AboutUsComponents/stylesUs";
 import ButtonBack from '@/src/components/Navigation/ButtonBack';
@@ -18,7 +18,13 @@ const UsPage: React.FC = () => {
         <Text className={styles.title2}>{error}</Text>
       ) : (
         <>
-          <Text className={styles.title1}>{medicalCenters.name}</Text>
+          <View className='bg-primary items-center justify-center mb-6'>
+            <Image
+                source={require('@/assets/images/vitalcarewhite.png')}
+                className="w-52 h-52"
+                resizeMode="contain"
+              />
+          </View>
           <View className={styles.containerBg}>
             <ScrollView contentContainerStyle={{ paddingBottom: 10 } } showsVerticalScrollIndicator={false}>
               <Text className={styles.title2}>¿Quiénes somos?</Text>

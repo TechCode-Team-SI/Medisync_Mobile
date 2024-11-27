@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router } from "expo-router";
 import { handleLogout } from '@/src/services/auth/authUtils';
 import AskModal from '@/src/components/Modal/AskModal';
+import styles from '../HomeComponents/stylesHome';
+
 
 const SideMenu: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false); 
@@ -39,7 +41,12 @@ const SideMenu: React.FC = () => {
 
   return (
     <View className="absolute top-0 left-0 h-full bg-bgMenu w-full font-roboto">
-      <View className='bg-primary w-full h-1/4'></View>
+      <View className='bg-primary w-full h-1/4 tems-center justify-center'>
+      <Image
+          source={require('@/assets/images/vitalcarewhite.png')}
+          className="ml-8 w-36 h-36"
+          resizeMode="contain"
+        /></View>
 
       <TouchableOpacity className="p-5 flex-row" onPress={handleHome}>
         <Foundation name="home" size={20} color="#539091" />
