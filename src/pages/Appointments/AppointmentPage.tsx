@@ -11,8 +11,10 @@ import Loader from "@/src/components/ui/Loader";
 import RatingModal from "@/src/components/AppointmentsComponents/RatingModal";
 import AskModal from "@/src/components/Modal/AskModal";
 import AlertModal from "@/src/components/Modal/AlertModal";
-import { cancelRequest } from "@/src/services/appointments/cancelServices";
-import { fetchAppointments } from "@/src/services/appointments/appointmentUtils"; 
+import { cancelRequest } from "@/src/services/appointments/cancelServices"; 
+import { getRequestsMadeByMe } from "@/src/services/request/requestServices";
+import { calculateAge } from "@/src/utils/calculateAge";
+import { formatDate, formatGender, formatStatus } from "@/src/utils/changeFormat";
 import { Appointment } from "@/src/services/request/requestServices";
 
 const AppointmentPage: React.FC = () => {
@@ -35,6 +37,46 @@ const AppointmentPage: React.FC = () => {
     }, [])
   );
 
+  const fetchAppointments = async (statuses: string[]): Promise<Appointment[]> => {
+    let allAppointments: Appointment[] = []; 
+    let page = 1;
+    let totalPages = 1;
+  
+    do {
+      const result = await getRequestsMadeByMe(page);
+      if (!result.success) {
+        console.error(result.message);
+        return [];
+      }
+  
+      const filteredData = result.data
+        .map((request: any) => ({
+          id: request.id,
+          name: request.patientFullName,
+          dni: request.patientDNI,
+          gender: formatGender(request.patientGender),
+          age: calculateAge(request.patientBirthday),
+          specialization: request.requestedSpecialty.name,
+          doctor: request.requestedMedic
+            ? request.requestedMedic.fullName
+            : "De turno",
+          status: formatStatus(request.status),
+          date: formatDate(request.appointmentDate),
+          time: request.appointmentHour,
+          rating: request.rating, 
+        }))
+        .filter((appointment: any) => statuses.includes(appointment.status));
+  
+      allAppointments = [...allAppointments, ...filteredData];
+      page++;
+      totalPages = result.totalPages; 
+    } while (page <= totalPages); 
+  
+    return allAppointments;
+  };
+  
+  
+
   const fetchRequests = async () => { 
     setLoading(true);
   
@@ -51,7 +93,6 @@ const AppointmentPage: React.FC = () => {
     setAppointments(filteredAppointments);
     setLoading(false);
   };
-  
   
 
   const handleOptionPress = (appointment: Appointment) => {
@@ -73,7 +114,7 @@ const AppointmentPage: React.FC = () => {
   };
 
   const handleAppointmentPress = (appointment: Appointment) => {
-    const stars = appointment.rating?.stars || "Sin calificar" ; 
+    const stars = appointment.rating?.stars || "Sin calificar"; 
 
     router.push(
       `/appointmentdetails?id=${encodeURIComponent(
@@ -116,17 +157,15 @@ const AppointmentPage: React.FC = () => {
   const handleRatingSubmit = (rating: number, review: string) => {
   };
 
-
-  
   return (
     <View className={stylesAppointments.container}>
       <TopBar title="Citas" onLeftPress={toggleMenu} />
-
+  
       <SideMenuModal
         isVisible={isMenuVisible}
         onClose={() => setMenuVisible(false)}
       />
-
+  
       <View className={stylesAppointments.card}>
         <View className={stylesAppointments.button1}>
           <Text className={stylesAppointments.title}>Tus citas</Text>
@@ -138,15 +177,16 @@ const AppointmentPage: React.FC = () => {
           >
             <Ionicons name="add" size={30} color="white" />
           </TouchableOpacity>
-          
         </View>
-
+  
         <ScrollView
           contentContainerStyle={{ paddingBottom: 20, marginTop: 10 }}
           showsVerticalScrollIndicator={false}
         >
           {loading ? (
             <Loader />
+          ) : appointments.length === 0 ? (
+            <Text className="text-center text-lg text-gray-400 font-bold py-8">No hay citas activas</Text>
           ) : (
             appointments.map((appointment) => (
               <TouchableOpacity
@@ -169,12 +209,12 @@ const AppointmentPage: React.FC = () => {
                     />
                   </TouchableOpacity>
                 )}
-
+  
                 <View className="flex-row items-center">
                   <View className="mt-6">
-                     <FontAwesome6 name="file-medical" size={30} color="#539091" />
+                    <FontAwesome6 name="file-medical" size={30} color="#539091" />
                   </View>
-
+  
                   <View className="ml-4 flex-1">
                     <Text className={stylesAppointments.textTitle3}>
                       {appointment.name}
@@ -200,7 +240,7 @@ const AppointmentPage: React.FC = () => {
           )}
         </ScrollView>
       </View>
-
+  
       <AskModal
         visible={isAskModalVisible}
         onClose={() => setAskModalVisible(false)}
@@ -209,7 +249,7 @@ const AppointmentPage: React.FC = () => {
         onAccept={handleCancelAppointment}
         onCancel={() => setAskModalVisible(false)}
       />
-
+  
       <RatingModal
         visible={isRatingModalVisible}
         onClose={handleCloseRatingModal}
@@ -219,7 +259,7 @@ const AppointmentPage: React.FC = () => {
           fetchRequests(); 
         }}
       />
-
+  
       <AlertModal
         visible={isAlertModalVisible}
         onClose={() => setAlertModalVisible(false)}
@@ -228,6 +268,7 @@ const AppointmentPage: React.FC = () => {
       />
     </View>
   );
+  
 };
 
 export default AppointmentPage;

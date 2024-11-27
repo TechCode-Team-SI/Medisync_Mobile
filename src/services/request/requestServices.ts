@@ -1,4 +1,3 @@
-//////////////////////////ARREGLAR LUEGO 
 import axios from "axios";
 import { api } from "@/src/services/api/apiConfig";
 import { handleError } from "@/src/services/error/errorHandler";
@@ -25,24 +24,31 @@ export interface Appointment {
 }
 
 
-export const getRequestsMadeByMe = async () => {
+export const getRequestsMadeByMe = async (page: number = 1) => {
   const token = await getToken();
-  
+
   if (!token) {
     console.log("No se encontró el token de autenticación.");
     return { success: false, message: "No se encontró el token de autenticación." };
   }
 
   try {
-    const response = await axios.get(api.getRequest, {
+    const response = await axios.get(`${api.getRequest}?page=${page}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    
-    return { success: true, data: response.data.data };
+
+    console.log("Respuesta de la API:", response);
+
+    return {
+      success: true,
+      data: response.data.data,         
+      currentPage: response.data.currentPage, 
+      totalPages: response.data.totalPages,  
+    };
   } catch (error: any) {
-    console.log("Error al obtener las solicitudes:", error); 
+    console.error("Error al obtener las solicitudes:", error);
     return { success: false, message: "Error al obtener las solicitudes." };
   }
 };
