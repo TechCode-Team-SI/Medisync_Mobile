@@ -58,10 +58,9 @@ const SearchDrPage: React.FC = () => {
               <Loader />
             </View>
           ) : (
-            <View className={styles.container}>
-              {filteredDrs.map((dr) => (
+            filteredDrs.map((dr) => (
+              <View key={dr.id} className={"flex-row my-2 mx-1"}>
                 <TouchableOpacity
-                  key={dr.id}
                   className={styles.button2}
                   onPress={() => handleSelect(dr.id)}
                 >
@@ -70,8 +69,8 @@ const SearchDrPage: React.FC = () => {
                     Dr. {dr.fullName || "Nombre no disponible"}
                   </Text>
                 </TouchableOpacity>
-              ))}
-            </View>
+              </View>
+            ))
           )}
         </ScrollView>
       </View>
